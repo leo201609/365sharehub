@@ -7,36 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 用户模型 - 适配 "10s Flow" 极简注册
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  name          String?   // 仅存 Last Name
   email         String    @unique
   emailVerified DateTime?
   image         String?
+  role          String    @default("USER") // USER, ADMIN
+  
+  // 试用与订阅状态
+  trialStart    DateTime? // 试用开始时间
+  trialEnd      DateTime? // 试用结束时间 (T+7)
+  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
   subscriptions Subscription[]
+  orders        Order[]
 }
 
+// 订阅计划 - 1/3/6/12 个月
 model Plan {
   id          String   @id @default(cuid())
-  name        String
-  price       Float
-  interval    String
-  description String?
-  features    String[]
+  name        String   // "Monthly Trial", "Yearly Pro"
+  price       Float    // 3.99, 29.90
+  currency    String   @default("EUR")
+  interval    String   // "month", "year"
+  duration    Int      // 持续月数，例如 12
+  stripeId    String?  // Stripe Price ID
   
   subscriptions Subscription[]
+  orders        Order[]
 }
 
+// 用户的订阅关系
 model Subscription {
   id        String   @id @default(cuid())
   userId    String
   planId    String
-  status    String
+  status    String   // "trialing", "active", "past_due", "canceled"
   startDate DateTime @default(now())
   endDate   DateTime
+  
+  user      User     @relation(fields: [userId], references: [id])
+  plan      Plan     @relation(fields: [planId], references: [id])
+}
+
+// 订单/账单记录 - 适配 Stripe 和 SEPA 转账
+model Order {
+  id            String   @id @default(cuid())
+  userId        String
+  planId        String
+  amount        Float
+  status        String   // "pending", "paid", "failed"
+  paymentMethod String   // "stripe", "sepa_transfer"
+  referenceCode String?  // SEPA 转账备注码 (如: MS-8892)
+  createdAt     DateTime @default(now())
   
   user      User     @relation(fields: [userId], references: [id])
   plan      Plan     @relation(fields: [planId], references: [id])
