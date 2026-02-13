@@ -3,7 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, ArrowRight, Star, ShieldCheck, Zap, Sparkles } from "lucide-react";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator
+} from "@/components/ui/dropdown-menu";
+import { Check, ArrowRight, Sparkles, ShieldCheck, Zap, Globe, ChevronDown } from "lucide-react";
 
 export default function Home() {
   return (
@@ -15,14 +23,51 @@ export default function Home() {
       {/* --- 导航栏 --- */}
       <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          
+          {/* Logo 区域 */}
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-sm">
               3
             </div>
-            <span className="font-semibold text-lg tracking-tight">365ShareHub</span>
+            <span className="font-semibold text-lg tracking-tight hidden md:block">365ShareHub</span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium hover:text-blue-600 transition">登录</Link>
+
+          {/* 右侧功能区 */}
+          <div className="flex items-center gap-3">
+            
+            {/* 🌍 语言/地区选择器 [NEW] */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-9 gap-2 text-slate-600 hover:text-blue-600 hover:bg-slate-100/50 rounded-full px-3">
+                  <Globe className="w-4 h-4" />
+                  <span className="text-sm font-medium hidden sm:inline">English (EU)</span>
+                  <ChevronDown className="w-3 h-3 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 rounded-xl bg-white/90 backdrop-blur-xl shadow-fluent border-slate-100">
+                <DropdownMenuLabel className="text-xs text-slate-400 font-normal">Select Region</DropdownMenuLabel>
+                <DropdownMenuItem className="cursor-pointer gap-3 py-2.5 focus:bg-blue-50 focus:text-blue-700">
+                  <span className="text-lg">🇪🇺</span> English (Europe) <Check className="w-4 h-4 ml-auto text-blue-600" />
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-slate-100" />
+                <DropdownMenuItem className="cursor-pointer gap-3 py-2.5 focus:bg-blue-50">
+                  <span className="text-lg">🇩🇪</span> Deutsch (Germany)
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer gap-3 py-2.5 focus:bg-blue-50">
+                  <span className="text-lg">🇫🇷</span> Français (France)
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer gap-3 py-2.5 focus:bg-blue-50">
+                  <span className="text-lg">🇪🇸</span> Español (Spain)
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer gap-3 py-2.5 focus:bg-blue-50">
+                  <span className="text-lg">🇮🇹</span> Italiano (Italy)
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <div className="h-4 w-[1px] bg-slate-200 mx-1 hidden sm:block"></div>
+
+            <Link href="/login" className="text-sm font-medium hover:text-blue-600 transition hidden sm:block">登录</Link>
             <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-full px-5 h-9 text-sm font-medium shadow-sm transition-all hover:scale-105">
               免费试用
             </Button>
@@ -34,9 +79,9 @@ export default function Home() {
       <section className="relative pt-24 pb-20 px-6 text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           
-          <div className="inline-flex items-center gap-2 bg-white/60 border border-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm mx-auto">
+          <div className="inline-flex items-center gap-2 bg-white/60 border border-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm mx-auto hover:bg-white/80 transition cursor-default">
             <ShieldCheck className="w-4 h-4 text-green-600" />
-            <span className="text-xs font-medium text-slate-600">微软法兰克福数据中心支持</span>
+            <span className="text-xs font-medium text-slate-600">微软法兰克福数据中心支持 · GDPR Compliant</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.1] text-slate-900">
@@ -97,7 +142,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- 价格部分 (心理定价策略更新) --- */}
+      {/* --- 价格部分 --- */}
       <section id="pricing" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -107,7 +152,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
             
-            {/* 1. 月付 (Monthly) - €3.99 */}
+            {/* 1. 月付 */}
             <Card className="border-0 shadow-sm hover:shadow-md transition-all bg-white/80 backdrop-blur rounded-3xl overflow-hidden mt-4">
               <CardHeader className="bg-slate-50/50 border-b border-slate-100 pb-6">
                 <CardTitle className="text-lg font-medium text-slate-500">Flex 月付</CardTitle>
@@ -129,7 +174,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* 2. 半年付 (Semi-Annual) - €17.90 [NEW] */}
+            {/* 2. 半年付 */}
             <Card className="border-0 shadow-fluent hover:shadow-fluent-hover transition-all bg-white rounded-3xl overflow-hidden z-10 scale-105 ring-1 ring-slate-100">
               <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold text-center py-1.5">
                 高性价比之选
@@ -154,7 +199,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* 3. 年付 (Yearly) - €29.90 */}
+            {/* 3. 年付 */}
             <Card className="border-2 border-blue-600 shadow-xl transition-all bg-white rounded-3xl relative overflow-hidden mt-4">
                <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
                  最受欢迎
@@ -188,9 +233,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <p className="mb-4">© 2026 Frankfurt Operations. All rights reserved.</p>
           <div className="flex justify-center gap-6 text-xs">
-            <Link href="#" className="hover:text-slate-600 transition">隐私政策</Link>
-            <Link href="#" className="hover:text-slate-600 transition">服务条款</Link>
-            <Link href="#" className="hover:text-slate-600 transition">退款政策</Link>
+            <Link href="#" className="hover:text-slate-600 transition">GDPR Compliance</Link>
+            <Link href="#" className="hover:text-slate-600 transition">Privacy Policy</Link>
+            <Link href="#" className="hover:text-slate-600 transition">Terms of Service</Link>
+            <div className="flex items-center gap-1 ml-4 cursor-pointer hover:text-slate-700">
+              <Globe className="w-3 h-3" />
+              <span>English (EU)</span>
+            </div>
           </div>
         </div>
       </footer>
