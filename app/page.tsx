@@ -35,47 +35,80 @@ const TelegramIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 2
 const YouTubeIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>);
 const LinkedInIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>);
 
-// --- 1. Official Microsoft App Icons (SVG data) ---
-const WordIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#185abd" d="M4 6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path fill="#fff" d="M19.85 22.75l-2.58-8.86L15.35 20h-.09l-1.88-6.13L10.76 22.75H8.5L12.3 11h2.33l2 6.56 2.05-6.56h2.3l3.84 11.75h-2.35zM7 11h3v2H7zM7 15h3v2H7zM7 19h3v2H7z"/></svg>
-);
-const ExcelIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#107c41" d="M4 6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path fill="#fff" d="M19.56 22.75L15.3 16 19.37 9h-2.7l-2.66 4.93L11.24 9H8.64l3.86 6.8-4 6.95h2.65L13.8 17.5l2.9 5.25h2.86z"/></svg>
-);
-const PowerPointIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#c43e1c" d="M4 6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path fill="#fff" d="M9.5 11h5.2c2.53 0 4.1 1.42 4.1 3.78 0 2.32-1.5 3.72-4 3.72H12v4.25H9.5V11zm2.5 1.85v3.8h2.5c1.1 0 1.85-.58 1.85-1.9 0-1.35-.75-1.9-1.9-1.9H12z"/></svg>
-);
-const OutlookIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#0078d4" d="M4 6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path fill="#fff" d="M16 19.2L25 13v9a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-9l9 6.2zm9-8.7v1.22l-9 6.17L7 11.72V10.5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1z"/></svg>
-);
-const OneDriveIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#0078d4" d="M19.2 10.4c-.2 0-.4.03-.6.06A5.6 5.6 0 0 0 12.5 9c-2.6 0-4.8 1.8-5.4 4.2a4.8 4.8 0 0 0 .3 9.6h16.8a4.8 4.8 0 0 0 1.2-9.4c-1.2-1.8-3.4-3-5.6-3h-.6zM24 21H7.4a3.2 3.2 0 0 1-1.4-6.1 2.8 2.8 0 0 1 1.2-.3 3.2 3.2 0 0 1 3.2 2.8l.3 1.6h1.7l.2-1.7a3.9 3.9 0 0 1 3.8-3.5c.4 0 .7.03 1 .12a3.1 3.1 0 0 1 2.2 2.9l.2 1.6h1.6l.2-1.6a3.1 3.1 0 0 1 3.2-2.8 3.2 3.2 0 0 1 3.1 3.2A3.2 3.2 0 0 1 24 21z"/></svg>
-);
-const TeamsIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#6264a7" d="M4 6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path fill="#fff" d="M19.5 11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm1.8 10.5v.5a2 2 0 0 1-2 2h-4.6a2 2 0 0 1-2-2v-.5c0-1.8 1.6-3 4.3-3s4.3 1.2 4.3 3zm4.2-4a2 2 0 1 1-4 0 2.2 2.2 0 0 1 4 0zm1.5 4.5v.5a2 2 0 0 1-2 2h-1v-2.5c0-1.5-1-2.4-2.4-2.8.5-.1 1-.2 1.5-.2 2.2 0 3.9 1.3 3.9 3zM9 17.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm1.5 4.5v.5a2 2 0 0 1-2 2H7.4A2 2 0 0 1 5 22.5V22c0-1.7 1.7-3 3.9-3 .5 0 1 .1 1.5.2-1.4.4-2.4 1.3-2.4 2.8h1z"/></svg>
-);
-const OneNoteIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#7719aa" d="M4 6a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path fill="#fff" d="M11 10h2v12h-2V10zm3.5 0H17l4 6.3V10h2v12h-2.5l-4-6.3V22h-2V10z"/></svg>
-);
-const DefenderIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#005a9e" d="M16 3L4 8v9c0 6.5 5.1 12.4 12 14 6.9-1.6 12-7.5 12-14V8L16 3zm0 25.8C10.3 27.3 6 22.2 6 17V9.4L16 5.2l10 4.2V17c0 5.2-4.3 10.3-10 11.8z"/><path fill="#fff" d="M15 11h2v7h-2zm0 9h2v2h-2z"/></svg>
-);
-const DesignerIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}><path fill="#c82168" d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12z"/><path fill="#fff" d="M20.3 11.7a3 3 0 0 0-4.6 0l-6.4 8.5a.5.5 0 0 0 .4.8h12.8a.5.5 0 0 0 .4-.8zM16 13l4.5 6h-9z"/><circle fill="#fff" cx="12" cy="9.5" r="1.5"/></svg>
-);
-const CopilotIcon = ({className}: {className?: string}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}>
-    <defs>
-      <linearGradient id="copilot-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style={{stopColor:"#F35E99"}} />
-        <stop offset="50%" style={{stopColor:"#A451F5"}} />
-        <stop offset="100%" style={{stopColor:"#3362E3"}} />
-      </linearGradient>
-    </defs>
-    <path fill="url(#copilot-gradient)" d="M25.6 8a3.6 3.6 0 1 0-7.2 0 3.6 3.6 0 0 0 7.2 0zm-2.4 7.2a3.6 3.6 0 1 0-7.2 0 3.6 3.6 0 0 0 7.2 0zm-8.4 0a3.6 3.6 0 1 0-7.2 0 3.6 3.6 0 0 0 7.2 0zm-2.4 7.2a3.6 3.6 0 1 0-7.2 0 3.6 3.6 0 0 0 7.2 0z"/>
-    <path fill="url(#copilot-gradient)" d="M16 30a14 14 0 0 1-14-14c0-4.7 2.3-8.9 5.8-11.5.6-.4 1.4-.1 1.5.7l.3 3.3a1.3 1.3 0 0 0 2 1l3.2-1.6a1.3 1.3 0 0 1 1.9 1.2v3.5a1.3 1.3 0 0 0 1.3 1.3h3.5a1.3 1.3 0 0 1 1.2 1.9l-1.6 3.2a1.3 1.3 0 0 0 1 2l3.3.3c.7.1 1 .9.7 1.5C24.9 27.7 20.7 30 16 30z" opacity="0.2"/>
-  </svg>
-);
+// --- 1. CONFIG: Official Microsoft App Icons (Via CDN) ---
+// 这次我们直接使用微软官方 CDN 或 维基百科的高清 SVG 链接，保证100%还原度。
+const APPS_DATA = [
+  {
+    id: "copilot",
+    title: "Copilot",
+    desc: "Your everyday AI companion.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Microsoft_365_Copilot_Icon.svg",
+    link: "https://www.microsoft.com/microsoft-365/copilot"
+  },
+  {
+    id: "word",
+    title: "Word",
+    desc: "Elevate your writing.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Microsoft_Office_Word_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-365/word"
+  },
+  {
+    id: "excel",
+    title: "Excel",
+    desc: "Turn data into insights.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-365/excel"
+  },
+  {
+    id: "ppt",
+    title: "PowerPoint",
+    desc: "Create impactful slides.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Microsoft_Office_PowerPoint_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-365/powerpoint"
+  },
+  {
+    id: "outlook",
+    title: "Outlook",
+    desc: "Email and calendar together.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/d/df/Microsoft_Office_Outlook_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-services-microsoft-outlook"
+  },
+  {
+    id: "onedrive",
+    title: "OneDrive",
+    desc: "Save and share files safely.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Microsoft_Office_OneDrive_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage"
+  },
+  {
+    id: "teams",
+    title: "Teams",
+    desc: "Meet, chat, call, and collab.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-teams/group-chat-software"
+  },
+  {
+    id: "onenote",
+    title: "OneNote",
+    desc: "Your digital notebook.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Microsoft_Office_OneNote_%282019%E2%80%93present%29.svg",
+    link: "https://www.microsoft.com/microsoft-365/onenote/digital-note-taking-app"
+  },
+  {
+    id: "defender",
+    title: "Defender",
+    desc: "Protect data and devices.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/43/Microsoft_Defender.svg",
+    link: "https://www.microsoft.com/microsoft-365/microsoft-defender-for-individuals"
+  },
+  {
+    id: "designer",
+    title: "Designer",
+    desc: "Create stunning graphics.",
+    img: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Microsoft_Designer_logo_icon.svg", // Replaced with a reliable link logic in component if needed, but wikipedia usually works
+    link: "https://designer.microsoft.com/"
+  }
+];
 
 
 // --- 2. Internationalization ---
@@ -94,23 +127,10 @@ const translations: any = {
     
     // Pricing Text
     plan_monthly_badge: "FLEXIBLE",
-    plan_monthly_desc: "Try first, pay later. Cancel anytime.",
+    plan_monthly_sub: "Try first, pay later",
     plan_semi_badge: "POPULAR",
     plan_yearly_badge: "BEST VALUE",
-
-    // Apps
-    app_word: "Word", app_word_desc: "Elevate your writing.",
-    app_excel: "Excel", app_excel_desc: "Turn data into insights.",
-    app_ppt: "PowerPoint", app_ppt_desc: "Create impactful slides.",
-    app_outlook: "Outlook", app_outlook_desc: "Email and calendar together.",
-    app_onedrive: "OneDrive", app_onedrive_desc: "Save and share files safely.",
-    app_teams: "Teams", app_teams_desc: "Meet, chat, call, and collab.",
-    app_onenote: "OneNote", app_onenote_desc: "Your digital notebook.",
-    app_defender: "Defender", app_defender_desc: "Protect data and devices.",
-    app_designer: "Designer", app_designer_desc: "Create stunning graphics.",
-    app_copilot: "Copilot", app_copilot_desc: "Your everyday AI companion.",
   },
-  // ... (Other languages omitted for brevity, will fallback to EN) ...
   de: {
     hero_title_1: "Microsoft 365 freischalten",
     hero_title_2: "Copilot Produktivität.",
@@ -123,10 +143,9 @@ const translations: any = {
     footer_region: "Deutsch (Deutschland)",
     footer_copy: "© 2026 365ShareHub Operations. Alle Rechte vorbehalten.",
     plan_monthly_badge: "FLEXIBEL",
-    plan_monthly_desc: "Erst testen, später zahlen. Jederzeit kündbar.",
+    plan_monthly_sub: "Erst testen, später zahlen",
     plan_semi_badge: "BELIEBT",
     plan_yearly_badge: "BESTER WERT",
-    app_word: "Word", app_word_desc: "Verbessern Sie Ihr Schreiben.",
   },
   zh: {
     hero_title_1: "解锁 Microsoft 365",
@@ -140,23 +159,23 @@ const translations: any = {
     footer_region: "中文 (简体)",
     footer_copy: "© 2026 365ShareHub Operations. 保留所有权利。",
     plan_monthly_badge: "灵活",
-    plan_monthly_desc: "先试用，后付费。随时取消。",
+    plan_monthly_sub: "先试用，后付费",
     plan_semi_badge: "热门",
     plan_yearly_badge: "超值",
-    app_word: "Word", app_word_desc: "提升您的写作水平。",
   }
 };
 
-// --- 3. Component: App Card (Official Links & New Icons) ---
-const AppCard = ({ icon: Icon, title, desc, link }: any) => (
-  <a href={link} target="_blank" rel="noopener noreferrer" className="block h-full">
-    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-fluent-hover transition-all cursor-pointer group hover:-translate-y-1 duration-300 h-full flex flex-col">
-      <div className="mb-5">
-        <Icon className="w-12 h-12" />
+// --- 3. Component: App Card (Uses <img> for perfect fidelity) ---
+const AppCard = ({ item }: any) => (
+  <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-fluent-hover transition-all cursor-pointer group hover:-translate-y-1 duration-300 h-full flex flex-col items-center text-center">
+      <div className="mb-5 transform group-hover:scale-110 transition-transform duration-300">
+        {/* Use standard img tag for external SVGs to ensure perfect rendering */}
+        <img src={item.img} alt={item.title} className="w-14 h-14 object-contain" loading="lazy" />
       </div>
-      <h3 className="font-bold text-lg text-slate-900 mb-2">{title}</h3>
-      <p className="text-sm text-slate-500 leading-relaxed flex-grow">{desc}</p>
-      <div className="mt-4 flex items-center text-blue-600 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+      <h3 className="font-bold text-lg text-slate-900 mb-2">{item.title}</h3>
+      <p className="text-sm text-slate-500 leading-relaxed flex-grow">{item.desc}</p>
+      <div className="mt-4 flex items-center text-[#0067b8] text-xs font-semibold group-hover:underline underline-offset-4">
         Learn more <ArrowRight className="w-3 h-3 ml-1" />
       </div>
     </div>
@@ -235,7 +254,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- 10 Apps Grid (Official Icons & Links) --- */}
+      {/* --- 10 Apps Grid (REAL OFFICIAL ICONS) --- */}
       <section id="apps" className="py-24 px-6 bg-white/40 border-y border-white/40 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center">
@@ -244,22 +263,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
-            <AppCard icon={CopilotIcon} title={t.app_copilot} desc={t.app_copilot_desc} link="https://www.microsoft.com/microsoft-365/copilot" />
-            <AppCard icon={WordIcon} title={t.app_word} desc={t.app_word_desc} link="https://www.microsoft.com/microsoft-365/word" />
-            <AppCard icon={ExcelIcon} title={t.app_excel} desc={t.app_excel_desc} link="https://www.microsoft.com/microsoft-365/excel" />
-            <AppCard icon={PowerPointIcon} title={t.app_ppt} desc={t.app_ppt_desc} link="https://www.microsoft.com/microsoft-365/powerpoint" />
-            <AppCard icon={OutlookIcon} title={t.app_outlook} desc={t.app_outlook_desc} link="https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-services-microsoft-outlook" />
-            
-            <AppCard icon={OneDriveIcon} title={t.app_onedrive} desc={t.app_onedrive_desc} link="https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage" />
-            <AppCard icon={TeamsIcon} title={t.app_teams} desc={t.app_teams_desc} link="https://www.microsoft.com/microsoft-teams/group-chat-software" />
-            <AppCard icon={OneNoteIcon} title={t.app_onenote} desc={t.app_onenote_desc} link="https://www.microsoft.com/microsoft-365/onenote/digital-note-taking-app" />
-            <AppCard icon={DefenderIcon} title={t.app_defender} desc={t.app_defender_desc} link="https://www.microsoft.com/microsoft-365/microsoft-defender-for-individuals" />
-            <AppCard icon={DesignerIcon} title={t.app_designer} desc={t.app_designer_desc} link="https://designer.microsoft.com/" />
+            {APPS_DATA.map((app) => (
+              <AppCard key={app.id} item={app} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* --- Pricing Section (Redesigned Strategies) --- */}
+      {/* --- Pricing Section (New Strategy) --- */}
       <section id="pricing" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -268,10 +279,10 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
             
-            {/* 1. Monthly (Flexible, €3.59) */}
+            {/* 1. Monthly (FLEXIBLE) - €3.59 */}
             <Card className="border-0 shadow-sm hover:shadow-md transition-all bg-white/80 backdrop-blur rounded-3xl overflow-hidden mt-4 ring-1 ring-slate-100 relative">
               <div className="absolute top-4 right-4">
-                <div className="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full uppercase">{t.plan_monthly_badge}</div>
+                <div className="bg-slate-200 text-slate-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">{t.plan_monthly_badge}</div>
               </div>
               <CardHeader className="bg-slate-50/50 border-b border-slate-100 pb-6 pt-8">
                 <CardTitle className="text-lg font-medium text-slate-500">Flex Monthly</CardTitle>
@@ -279,21 +290,23 @@ export default function Home() {
                   <span className="text-4xl font-bold text-slate-900">€3.59</span>
                   <span className="text-slate-400 ml-1">/mo</span>
                 </div>
-                <p className="text-xs font-medium text-blue-600 mt-2">{t.plan_monthly_desc}</p>
+                <p className="text-xs font-medium text-slate-500 mt-2 flex items-center gap-1">
+                   {t.plan_monthly_sub}
+                </p>
               </CardHeader>
               <CardContent className="pt-6">
                 <ul className="space-y-3 mb-8">
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-blue-500"/> All Premium Apps</li>
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-blue-500"/> 1TB Cloud Storage</li>
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-blue-500"/> Cancel anytime</li>
+                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-slate-400"/> All Premium Apps</li>
+                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-slate-400"/> 1TB Cloud Storage</li>
+                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-slate-400"/> Cancel anytime</li>
                 </ul>
                 <Button variant="outline" className="w-full rounded-xl h-11 border-slate-200 hover:bg-slate-50 hover:text-black">Choose Monthly</Button>
               </CardContent>
             </Card>
 
-            {/* 2. Semi-Annual (POPULAR, Blue Border) */}
-            <Card className="border-2 border-[#0078D4] shadow-xl transition-all bg-white rounded-3xl relative overflow-hidden z-10 scale-105">
-               <div className="absolute top-0 right-0 bg-[#0078D4] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase">
+            {/* 2. Semi-Annual (POPULAR - Blue Border - Center Stage) */}
+            <Card className="border-[3px] border-[#0078D4] shadow-2xl transition-all bg-white rounded-3xl relative overflow-hidden z-10 scale-105">
+               <div className="absolute top-0 right-0 bg-[#0078D4] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wide">
                  {t.plan_semi_badge}
                </div>
               <CardHeader className="bg-white border-b border-slate-50 pb-6 pt-10">
@@ -312,9 +325,9 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* 3. Yearly (BEST VALUE, Banner Style) */}
+            {/* 3. Yearly (BEST VALUE - Banner Style) */}
             <Card className="border-0 shadow-fluent hover:shadow-fluent-hover transition-all bg-white rounded-3xl overflow-hidden mt-4 ring-1 ring-slate-100">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold text-center py-1.5 uppercase">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold text-center py-1.5 uppercase tracking-wide">
                 {t.plan_yearly_badge}
               </div>
               <CardHeader className="bg-white pb-6 pt-6">
