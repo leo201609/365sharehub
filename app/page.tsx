@@ -14,17 +14,13 @@ import {
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { 
-  Check, ArrowRight, ShieldCheck, Globe, ChevronDown
+  Check, ArrowRight, ShieldCheck, Globe, ChevronDown, Sparkles
 } from "lucide-react";
 
 // --- 0. Logo & Social Icons ---
 const ModernLogo = () => (
-  <div className="w-9 h-9 relative flex items-center justify-center rounded-[10px] overflow-hidden shadow-sm shrink-0">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0078D4] to-[#26A4F5]"></div>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white relative z-10">
-        <path fillRule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 000 5.304l4.5 4.5a3.75 3.75 0 005.304-5.304l-4.5-4.5a3.75 3.75 0 00-5.304 0zm-3.75 1.5a1.5 1.5 0 012.122 2.122l-4.5 4.5a1.5 1.5 0 01-2.122-2.122l4.5-4.5z" clipRule="evenodd" />
-        <path d="M4.098 4.098a3.75 3.75 0 015.304 0l4.5 4.5a3.75 3.75 0 010 5.304l-4.5 4.5a3.75 3.75 0 01-5.304-5.304l4.5-4.5a3.75 3.75 0 010-5.304zm1.5 3.75a1.5 1.5 0 002.122 2.122l4.5-4.5a1.5 1.5 0 00-2.122-2.122l-4.5 4.5z" />
-      </svg>
+  <div className="w-10 h-10 relative flex items-center justify-center shrink-0">
+      <img src="/icons/365sharehub.png" alt="365ShareHub Logo" className="w-full h-full object-contain rounded-lg" />
   </div>
 );
 
@@ -35,143 +31,90 @@ const TelegramIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 2
 const YouTubeIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>);
 const LinkedInIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>);
 
-// --- 1. CONFIG: Official Microsoft App Icons (Via CDN) ---
-// 这次我们直接使用微软官方 CDN 或 维基百科的高清 SVG 链接，保证100%还原度。
-const APPS_DATA = [
-  {
-    id: "copilot",
-    title: "Copilot",
-    desc: "Your everyday AI companion.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Microsoft_365_Copilot_Icon.svg",
-    link: "https://www.microsoft.com/microsoft-365/copilot"
-  },
-  {
-    id: "word",
-    title: "Word",
-    desc: "Elevate your writing.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Microsoft_Office_Word_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-365/word"
-  },
-  {
-    id: "excel",
-    title: "Excel",
-    desc: "Turn data into insights.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-365/excel"
-  },
-  {
-    id: "ppt",
-    title: "PowerPoint",
-    desc: "Create impactful slides.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Microsoft_Office_PowerPoint_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-365/powerpoint"
-  },
-  {
-    id: "outlook",
-    title: "Outlook",
-    desc: "Email and calendar together.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/d/df/Microsoft_Office_Outlook_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-services-microsoft-outlook"
-  },
-  {
-    id: "onedrive",
-    title: "OneDrive",
-    desc: "Save and share files safely.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Microsoft_Office_OneDrive_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage"
-  },
-  {
-    id: "teams",
-    title: "Teams",
-    desc: "Meet, chat, call, and collab.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-teams/group-chat-software"
-  },
-  {
-    id: "onenote",
-    title: "OneNote",
-    desc: "Your digital notebook.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Microsoft_Office_OneNote_%282019%E2%80%93present%29.svg",
-    link: "https://www.microsoft.com/microsoft-365/onenote/digital-note-taking-app"
-  },
-  {
-    id: "defender",
-    title: "Defender",
-    desc: "Protect data and devices.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/4/43/Microsoft_Defender.svg",
-    link: "https://www.microsoft.com/microsoft-365/microsoft-defender-for-individuals"
-  },
-  {
-    id: "designer",
-    title: "Designer",
-    desc: "Create stunning graphics.",
-    img: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Microsoft_Designer_logo_icon.svg", // Replaced with a reliable link logic in component if needed, but wikipedia usually works
-    link: "https://designer.microsoft.com/"
-  }
-];
-
-
-// --- 2. Internationalization ---
+// --- 1. 国际化文案 ---
 const translations: any = {
   en: {
     hero_title_1: "Unlock Microsoft 365",
     hero_title_2: "Copilot Productivity.",
-    hero_desc: "Enjoy full Microsoft 365 features at a favorable price. Boost productivity with Copilot alongside you. Get leading apps with built-in AI, advanced security, and spacious 1 TB cloud storage in one plan.",
+    hero_desc: "Boost productivity with Copilot alongside you. Get leading apps with built-in AI, advanced security, and spacious 1 TB cloud storage in one plan.",
     email_placeholder: "Enter your email...",
     cta_start: "Get Started",
     section_apps_title: "Everything you need in one plan",
     section_apps_desc: "Get the premium apps, cloud storage, and security you need.",
+    
+    // Gradient Promo Slogan
+    pricing_promo: "Enjoy full Microsoft 365 features at a favorable price",
     pricing_title: "Simple, Transparent Pricing",
+    
     footer_region: "English (Global)",
     footer_copy: "© 2026 365ShareHub Operations. All rights reserved.",
     
-    // Pricing Text
     plan_monthly_badge: "FLEXIBLE",
-    plan_monthly_sub: "Try first, pay later",
+    plan_monthly_sub: "7-Day Free Trial", 
     plan_semi_badge: "POPULAR",
     plan_yearly_badge: "BEST VALUE",
   },
   de: {
     hero_title_1: "Microsoft 365 freischalten",
     hero_title_2: "Copilot Produktivität.",
-    hero_desc: "Genießen Sie alle Microsoft 365-Funktionen zu einem günstigen Preis. Steigern Sie Ihre Produktivität mit Copilot an Ihrer Seite. Erhalten Sie führende Apps mit integrierter KI, erweiterter Sicherheit und großzügigem 1 TB Cloud-Speicher in einem Plan.",
+    hero_desc: "Steigern Sie Ihre Produktivität mit Copilot an Ihrer Seite. Erhalten Sie führende Apps mit integrierter KI, erweiterter Sicherheit und großzügigem 1 TB Cloud-Speicher.",
     email_placeholder: "E-Mail eingeben...",
     cta_start: "Jetzt starten",
     section_apps_title: "Alles in einem Plan",
     section_apps_desc: "Holen Sie sich Premium-Apps, Cloud-Speicher und Sicherheit.",
+    pricing_promo: "Genießen Sie alle Microsoft 365-Funktionen zu einem günstigen Preis",
     pricing_title: "Einfache Preise",
     footer_region: "Deutsch (Deutschland)",
     footer_copy: "© 2026 365ShareHub Operations. Alle Rechte vorbehalten.",
     plan_monthly_badge: "FLEXIBEL",
-    plan_monthly_sub: "Erst testen, später zahlen",
+    plan_monthly_sub: "7 Tage kostenlos testen",
     plan_semi_badge: "BELIEBT",
     plan_yearly_badge: "BESTER WERT",
   },
   zh: {
     hero_title_1: "解锁 Microsoft 365",
     hero_title_2: "Copilot 生产力。",
-    hero_desc: "以优惠的价格享受完整的 Microsoft 365 功能。有 Copilot 在您身边，提升您的生产力。在一个计划中获得内置 AI 的领先应用、高级安全性和 1 TB 的超大云存储空间。",
+    hero_desc: "有 Copilot 在您身边，提升您的生产力。在一个计划中获得内置 AI 的领先应用、高级安全性和 1 TB 的超大云存储空间。",
     email_placeholder: "输入您的邮箱...",
     cta_start: "开始试用",
     section_apps_title: "一个计划，满足所有需求",
     section_apps_desc: "获取您需要的高级应用、云存储和安全性。",
+    pricing_promo: "以优惠的价格享受完整的 Microsoft 365 功能",
     pricing_title: "简单透明的定价",
     footer_region: "中文 (简体)",
     footer_copy: "© 2026 365ShareHub Operations. 保留所有权利。",
     plan_monthly_badge: "灵活",
-    plan_monthly_sub: "先试用，后付费",
+    plan_monthly_sub: "7天免费试用",
     plan_semi_badge: "热门",
     plan_yearly_badge: "超值",
   }
 };
 
-// --- 3. Component: App Card (Uses <img> for perfect fidelity) ---
+// --- 2. 应用数据 ---
+const APPS_DATA = [
+  // --- 第一排 ---
+  { id: "copilot", title: "Copilot", desc: "Your everyday AI companion.", icon: "/icons/copilot.png", link: "https://www.microsoft.com/microsoft-365/copilot" },
+  { id: "onedrive", title: "OneDrive", desc: "Save and share safely.", icon: "/icons/onedrive.png", link: "https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage" },
+  { id: "word", title: "Word", desc: "Elevate your writing.", icon: "/icons/word.png", link: "https://www.microsoft.com/microsoft-365/word" },
+  { id: "excel", title: "Excel", desc: "Turn data into insights.", icon: "/icons/excel.png", link: "https://www.microsoft.com/microsoft-365/excel" },
+  { id: "ppt", title: "PowerPoint", desc: "Create impactful slides.", icon: "/icons/ppt.png", link: "https://www.microsoft.com/microsoft-365/powerpoint" },
+  { id: "access", title: "Access", desc: "Create database apps.", icon: "/icons/access.png", link: "https://www.microsoft.com/microsoft-365/access" },
+  
+  // --- 第二排 ---
+  { id: "outlook", title: "Outlook", desc: "Email and calendar.", icon: "/icons/outlook.png", link: "https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-services-microsoft-outlook" },
+  { id: "teams", title: "Teams", desc: "Meet, chat, call, collab.", icon: "/icons/teams.png", link: "https://www.microsoft.com/microsoft-teams/group-chat-software" },
+  { id: "onenote", title: "OneNote", desc: "Your digital notebook.", icon: "/icons/onenote.png", link: "https://www.microsoft.com/microsoft-365/onenote/digital-note-taking-app" },
+  { id: "clipchamp", title: "Clipchamp", desc: "Video editor with AI.", icon: "/icons/clipchamp.png", link: "https://clipchamp.com/" },
+  { id: "designer", title: "Designer", desc: "Create stunning graphics.", icon: "/icons/designer.png", link: "https://designer.microsoft.com/" },
+  { id: "defender", title: "Defender", desc: "Protect data and devices.", icon: "/icons/defender.png", link: "https://www.microsoft.com/microsoft-365/microsoft-defender-for-individuals" },
+];
+
+// --- 3. 组件：应用卡片 ---
 const AppCard = ({ item }: any) => (
   <a href={item.link} target="_blank" rel="noopener noreferrer" className="block h-full">
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-fluent-hover transition-all cursor-pointer group hover:-translate-y-1 duration-300 h-full flex flex-col items-center text-center">
-      <div className="mb-5 transform group-hover:scale-110 transition-transform duration-300">
-        {/* Use standard img tag for external SVGs to ensure perfect rendering */}
-        <img src={item.img} alt={item.title} className="w-14 h-14 object-contain" loading="lazy" />
+      <div className="mb-5 transform group-hover:scale-110 transition-transform duration-300 h-14 w-14 flex items-center justify-center">
+        <img src={item.icon} alt={item.title} className="w-full h-full object-contain" />
       </div>
       <h3 className="font-bold text-lg text-slate-900 mb-2">{item.title}</h3>
       <p className="text-sm text-slate-500 leading-relaxed flex-grow">{item.desc}</p>
@@ -254,96 +197,110 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- 10 Apps Grid (REAL OFFICIAL ICONS) --- */}
+      {/* --- 12 Apps Grid --- */}
       <section id="apps" className="py-24 px-6 bg-white/40 border-y border-white/40 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[1400px] mx-auto">
           <div className="mb-16 text-center">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">{t.section_apps_title}</h2>
             <p className="text-slate-600 max-w-2xl mx-auto">{t.section_apps_desc}</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
-            {APPS_DATA.map((app) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {APPS_DATA.map((app: any) => (
               <AppCard key={app.id} item={app} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- Pricing Section (New Strategy) --- */}
+      {/* --- Pricing Section (4-Line Layout & Visual Adjustments) --- */}
       <section id="pricing" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">{t.pricing_title}</h2>
+            <h3 className="text-xl md:text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-[#0078D4] via-[#7048E8] to-[#D13438] animate-gradient bg-[length:200%_auto]">
+              {t.pricing_promo}
+            </h3>
+            <h2 className="text-xl font-semibold text-slate-600 mb-4">{t.pricing_title}</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
             
-            {/* 1. Monthly (FLEXIBLE) - €3.59 */}
-            <Card className="border-0 shadow-sm hover:shadow-md transition-all bg-white/80 backdrop-blur rounded-3xl overflow-hidden mt-4 ring-1 ring-slate-100 relative">
+            {/* 1. Monthly (FLEXIBLE) - New Button Design */}
+            <Card className="border-[2px] border-blue-200 shadow-lg hover:shadow-xl transition-all bg-white rounded-3xl overflow-hidden mt-8 relative">
               <div className="absolute top-4 right-4">
-                <div className="bg-slate-200 text-slate-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">{t.plan_monthly_badge}</div>
+                <div className="bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide border border-blue-100">{t.plan_monthly_badge}</div>
               </div>
-              <CardHeader className="bg-slate-50/50 border-b border-slate-100 pb-6 pt-8">
+              <CardHeader className="bg-slate-50/30 border-b border-slate-100 pb-6 pt-8">
                 <CardTitle className="text-lg font-medium text-slate-500">Flex Monthly</CardTitle>
                 <div className="flex items-baseline mt-2">
                   <span className="text-4xl font-bold text-slate-900">€3.59</span>
                   <span className="text-slate-400 ml-1">/mo</span>
                 </div>
-                <p className="text-xs font-medium text-slate-500 mt-2 flex items-center gap-1">
+                <p className="text-xs font-bold text-green-600 mt-2 flex items-center gap-1 bg-green-50 w-fit px-2 py-1 rounded-md">
                    {t.plan_monthly_sub}
                 </p>
               </CardHeader>
               <CardContent className="pt-6">
                 <ul className="space-y-3 mb-8">
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-slate-400"/> All Premium Apps</li>
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-slate-400"/> 1TB Cloud Storage</li>
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-slate-400"/> Cancel anytime</li>
+                  <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Includes Copilot & All Apps</li>
+                  <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> 1TB OneDrive Storage</li>
+                  <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> PC, Mac, iOS & Android</li>
+                  <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Connect 5 Devices</li>
+                  <li className="flex gap-3 text-sm text-slate-900 font-bold items-center pt-2"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Pay after trial, cancel anytime</li>
                 </ul>
-                <Button variant="outline" className="w-full rounded-xl h-11 border-slate-200 hover:bg-slate-50 hover:text-black">Choose Monthly</Button>
+                {/* New Button Design */}
+                <Button className="w-full rounded-xl h-12 bg-white border-[2px] border-[#0078D4] text-[#0078D4] hover:bg-blue-50 font-bold text-base shadow-sm transition-all">
+                  Start Free Trial
+                </Button>
               </CardContent>
             </Card>
 
-            {/* 2. Semi-Annual (POPULAR - Blue Border - Center Stage) */}
-            <Card className="border-[3px] border-[#0078D4] shadow-2xl transition-all bg-white rounded-3xl relative overflow-hidden z-10 scale-105">
-               <div className="absolute top-0 right-0 bg-[#0078D4] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wide">
+            {/* 2. Semi-Annual (Standard) */}
+            <Card className="border-[2px] border-[#2b88d8] shadow-xl hover:shadow-2xl transition-all bg-white rounded-3xl overflow-hidden mt-8 relative">
+               <div className="absolute top-0 right-0 bg-slate-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wide">
                  {t.plan_semi_badge}
                </div>
-              <CardHeader className="bg-white border-b border-slate-50 pb-6 pt-10">
-                <CardTitle className="text-lg font-bold text-[#0078D4]">Saver 6-Months</CardTitle>
+              <CardHeader className="bg-white border-b border-slate-50 pb-6 pt-8">
+                <CardTitle className="text-lg font-bold text-slate-700">Saver 6-Months</CardTitle>
                 <div className="flex items-baseline mt-2">
-                  <span className="text-5xl font-bold text-slate-900">€17.90</span>
+                  <span className="text-4xl font-bold text-slate-900">€17.90</span>
                 </div>
-                <p className="text-sm font-bold text-[#0078D4] mt-2">€2.98 / mo (Save 25%)</p>
+                <p className="text-sm font-medium text-green-600 mt-2">€2.98 / mo</p>
               </CardHeader>
               <CardContent className="pt-6">
                 <ul className="space-y-3 mb-8">
-                  <li className="flex gap-2 text-sm text-slate-700 font-medium"><Check className="w-4 h-4 text-blue-600"/> <strong>Includes Monthly Perks</strong></li>
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-blue-600"/> Locked-in price</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Includes Copilot & All Apps</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> 1TB OneDrive Storage</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> PC, Mac, iOS & Android</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Connect 5 Devices</li>
+                  <li className="flex gap-3 text-sm text-slate-900 font-semibold items-center pt-2"><Check className="w-4 h-4 text-green-500 shrink-0"/> Save 25% vs Monthly</li>
                 </ul>
-                <Button className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold rounded-xl h-12 shadow-lg shadow-blue-200">Choose 6-Months</Button>
+                <Button className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl h-12 shadow-md transition-all text-base">Choose 6-Months</Button>
               </CardContent>
             </Card>
 
-            {/* 3. Yearly (BEST VALUE - Banner Style) */}
-            <Card className="border-0 shadow-fluent hover:shadow-fluent-hover transition-all bg-white rounded-3xl overflow-hidden mt-4 ring-1 ring-slate-100">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold text-center py-1.5 uppercase tracking-wide">
+            {/* 3. Yearly (HERO - Toned Down) */}
+            <Card className="border-[2px] border-[#7048E8] shadow-xl hover:shadow-2xl transition-all bg-white rounded-3xl relative overflow-hidden hover:scale-[1.02] z-10">
+              <div className="bg-gradient-to-r from-[#7048E8] to-[#D13438] text-white text-xs font-bold text-center py-2 uppercase tracking-wide">
                 {t.plan_yearly_badge}
               </div>
-              <CardHeader className="bg-white pb-6 pt-6">
-                <CardTitle className="text-lg font-bold text-slate-800">Pro Yearly</CardTitle>
+              <CardHeader className="bg-white pb-8 pt-8">
+                <CardTitle className="text-xl font-bold text-[#7048E8]">Pro Yearly</CardTitle>
                 <div className="flex items-baseline mt-2">
-                  <span className="text-4xl font-bold text-slate-900">€29.90</span>
+                  <span className="text-5xl font-extrabold text-slate-900">€29.90</span>
                   <span className="text-slate-400 ml-1">/yr</span>
                 </div>
-                <p className="text-sm font-medium text-green-600 mt-2">€2.49 / mo (Save 37%)</p>
+                <p className="text-sm font-bold text-[#D13438] mt-2">€2.49 / mo</p>
               </CardHeader>
               <CardContent className="pt-4">
                 <ul className="space-y-3 mb-8">
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-purple-500"/> <strong>Copilot Priority Access</strong></li>
-                  <li className="flex gap-2 text-sm text-slate-700"><Check className="w-4 h-4 text-purple-500"/> VIP Support</li>
+                  <li className="flex gap-3 text-sm text-slate-800 items-center"><Sparkles className="w-5 h-5 text-[#7048E8] shrink-0"/> Includes Copilot & All Apps</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-5 h-5 text-[#7048E8] shrink-0"/> 1TB OneDrive Storage</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-5 h-5 text-[#7048E8] shrink-0"/> PC, Mac, iOS & Android</li>
+                  <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-5 h-5 text-[#7048E8] shrink-0"/> Connect 5 Devices</li>
+                  <li className="flex gap-3 text-sm text-slate-900 font-bold bg-purple-50 p-2 rounded-lg border border-purple-100 items-center pt-2"><Check className="w-5 h-5 text-[#D13438] shrink-0"/> Save 37% vs Monthly</li>
                 </ul>
-                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl h-11 shadow-lg">Subscribe Yearly</Button>
+                <Button className="w-full bg-gradient-to-r from-[#7048E8] to-[#D13438] hover:opacity-90 text-white font-bold rounded-xl h-12 shadow-lg shadow-purple-200 text-base transition-transform hover:scale-105">Subscribe Yearly</Button>
               </CardContent>
             </Card>
           </div>
