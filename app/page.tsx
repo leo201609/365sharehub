@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 // --- 0. Logo & Social Icons ---
+// 确保文件名完全匹配：public/icons/365sharehub.png
 const ModernLogo = () => (
   <div className="w-10 h-10 relative flex items-center justify-center shrink-0">
       <img src="/icons/365sharehub.png" alt="365ShareHub Logo" className="w-full h-full object-contain rounded-lg" />
@@ -160,15 +161,10 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* --- Hero Section --- */}
+      {/* --- Hero Section (REMOVED DATA CENTER BADGE) --- */}
       <section className="relative pt-24 pb-20 px-6 text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           
-          <div className="inline-flex items-center gap-2 bg-white/60 border border-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm mx-auto cursor-default">
-            <ShieldCheck className="w-4 h-4 text-green-600" />
-            <span className="text-xs font-medium text-slate-600">Microsoft Frankfurt Data Center · GDPR Compliant</span>
-          </div>
-
           <h1 className="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.1] text-slate-900">
             {t.hero_title_1}<br/>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_auto] animate-gradient">
@@ -213,7 +209,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Pricing Section (4-Line Layout & Visual Adjustments) --- */}
+      {/* --- Pricing Section --- */}
       <section id="pricing" className="py-24 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -225,7 +221,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
             
-            {/* 1. Monthly (FLEXIBLE) - New Button Design */}
+            {/* 1. Monthly (FLEXIBLE) */}
             <Card className="border-[2px] border-blue-200 shadow-lg hover:shadow-xl transition-all bg-white rounded-3xl overflow-hidden mt-8 relative">
               <div className="absolute top-4 right-4">
                 <div className="bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide border border-blue-100">{t.plan_monthly_badge}</div>
@@ -241,15 +237,14 @@ export default function Home() {
                 </p>
               </CardHeader>
               <CardContent className="pt-6">
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-4 mb-8">
                   <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Includes Copilot & All Apps</li>
                   <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> 1TB OneDrive Storage</li>
                   <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> PC, Mac, iOS & Android</li>
                   <li className="flex gap-3 text-sm text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Connect 5 Devices</li>
                   <li className="flex gap-3 text-sm text-slate-900 font-bold items-center pt-2"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Pay after trial, cancel anytime</li>
                 </ul>
-                {/* New Button Design */}
-                <Button className="w-full rounded-xl h-12 bg-white border-[2px] border-[#0078D4] text-[#0078D4] hover:bg-blue-50 font-bold text-base shadow-sm transition-all">
+                <Button className="w-full rounded-xl h-12 bg-white border-[2px] border-[#0078D4] text-[#0078D4] hover:bg-[#0078D4] hover:text-white font-bold text-base shadow-sm transition-all duration-300">
                   Start Free Trial
                 </Button>
               </CardContent>
@@ -268,7 +263,7 @@ export default function Home() {
                 <p className="text-sm font-medium text-green-600 mt-2">€2.98 / mo</p>
               </CardHeader>
               <CardContent className="pt-6">
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-4 mb-8">
                   <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Includes Copilot & All Apps</li>
                   <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> 1TB OneDrive Storage</li>
                   <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> PC, Mac, iOS & Android</li>
@@ -279,8 +274,8 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* 3. Yearly (HERO - Toned Down) */}
-            <Card className="border-[2px] border-[#7048E8] shadow-xl hover:shadow-2xl transition-all bg-white rounded-3xl relative overflow-hidden hover:scale-[1.02] z-10">
+            {/* 3. Yearly (HERO) */}
+            <Card className="border-[2px] border-[#7048E8] shadow-xl hover:shadow-2xl transition-all bg-white rounded-3xl relative overflow-hidden transform md:scale-105 z-10">
               <div className="bg-gradient-to-r from-[#7048E8] to-[#D13438] text-white text-xs font-bold text-center py-2 uppercase tracking-wide">
                 {t.plan_yearly_badge}
               </div>
@@ -293,14 +288,14 @@ export default function Home() {
                 <p className="text-sm font-bold text-[#D13438] mt-2">€2.49 / mo</p>
               </CardHeader>
               <CardContent className="pt-4">
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-4 mb-8">
                   <li className="flex gap-3 text-sm text-slate-800 items-center"><Sparkles className="w-5 h-5 text-[#7048E8] shrink-0"/> Includes Copilot & All Apps</li>
                   <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-5 h-5 text-[#7048E8] shrink-0"/> 1TB OneDrive Storage</li>
                   <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-5 h-5 text-[#7048E8] shrink-0"/> PC, Mac, iOS & Android</li>
                   <li className="flex gap-3 text-sm text-slate-700 items-center"><Check className="w-5 h-5 text-[#7048E8] shrink-0"/> Connect 5 Devices</li>
                   <li className="flex gap-3 text-sm text-slate-900 font-bold bg-purple-50 p-2 rounded-lg border border-purple-100 items-center pt-2"><Check className="w-5 h-5 text-[#D13438] shrink-0"/> Save 37% vs Monthly</li>
                 </ul>
-                <Button className="w-full bg-gradient-to-r from-[#7048E8] to-[#D13438] hover:opacity-90 text-white font-bold rounded-xl h-12 shadow-lg shadow-purple-200 text-base transition-transform hover:scale-105">Subscribe Yearly</Button>
+                <Button className="w-full bg-gradient-to-r from-[#7048E8] to-[#D13438] hover:opacity-90 text-white font-bold rounded-xl h-12 shadow-lg shadow-purple-200 text-base transition-transform active:scale-95">Subscribe Yearly</Button>
               </CardContent>
             </Card>
           </div>
