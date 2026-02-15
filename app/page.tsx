@@ -20,7 +20,7 @@ import {
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link"; 
 
-// --- 0. Logo ---
+// --- 0. Icons & Logo ---
 const ModernLogo = () => (
   <div className="w-9 h-9 relative flex items-center justify-center shrink-0 cursor-pointer hover:opacity-90 transition-opacity">
       <Image 
@@ -33,7 +33,15 @@ const ModernLogo = () => (
   </div>
 );
 
-// --- 1. 🌍 国际化文案字典 (🔥 完整全量版 - 修复切换不翻译问题) ---
+// Social Media Icons (SVG)
+const XIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>);
+const TikTokIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.03 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.35-1.17 1.09-1.07 1.73.07.45.27.9.55 1.15.5.41 1.13.56 1.75.52 1.25.1 2.56-.63 3.09-1.78.27-.58.33-1.25.32-1.88.02-5.5.01-11 .01-16.51z"/></svg>);
+const WhatsAppIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>);
+const TelegramIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 11.944 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>);
+const YouTubeIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>);
+const LinkedInIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>);
+
+// --- 1. 🌍 国际化文案字典 (🔥 完整版) ---
 const translations: any = {
   // 🇺🇸 英语 (默认)
   en: {
@@ -455,7 +463,7 @@ const AppCard = ({ item }: any) => (
 
 export default function Home() {
   const [lang, setLang] = useState("en");
-  const t = translations[lang] || translations["en"]; // Fallback to en
+  const t = translations[lang] || translations["en"];
   const [user, setUser] = useState<any>(null);
   const [emailInput, setEmailInput] = useState("");
   const router = useRouter(); 
@@ -468,7 +476,6 @@ export default function Home() {
     };
     checkUser();
     
-    // 简单的前端语言嗅探 (配合 Middleware)
     const browserLang = navigator.language.slice(0, 2);
     if (!localStorage.getItem('lang')) {
        if (browserLang === 'zh') {
@@ -518,11 +525,11 @@ export default function Home() {
     };
     const targetLang = map[code] || 'en';
     setLang(targetLang);
-    localStorage.setItem('lang', targetLang); // 记住用户选择
-    document.cookie = `lang=${targetLang}; path=/; max-age=31536000`; // 更新 Cookie
+    localStorage.setItem('lang', targetLang);
+    document.cookie = `lang=${targetLang}; path=/; max-age=31536000`;
   };
 
-  // 🔥 语言菜单组件 (含国旗)
+  // Language Menu Component
   const LanguageMenu = () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -531,9 +538,7 @@ export default function Home() {
             <span className="text-xs font-medium uppercase">{lang}</span>
         </div>
       </DropdownMenuTrigger>
-      {/* 🚀 布局优化：宽度 750px，三列布局 */}
       <DropdownMenuContent align="end" className="w-[750px] grid grid-cols-3 gap-6 p-6 shadow-xl border-slate-100 rounded-xl">
-          {/* 1. Europe */}
           <DropdownMenuGroup>
             <DropdownMenuLabel className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Europe</DropdownMenuLabel>
             <DropdownMenuItem onClick={()=>changeLanguage('uk')} className="cursor-pointer">🇬🇧 English (UK)</DropdownMenuItem>
@@ -543,8 +548,6 @@ export default function Home() {
             <DropdownMenuItem onClick={()=>changeLanguage('it')} className="cursor-pointer">🇮🇹 Italiano</DropdownMenuItem>
             <DropdownMenuItem onClick={()=>changeLanguage('nl')} className="cursor-pointer">🇳🇱 Nederlands</DropdownMenuItem>
           </DropdownMenuGroup>
-
-          {/* 2. Asia Pacific */}
           <DropdownMenuGroup>
             <DropdownMenuLabel className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Asia Pacific</DropdownMenuLabel>
             <DropdownMenuItem onClick={()=>changeLanguage('asia_en')} className="cursor-pointer">🌏 English (Asia)</DropdownMenuItem>
@@ -553,8 +556,6 @@ export default function Home() {
             <DropdownMenuItem onClick={()=>changeLanguage('cn')} className="cursor-pointer">🇨🇳 中文 (简体)</DropdownMenuItem>
             <DropdownMenuItem onClick={()=>changeLanguage('tw')} className="cursor-pointer">🇹🇼 中文 (繁體)</DropdownMenuItem>
           </DropdownMenuGroup>
-
-          {/* 3. Americas */}
           <DropdownMenuGroup>
             <DropdownMenuLabel className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">Americas</DropdownMenuLabel>
             <DropdownMenuItem onClick={()=>changeLanguage('us')} className="cursor-pointer">🇺🇸 English (US)</DropdownMenuItem>
@@ -569,23 +570,18 @@ export default function Home() {
   return (
     <div className="min-h-screen relative font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden bg-[#fafafa]">
       
-      {/* 极光背景特效 */}
       <div className="fixed top-0 left-0 w-full h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent -z-10 pointer-events-none"></div>
 
-      {/* --- Navigation --- */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
             <ModernLogo />
             <span className="font-bold text-xl tracking-tight hidden md:block text-slate-800">365ShareHub</span>
           </div>
-          
           <div className="flex items-center gap-4">
-            {/* 🔥 顶部语言切换器 */}
             <div className="hidden md:block border-r border-slate-200 pr-4 mr-1">
                <LanguageMenu />
             </div>
-
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -615,7 +611,6 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* --- Hero Section --- */}
       <section className="relative pt-24 pb-20 px-6 text-center">
         <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] text-slate-900 drop-shadow-sm">
@@ -637,7 +632,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Apps Grid --- */}
       <section id="apps" className="py-24 px-6 bg-white border-y border-slate-100">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-16 text-center">
@@ -650,7 +644,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Pricing Section --- */}
       <section id="pricing" className="py-24 relative bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -730,13 +723,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- Footer (Layout Updated) --- */}
+      {/* --- Footer (Layout Updated & Socials Restored) --- */}
       <footer className="bg-slate-50 pt-16 pb-8 text-xs text-slate-500 border-t border-slate-200">
         <div className="max-w-[1600px] mx-auto px-6">
+          
+          {/* 🔥 Restored Social Icons Section */}
+          <div className="flex items-center gap-4 mb-8">
+             <span className="font-bold text-slate-700 text-sm">Follow 365ShareHub</span>
+             <div className="flex gap-4">
+                <a href="#" className="text-slate-400 hover:text-blue-600 transition"><XIcon className="w-5 h-5" /></a>
+                <a href="#" className="text-slate-400 hover:text-blue-600 transition"><LinkedInIcon className="w-5 h-5" /></a>
+                <a href="#" className="text-slate-400 hover:text-red-600 transition"><YouTubeIcon className="w-5 h-5" /></a>
+                <a href="#" className="text-slate-400 hover:text-pink-600 transition"><TikTokIcon className="w-5 h-5" /></a>
+                <a href="#" className="text-slate-400 hover:text-green-600 transition"><WhatsAppIcon className="w-5 h-5" /></a>
+                <a href="#" className="text-slate-400 hover:text-blue-500 transition"><TelegramIcon className="w-5 h-5" /></a>
+             </div>
+          </div>
+
+          <div className="w-full h-px bg-slate-200 mb-8"></div>
+
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2 font-medium">
                <div className="flex items-center gap-2 cursor-pointer hover:text-slate-800 transition-colors">
-                  {/* 复用 LanguageMenu 组件 */}
                   <LanguageMenu />
                </div>
             </div>
