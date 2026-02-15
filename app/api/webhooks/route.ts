@@ -1,87 +1,82 @@
-export const dynamic = 'force-dynamic';
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
+import { NextResponse } from 'next/server';
+import stripe from '@/utils/stripe/server';
+import { createClient } from '@/utils/supabase/server';
+import { headers } from 'next/headers';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  typescript: true,
-});
-
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
+// 🔥 核心配置：强制动态路由，且确保只定义一次
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  const body = await req.text();
+  const signature = (await headers()).get('stripe-signature') as string;
+
+  let event;
+
   try {
-    const body = await req.text();
-    // ⚠️ 修复：Next.js 15+ headers() 需要 await
-    const headerList = await headers();
-    const signature = headerList.get("Stripe-Signature");
-
-    if (!signature) return new NextResponse("Missing Signature", { status: 400 });
-
-    let event: Stripe.Event;
-
-    try {
-      event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
-    } catch (err: any) {
-      return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
-    }
-
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object as Stripe.Checkout.Session;
-      
-      const userId = session.metadata?.userId;
-      // 如果没有 planType，默认标记为 monthly (防止月付没名字)
-      const planType = session.metadata?.planType || "monthly";
-      const subscriptionId = session.subscription as string;
-      const customerId = session.customer as string;
-
-      // 🔥 终极修复：使用 "unknown as any" 强制绕过所有类型检查
-      // 这样无论 SDK 版本如何，都能取到时间数据
-      const subscription = (await stripe.subscriptions.retrieve(subscriptionId)) as unknown as any;
-
-      const planNames: any = {
-          monthly: "Pro Monthly",
-          semi: "Pro 6-Months",
-          yearly: "Pro Yearly"
-      };
-      const displayPlanName = planNames[planType] || "Pro Plan";
-
-      // 转换时间戳 (Stripe是秒，JS是毫秒)
-      const startDate = new Date(subscription.current_period_start * 1000).toISOString();
-      const endDate = new Date(subscription.current_period_end * 1000).toISOString();
-
-      console.log(`💰 [Webhook] 处理订单: 用户 ${userId}, 方案 ${displayPlanName}`);
-      console.log(`   - 有效期: ${startDate} 至 ${endDate}`);
-
-      if (userId) {
-        // 先检查是否已有订阅，有则更新，无则插入 (upsert)
-        const { error } = await supabaseAdmin.from("subscriptions").upsert({
-          user_id: userId,
-          stripe_customer_id: customerId,
-          stripe_subscription_id: subscriptionId,
-          plan_name: displayPlanName,
-          status: "active",
-          current_period_start: startDate,
-          current_period_end: endDate,
-        }, { onConflict: 'user_id' }); // 确保一个用户只有一条活跃记录
-
-        if (error) {
-          console.error("❌ 数据库写入失败:", error);
-          return new NextResponse("Database Error", { status: 500 });
-        }
-        console.log("✅ 数据库写入成功！");
-      }
-    }
-
-    return new NextResponse(null, { status: 200 });
+    // 验证 Webhook 签名
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET || ""
+    );
   } catch (err: any) {
-    console.error("❌ 服务器错误:", err.message);
-    return new NextResponse(`Server Error: ${err.message}`, { status: 500 });
+    console.error(`❌ Webhook Signature Error: ${err.message}`);
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+  }
+
+  const supabase = await createClient();
+
+  // 处理不同的 Stripe 事件
+  try {
+    switch (event.type) {
+      // 1. 支付成功/试用开始
+      case 'checkout.session.completed': {
+        const session = event.data.object as any;
+        const subscriptionId = session.subscription as string;
+        const userId = session.client_reference_id;
+
+        if (!userId) break;
+
+        // 获取订阅详情
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        
+        // 同步到 Supabase 数据库
+        await supabase
+          .from('subscriptions')
+          .insert({
+            user_id: userId,
+            stripe_subscription_id: subscriptionId,
+            stripe_customer_id: session.customer as string,
+            plan_name: session.metadata?.plan_name || 'Pro Plan',
+            status: subscription.status,
+            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          });
+        break;
+      }
+
+      // 2. 订阅状态更新（如欠费、到期等）
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object as any;
+        
+        await supabase
+          .from('subscriptions')
+          .update({
+            status: subscription.status,
+            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          })
+          .eq('stripe_subscription_id', subscription.id);
+        break;
+      }
+
+      default:
+        console.log(`ℹ️ Unhandled event type ${event.type}`);
+    }
+
+    return NextResponse.json({ received: true }, { status: 200 });
+  } catch (error: any) {
+    console.error(`❌ DB Sync Error: ${error.message}`);
+    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
 }

@@ -1,71 +1,54 @@
-export const dynamic = 'force-dynamic';
-import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
-import Stripe from "stripe";
+import { NextResponse } from 'next/server';
+import stripe from '@/utils/stripe/server';
+import { createClient } from '@/utils/supabase/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  typescript: true,
-});
+// 🔥 核心配置：强制动态路由，且确保只定义一次
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    // 1. 获取前端传来的 plan 参数 (monthly, semi, yearly)
-    const { plan } = await req.json(); 
-    
-    console.log("💰 收到支付请求，计划类型:", plan);
-
-    // 2. 根据计划类型选择对应的 Price ID
-    let priceId;
-    switch (plan) {
-      case "monthly":
-        priceId = process.env.STRIPE_PRICE_ID_MONTHLY;
-        break;
-      case "semi":
-        priceId = process.env.STRIPE_PRICE_ID_SEMI;
-        break;
-      case "yearly":
-        priceId = process.env.STRIPE_PRICE_ID_YEARLY;
-        break;
-      default:
-        // 如果没传或传错，默认用年付，或者报错
-        priceId = process.env.STRIPE_PRICE_ID_YEARLY;
-    }
-
-    if (!priceId) {
-      return NextResponse.json({ error: "Price ID not configured" }, { status: 500 });
-    }
-
-    // 3. 验证用户登录
+    const { plan } = await req.json();
     const supabase = await createClient();
+    
+    // 1. 获取当前用户
     const { data: { user } } = await supabase.auth.getUser();
-
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 4. 创建 Stripe 支付会话
+    // 2. 定义套餐价格 ID (对应你 Stripe 后台的 Price ID)
+    const PLAN_MAP: any = {
+      monthly: { id: 'price_1QovS2Iu85S6D6nL...', name: 'Monthly Plan' },
+      semi: { id: 'price_1QovTZIu85S6D6nL...', name: 'Semi-Annual Plan' },
+      yearly: { id: 'price_1QovUbIu85S6D6nL...', name: 'Annual Pro' },
+    };
+
+    const selectedPlan = PLAN_MAP[plan];
+    if (!selectedPlan) {
+      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
+    }
+
+    // 3. 创建 Stripe Checkout 会话
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      // 支付成功后跳回 Dashboard，并带上 success=true 和 plan 参数
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?success=true&plan=${plan}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?canceled=true`,
+      payment_method_types: ['card'],
+      line_items: [{ price: selectedPlan.id, quantity: 1 }],
+      mode: 'subscription',
+      // 允许 7 天免费试用
+      subscription_data: {
+        trial_period_days: 7,
+      },
       customer_email: user.email,
+      client_reference_id: user.id,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
       metadata: {
-        userId: user.id,
-        planType: plan, // 🔥 关键：把计划类型记在小本本上，方便 Webhook 读取
+        plan_name: selectedPlan.name,
       },
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err: any) {
-    console.error("Stripe Error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (error: any) {
+    console.error('❌ Checkout Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
