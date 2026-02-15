@@ -3,7 +3,6 @@ import stripe from '@/utils/stripe/server';
 import { createClient } from '@/utils/supabase/server';
 import { headers } from 'next/headers';
 
-// 🔥 核心配置：强制动态路由，且确保只定义一次
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
@@ -13,7 +12,6 @@ export async function POST(req: Request) {
   let event;
 
   try {
-    // 验证 Webhook 签名
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -26,10 +24,8 @@ export async function POST(req: Request) {
 
   const supabase = await createClient();
 
-  // 处理不同的 Stripe 事件
   try {
     switch (event.type) {
-      // 1. 支付成功/试用开始
       case 'checkout.session.completed': {
         const session = event.data.object as any;
         const subscriptionId = session.subscription as string;
@@ -37,10 +33,9 @@ export async function POST(req: Request) {
 
         if (!userId) break;
 
-        // 获取订阅详情
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        // 🔥 修复：使用 as any 确保能读取到属性
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
         
-        // 同步到 Supabase 数据库
         await supabase
           .from('subscriptions')
           .insert({
@@ -55,7 +50,6 @@ export async function POST(req: Request) {
         break;
       }
 
-      // 2. 订阅状态更新（如欠费、到期等）
       case 'customer.subscription.updated':
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as any;
