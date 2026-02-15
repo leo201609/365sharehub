@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css"; // <--- 这行代码就是连接样式的关键！
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "365ShareHub - 全球顶尖 AI 订阅",
-  description: "一站式管理您的 GPT-4, Claude 3, Midjourney 等订阅。",
+  title: "365ShareHub - Unlock Microsoft 365 Copilot",
+  description: "Get premium Microsoft 365 apps including Copilot at an unbeatable price.",
 };
 
 export default function RootLayout({
@@ -12,8 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
-      <body>{children}</body>
+    // 关键修改：添加 suppressHydrationWarning 属性
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

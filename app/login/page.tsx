@@ -4,16 +4,16 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ArrowLeft, Mail, Lock, Github } from "lucide-react";
+import { ArrowLeft, Mail, Lock } from "lucide-react";
+// 引入登录逻辑
+import { login } from "@/app/auth/actions";
 
-// 简单的微软风格 Logo 组件
 const MiniLogo = () => (
   <div className="w-8 h-8 relative flex items-center justify-center shrink-0 mr-2">
       <img src="/icons/365sharehub.png" alt="Logo" className="w-full h-full object-contain rounded-md" />
   </div>
 );
 
-// 微软风格的图标 (SVG)
 const MicrosoftIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 23 23">
     <path fill="#f35325" d="M1 1h10v10H1z"/>
@@ -36,7 +36,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] relative overflow-hidden">
       
-      {/* 背景装饰 (极光效果) */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/20 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-[120px]"></div>
@@ -44,7 +43,6 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md p-6 relative z-10 animate-in fade-in zoom-in-95 duration-500">
         
-        {/* 返回首页链接 */}
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
           Back to Home
@@ -64,7 +62,6 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent className="grid gap-4">
             
-            {/* 社交登录按钮 */}
             <div className="grid grid-cols-2 gap-4">
               <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50">
                 <MicrosoftIcon />
@@ -85,32 +82,34 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* 邮箱密码表单 */}
-            <div className="grid gap-2">
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                <Input id="email" type="email" placeholder="name@example.com" className="pl-9 border-slate-200 bg-white" />
+            {/* 🔥 关键修改：将 div 改为 form 并绑定 action */}
+            <form action={login} className="grid gap-2">
+              <div className="grid gap-2">
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Input name="email" type="email" placeholder="name@example.com" required className="pl-9 border-slate-200 bg-white" />
+                </div>
               </div>
-            </div>
-            
-            <div className="grid gap-2">
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                <Input id="password" type="password" placeholder="Password" className="pl-9 border-slate-200 bg-white" />
+              
+              <div className="grid gap-2">
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Input name="password" type="password" placeholder="Password" required className="pl-9 border-slate-200 bg-white" />
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center justify-between text-xs">
-               <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900">
-                 <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-                 Remember me
-               </label>
-               <Link href="#" className="text-blue-600 hover:underline font-medium">Forgot password?</Link>
-            </div>
+              <div className="flex items-center justify-between text-xs mt-2">
+                <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900">
+                  <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                  Remember me
+                </label>
+                <Link href="#" className="text-blue-600 hover:underline font-medium">Forgot password?</Link>
+              </div>
 
-            <Button className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-10 shadow-md mt-2">
-              Sign In
-            </Button>
+              <Button type="submit" className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-10 shadow-md mt-4">
+                Sign In
+              </Button>
+            </form>
 
             <div className="mt-4 text-center text-sm text-slate-500">
               Don&apos;t have an account?{" "}
@@ -121,10 +120,6 @@ export default function LoginPage() {
 
           </CardContent>
         </Card>
-        
-        <p className="text-center text-xs text-slate-400 mt-8">
-          By clicking continue, you agree to our <a href="#" className="underline hover:text-slate-600">Terms of Service</a> and <a href="#" className="underline hover:text-slate-600">Privacy Policy</a>.
-        </p>
       </div>
     </div>
   );
