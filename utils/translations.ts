@@ -205,8 +205,10 @@ export const translations: Record<Language, any> = {
   'ko': { ...enBase, common: { ...enBase.common, sign_in: "로그인", dashboard: "대시보드" } },
   'pt-BR': { ...enBase, common: { ...enBase.common, sign_in: "Entrar" } },
 };
+// ... 前面的翻译内容保持不变 ...
 
-export const languageOptions = [
+// 🔥 这里的类型定义非常关键
+export const languageOptions: { code: Language; label: string; flag: string }[] = [
   { code: 'en-US', label: 'English (US)', flag: '🇺🇸' },
   { code: 'en-GB', label: 'English (UK)', flag: '🇬🇧' },
   { code: 'de', label: 'Deutsch', flag: '🇩🇪' },

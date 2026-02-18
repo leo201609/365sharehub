@@ -1,8 +1,7 @@
-// app/components/LanguageSwitcher.tsx
 "use client";
 
 import { useLanguage } from "./LanguageProvider";
-import { languageOptions } from "@/utils/translations";
+import { languageOptions, Language } from "@/utils/translations"; // 🔥 引入 Language 类型
 import { Globe, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
@@ -11,7 +10,6 @@ export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 点击外部关闭下拉菜单
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -42,7 +40,7 @@ export default function LanguageSwitcher() {
             <button
               key={option.code}
               onClick={() => {
-                setLang(option.code);
+                setLang(option.code as Language); // 🔥 强制断言为 Language 类型
                 setIsOpen(false);
               }}
               className={`w-full text-left px-4 py-2 text-sm flex items-center gap-3 hover:bg-slate-50 transition
