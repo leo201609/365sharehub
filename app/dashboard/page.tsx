@@ -9,14 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
   LayoutDashboard, Crown, Loader2, Check, Sparkles, 
-  LogOut, Calendar, Clock, CreditCard, ShieldCheck, ExternalLink, Lock, AlertCircle, Globe
+  LogOut, Calendar, Clock, CreditCard, ShieldCheck, ExternalLink, Lock, AlertCircle
 } from "lucide-react";
-// 引入我们刚才写的 Provider 和 Hook
-// ... 其他 import ...
-import LanguageSwitcher from "@/app/components/LanguageSwitcher"; // 👈 新增引入
+
+import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 
-// --- 配置应用列表 (描述改为 key，在组件内翻译) ---
+// --- 配置应用列表 ---
 const INSTALL_APPS = [
   { name: "Copilot", icon: "/icons/copilot.png", url: "https://copilot.microsoft.com/", descKey: "ai_companion" },
   { name: "OneDrive", icon: "/icons/onedrive.png", url: "https://onedrive.live.com/login/", descKey: "cloud_storage" },
@@ -25,15 +24,13 @@ const INSTALL_APPS = [
 ];
 
 function DashboardInner() {
-  const { t, lang, setLang } = useLanguage(); // 🔥 获取多语言支持
+  const { t, lang } = useLanguage(); 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const supabase = createClient();
   const [subscription, setSubscription] = useState<any>(null);
 
-  // --- 辅助函数 ---
   const getDaysSince = (dateString: string) => {
     if (!dateString) return 0;
     const start = new Date(dateString).getTime();
@@ -44,16 +41,14 @@ function DashboardInner() {
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "N/A";
-    // 根据语言格式化日期
-    return new Date(dateString).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    return new Date(dateString).toLocaleDateString(lang === 'zh-CN' || lang === 'zh-TW' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   };
   
   const formatMonthYear = (dateString: string) => {
     if (!dateString) return t.common.loading;
-    return new Date(dateString).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'long' });
+    return new Date(dateString).toLocaleDateString(lang === 'zh-CN' || lang === 'zh-TW' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'long' });
   };
 
-  // --- 初始化 ---
   useEffect(() => {
     const init = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -77,9 +72,8 @@ function DashboardInner() {
       }
     };
     init();
-  }, [router]);
+  }, [router, supabase]);
 
-  // --- 支付处理 ---
   const handleCheckout = async (planType: string) => {
     setLoading(planType);
     try {
@@ -92,7 +86,6 @@ function DashboardInner() {
       if (data.url) window.location.href = data.url;
       else alert(t.common.connection_failed);
     } catch (error) {
-      console.error(error);
       alert(t.common.network_error);
     } finally {
       setLoading(null);
@@ -123,7 +116,6 @@ function DashboardInner() {
   const isPro = !!subscription;
   const isTrial = subscription?.status === 'trialing';
 
-  // 映射 Plan Name 到本地化名称
   const getLocalizedPlanName = (name: string) => {
     if (name.includes("Monthly")) return t.plans.monthly;
     if (name.includes("Semi")) return t.plans.semi;
@@ -142,15 +134,7 @@ function DashboardInner() {
              <span>{t.common.my_account}</span>
           </Link>
           <div className="flex items-center gap-4 text-sm text-slate-500">
-    {/* 🌍 替换原来的 Button，使用新的组件 */}
-    <LanguageSwitcher />
-
-    <span className="hidden md:inline">{user.email}</span>
-    <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50">
-       <LogOut className="w-4 h-4 mr-1" /> {t.common.logout}
-    </Button>
-</div>
-
+             <LanguageSwitcher />
              <span className="hidden md:inline">{user.email}</span>
              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50">
                <LogOut className="w-4 h-4 mr-1" /> {t.common.logout}
@@ -181,7 +165,6 @@ function DashboardInner() {
         </div>
 
         {isPro ? (
-          // === 🅰️ 已订阅会员视图 ===
           <div className="grid md:grid-cols-3 gap-8 mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
              <Card className="md:col-span-2 border-0 shadow-lg bg-white overflow-hidden relative group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
@@ -300,7 +283,6 @@ function DashboardInner() {
             </Card>
           </div>
         ) : (
-          // === 🅱️ 非会员视图 ===
           <div className="grid md:grid-cols-3 gap-8 mb-12 max-w-6xl mx-auto items-stretch animate-in fade-in slide-in-from-bottom-8 duration-700">
              {/* 1. Monthly */}
              <div className="group relative bg-white rounded-3xl border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
@@ -381,7 +363,6 @@ function DashboardInner() {
           </div>
         )}
 
-        {/* 应用下载区 */}
         <Card className="border border-slate-200 shadow-sm mt-8 bg-white">
            <CardHeader>
              <CardTitle className="text-lg">{t.common.install_apps}</CardTitle>
@@ -405,7 +386,6 @@ function DashboardInner() {
                        <Image src={app.icon} alt={app.name} width={56} height={56} className="object-contain p-1" />
                      </div>
                      <h4 className="font-bold text-slate-900">{app.name}</h4>
-                     {/* 这里的 key 需要类型断言，实际应用中可以优化类型定义 */}
                      <p className="text-xs text-slate-500 mt-1">{(t.apps as any)[app.descKey]}</p>
                      
                      {isPro ? (
@@ -429,7 +409,6 @@ function DashboardInner() {
   );
 }
 
-// 包装器：提供 LanguageProvider
 export default function DashboardPage() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>}>
