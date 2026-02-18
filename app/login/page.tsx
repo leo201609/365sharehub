@@ -4,9 +4,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ArrowLeft, Mail, Lock } from "lucide-react";
+import { ArrowLeft, Mail, Lock, Loader2 } from "lucide-react";
 // 引入登录逻辑
 import { login } from "@/app/auth/actions";
+// 引入多语言组件
+import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
+import LanguageSwitcher from "@/app/components/LanguageSwitcher";
+import { Suspense } from "react";
 
 const MiniLogo = () => (
   <div className="w-8 h-8 relative flex items-center justify-center shrink-0 mr-2">
@@ -32,7 +36,23 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export default function LoginPage() {
+// 内部组件：负责渲染内容并使用 useLanguage
+function LoginContent() {
+  const { t, lang } = useLanguage(); // 🔥 获取翻译对象
+
+  // 简单的本地临时映射（因为 translations.ts 可能还没加这些具体的表单字段）
+  // 后续你可以把这些加到 translations.ts 的 common 里
+  const labels = {
+    email: lang.startsWith('zh') ? "电子邮箱" : "Email address",
+    password: lang.startsWith('zh') ? "密码" : "Password",
+    remember: lang.startsWith('zh') ? "记住我" : "Remember me",
+    forgot: lang.startsWith('zh') ? "忘记密码？" : "Forgot password?",
+    signIn: lang.startsWith('zh') ? "登 录" : "Sign In",
+    noAccount: lang.startsWith('zh') ? "还没有账号？" : "Don't have an account?",
+    signUp: lang.startsWith('zh') ? "立即注册" : "Sign up",
+    orContinue: lang.startsWith('zh') ? "或通过以下方式" : "Or continue with",
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] relative overflow-hidden">
       
@@ -41,11 +61,16 @@ export default function LoginPage() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-[120px]"></div>
       </div>
 
+      {/* 🌍 语言切换器：放在右上角 */}
+      <div className="absolute top-6 right-6 z-20">
+        <LanguageSwitcher />
+      </div>
+
       <div className="w-full max-w-md p-6 relative z-10 animate-in fade-in zoom-in-95 duration-500">
         
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-          Back to Home
+          {t.common.back_home} {/* 🔥 使用翻译 */}
         </Link>
 
         <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-xl ring-1 ring-slate-100">
@@ -54,10 +79,10 @@ export default function LoginPage() {
                <MiniLogo />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
-              Welcome back
+              {t.common.login_title} {/* 🔥 使用翻译: Welcome back */}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              Sign in to your 365ShareHub account
+              {t.common.login_desc} {/* 🔥 使用翻译: Access your account */}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
@@ -78,43 +103,42 @@ export default function LoginPage() {
                 <span className="w-full border-t border-slate-200" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-slate-400 font-medium">Or continue with</span>
+                <span className="bg-white px-2 text-slate-400 font-medium">{labels.orContinue}</span>
               </div>
             </div>
 
-            {/* 🔥 关键修改：将 div 改为 form 并绑定 action */}
             <form action={login} className="grid gap-2">
               <div className="grid gap-2">
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                  <Input name="email" type="email" placeholder="name@example.com" required className="pl-9 border-slate-200 bg-white" />
+                  <Input name="email" type="email" placeholder={labels.email} required className="pl-9 border-slate-200 bg-white" />
                 </div>
               </div>
               
               <div className="grid gap-2">
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                  <Input name="password" type="password" placeholder="Password" required className="pl-9 border-slate-200 bg-white" />
+                  <Input name="password" type="password" placeholder={labels.password} required className="pl-9 border-slate-200 bg-white" />
                 </div>
               </div>
 
               <div className="flex items-center justify-between text-xs mt-2">
                 <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900">
                   <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-                  Remember me
+                  {labels.remember}
                 </label>
-                <Link href="#" className="text-blue-600 hover:underline font-medium">Forgot password?</Link>
+                <Link href="#" className="text-blue-600 hover:underline font-medium">{labels.forgot}</Link>
               </div>
 
               <Button type="submit" className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-10 shadow-md mt-4">
-                Sign In
+                {labels.signIn}
               </Button>
             </form>
 
             <div className="mt-4 text-center text-sm text-slate-500">
-              Don&apos;t have an account?{" "}
+              {labels.noAccount}{" "}
               <Link href="/register" className="text-blue-600 font-bold hover:underline">
-                Sign up
+                {labels.signUp}
               </Link>
             </div>
 
@@ -122,5 +146,16 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+// 外部组件：提供 Provider 和 Suspense
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+      <LanguageProvider>
+        <LoginContent />
+      </LanguageProvider>
+    </Suspense>
   );
 }
