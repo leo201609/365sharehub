@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import stripe from '@/utils/stripe/server';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@supabase/supabase-js'; // 🔥 改用核心库直接创建
 import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +22,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
-  const supabase = await createClient();
+  // 🔥 核心修改：使用 Service Role Key 创建超级管理员客户端
+  // 这样可以绕过 RLS (Row Level Security) 限制，确保能写入数据库
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!, 
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  );
 
   try {
     switch (event.type) {
@@ -31,12 +42,16 @@ export async function POST(req: Request) {
         const subscriptionId = session.subscription as string;
         const userId = session.client_reference_id;
 
-        if (!userId) break;
+        if (!userId) {
+            console.error("❌ No user_id found in session metadata");
+            break;
+        }
 
-        // 🔥 修复：使用 as any 确保能读取到属性
+        // 获取订阅详情
         const subscription = await stripe.subscriptions.retrieve(subscriptionId) as any;
         
-        await supabase
+        // 写入数据库 (使用 admin 权限)
+        const { error } = await supabaseAdmin
           .from('subscriptions')
           .insert({
             user_id: userId,
@@ -47,6 +62,11 @@ export async function POST(req: Request) {
             current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
             current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
           });
+        
+        if (error) {
+            console.error('❌ Supabase Insert Error:', error);
+            throw error;
+        }
         break;
       }
 
@@ -54,13 +74,15 @@ export async function POST(req: Request) {
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as any;
         
-        await supabase
+        const { error } = await supabaseAdmin
           .from('subscriptions')
           .update({
             status: subscription.status,
             current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
           })
           .eq('stripe_subscription_id', subscription.id);
+
+        if (error) console.error('❌ Supabase Update Error:', error);
         break;
       }
 
