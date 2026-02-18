@@ -17,11 +17,21 @@ export async function POST(req: Request) {
     }
 
     // 2. 定义套餐价格 ID (对应你 Stripe 后台的 Price ID)
-    const PLAN_MAP: any = {
-      monthly: { id: 'price_1QovS2Iu85S6D6nL...', name: 'Monthly Plan' },
-      semi: { id: 'price_1QovTZIu85S6D6nL...', name: 'Semi-Annual Plan' },
-      yearly: { id: 'price_1QovUbIu85S6D6nL...', name: 'Annual Pro' },
+const PLAN_MAP: any = {
+      monthly: { 
+        id: 'price_1T16qUJzsK7SvKdfKQNmBGrC', // 👈 粘贴 "365ShareHub Monthly" 的 ID
+        name: 'Monthly Plan' 
+      },
+      semi: { 
+        id: 'price_1T16qqJzsK7SvKdfmGtyVIVG', // 👈 粘贴 "365ShareHub 6-Months" 的 ID
+        name: 'Semi-Annual Plan' 
+      },
+      yearly: { 
+        id: 'price_1T143rJzsK7SvKdfnGCgQ3rj', // 👈 粘贴 "365ShareHub Pro" 的 ID
+        name: 'Annual Pro' 
+      },
     };
+
 
     const selectedPlan = PLAN_MAP[plan];
     if (!selectedPlan) {
