@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -20,7 +20,7 @@ const INSTALL_APPS = [
   { name: "Outlook", icon: "/icons/outlook.png", url: "https://outlook.live.com/", desc: "Email & Calendar" }
 ];
 
-export default function DashboardPage() {
+function DashboardContent() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
@@ -84,7 +84,7 @@ export default function DashboardPage() {
       }
     };
     init();
-  }, [router, searchParams]);
+  }, [router]);
 
   // --- 支付处理 ---
   const handleCheckout = async (planType: string) => {
@@ -228,7 +228,7 @@ export default function DashboardPage() {
             </Card>
           </div>
         ) : (
-          // === 🅱️ 非会员视图 (价格表 - 已同步首页风格) ===
+          // === 🅱️ 非会员视图 (价格表 - 已修复缺失的平台支持项) ===
           <div className="grid md:grid-cols-3 gap-8 mb-12 max-w-6xl mx-auto items-stretch animate-in fade-in slide-in-from-bottom-8 duration-700">
              
              {/* 1. Monthly (FLEXIBLE) - Blue Gradient */}
@@ -241,6 +241,8 @@ export default function DashboardPage() {
                   <ul className="space-y-4 mb-8 text-sm flex-grow">
                     <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Includes Copilot & All Apps</li>
                     <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> 1TB OneDrive Storage</li>
+                    {/* 🔥 补充缺失项 */}
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> PC, Mac, iOS & Android</li>
                     <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Connect 5 Devices</li>
                     <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> Pay after trial, cancel anytime</li>
                   </ul>
@@ -258,7 +260,6 @@ export default function DashboardPage() {
                   <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€17.90</span></div>
                   <p className="text-sm font-medium text-green-600 mb-6">€2.98 / mo</p>
                   
-                  {/* 🔥 同步：双标签 (Green Trial + Save) */}
                   <div className="flex gap-2 mb-8 flex-wrap">
                      <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">7-Day Free Trial</div>
                      <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">Save 25%</div>
@@ -267,6 +268,8 @@ export default function DashboardPage() {
                   <ul className="space-y-4 mb-8 text-sm flex-grow">
                     <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Includes Copilot & All Apps</li>
                     <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> 1TB OneDrive Storage</li>
+                    {/* 🔥 补充缺失项 */}
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> PC, Mac, iOS & Android</li>
                     <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> Connect 5 Devices</li>
                     <li className="flex gap-3 text-slate-900 font-bold items-center"><Check className="w-4 h-4 text-green-500 shrink-0"/> Save 25% vs Monthly</li>
                   </ul>
@@ -286,7 +289,6 @@ export default function DashboardPage() {
                     <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€29.90</span><span className="text-slate-400 ml-1">/yr</span></div>
                     <p className="text-sm font-bold text-pink-600 mb-6">Only €2.49 / mo</p>
                     
-                    {/* 🔥 同步：双标签 (Green Trial + Save) */}
                     <div className="flex gap-2 mb-8 flex-wrap">
                        <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">7-Day Free Trial</div>
                        <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">Save 37%</div>
@@ -295,6 +297,8 @@ export default function DashboardPage() {
                     <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
                       <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> Includes Copilot & All Apps</li>
                       <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> 1TB OneDrive Storage</li>
+                      {/* 🔥 补充缺失项 */}
+                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> PC, Mac, iOS & Android</li>
                       <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> Connect 5 Devices</li>
                       <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> Save 37% vs Monthly</li>
                     </ul>
@@ -353,5 +357,14 @@ export default function DashboardPage() {
         </Card>
       </main>
     </div>
+  );
+}
+
+// 确保用 Suspense 包裹以避免 build 错误
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
