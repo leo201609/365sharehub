@@ -27,11 +27,12 @@ export async function signup(formData: FormData) {
     redirect('/register?error=true')
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  // 🔥 修改：注册成功后清除 Dashboard 缓存并跳转
+  revalidatePath('/dashboard', 'layout')
+  redirect('/dashboard') 
 }
 
-// --- 🔥 必须要有这段登录逻辑 ---
+// --- 登录逻辑 ---
 export async function login(formData: FormData) {
   const supabase = await createClient()
 
@@ -48,6 +49,7 @@ export async function login(formData: FormData) {
     redirect('/login?error=true')
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  // 🔥 修改：登录成功后清除 Dashboard 缓存并跳转
+  revalidatePath('/dashboard', 'layout')
+  redirect('/dashboard') 
 }

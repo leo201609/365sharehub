@@ -15,7 +15,7 @@ import {
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 
-// --- 配置应用列表 ---
+// --- 配置应用列表 (descKey 对应 translations.ts 中的 apps 对象) ---
 const INSTALL_APPS = [
   { name: "Copilot", icon: "/icons/copilot.png", url: "https://copilot.microsoft.com/", descKey: "ai_companion" },
   { name: "OneDrive", icon: "/icons/onedrive.png", url: "https://onedrive.live.com/login/", descKey: "cloud_storage" },
@@ -31,6 +31,7 @@ function DashboardInner() {
   const supabase = createClient();
   const [subscription, setSubscription] = useState<any>(null);
 
+  // --- 辅助函数：计算加入天数 ---
   const getDaysSince = (dateString: string) => {
     if (!dateString) return 0;
     const start = new Date(dateString).getTime();
@@ -39,14 +40,27 @@ function DashboardInner() {
     return Math.floor(diff / (1000 * 60 * 60 * 24));
   };
 
+  // --- 辅助函数：根据当前选择的 14 种语言自动本地化日期格式 ---
   const formatDate = (dateString: string) => {
     if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString(lang === 'zh-CN' || lang === 'zh-TW' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    try {
+      return new Date(dateString).toLocaleDateString(lang, { 
+        year: 'numeric', month: 'short', day: 'numeric' 
+      });
+    } catch (e) {
+      return new Date(dateString).toLocaleDateString('en-US');
+    }
   };
   
   const formatMonthYear = (dateString: string) => {
     if (!dateString) return t.common.loading;
-    return new Date(dateString).toLocaleDateString(lang === 'zh-CN' || lang === 'zh-TW' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'long' });
+    try {
+      return new Date(dateString).toLocaleDateString(lang, { 
+        year: 'numeric', month: 'long' 
+      });
+    } catch (e) {
+      return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    }
   };
 
   useEffect(() => {
@@ -127,15 +141,19 @@ function DashboardInner() {
     <div className="min-h-screen bg-[#fafafa]">
       <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-slate-800 hover:opacity-80 transition">
-             <div className="w-8 h-8 bg-gradient-to-br from-[#0078D4] to-[#26A4F5] rounded-md flex items-center justify-center text-white">
-               <LayoutDashboard className="w-4 h-4" />
-             </div>
-             <span>{t.common.my_account}</span>
+          <Link href="/" className="flex items-center gap-2 font-bold text-slate-800 hover:opacity-80 transition">
+             <Image 
+               src="/icons/365sharehub.png" 
+               alt="365ShareHub" 
+               width={32} 
+               height={32} 
+               className="rounded-md object-contain" 
+             />
+             <span>365ShareHub</span>
           </Link>
           <div className="flex items-center gap-4 text-sm text-slate-500">
              <LanguageSwitcher />
-             <span className="hidden md:inline">{user.email}</span>
+             <span className="hidden md:inline font-medium">{user.email}</span>
              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50">
                <LogOut className="w-4 h-4 mr-1" /> {t.common.logout}
              </Button>
@@ -165,6 +183,7 @@ function DashboardInner() {
         </div>
 
         {isPro ? (
+          // === 🅰️ 已订阅会员视图 ===
           <div className="grid md:grid-cols-3 gap-8 mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
              <Card className="md:col-span-2 border-0 shadow-lg bg-white overflow-hidden relative group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
@@ -283,6 +302,7 @@ function DashboardInner() {
             </Card>
           </div>
         ) : (
+          // === 🅱️ 非会员视图 ===
           <div className="grid md:grid-cols-3 gap-8 mb-12 max-w-6xl mx-auto items-stretch animate-in fade-in slide-in-from-bottom-8 duration-700">
              {/* 1. Monthly */}
              <div className="group relative bg-white rounded-3xl border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
@@ -290,12 +310,12 @@ function DashboardInner() {
                 <div className="p-8 pt-12 flex flex-col h-full">
                   <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
                   <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€3.59</span><span className="text-slate-400 ml-1">{t.plans.mo}</span></div>
-                  <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">7-Day Free Trial</div>
+                  <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.status.trial_period}</div>
                   <ul className="space-y-4 mb-8 text-sm flex-grow">
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.copilot || "Copilot"}</li>
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.storage || "1TB Storage"}</li>
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.devices || "All Devices"}</li>
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.connect || "Connect 5"}</li>
                     <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
                   </ul>
                   <Button onClick={() => handleCheckout("monthly")} disabled={!!loading} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">
@@ -313,15 +333,15 @@ function DashboardInner() {
                   <p className="text-sm font-medium text-green-600 mb-6">{t.plans.per_mo}</p>
                   
                   <div className="flex gap-2 mb-8 flex-wrap">
-                     <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">7-Day Free Trial</div>
+                     <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.status.trial_period}</div>
                      <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">{t.plans.save_25}</div>
                   </div>
 
                   <ul className="space-y-4 mb-8 text-sm flex-grow">
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.copilot}</li>
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.storage}</li>
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.devices}</li>
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.connect}</li>
                     <li className="flex gap-3 text-slate-900 font-bold items-center"><Check className="w-4 h-4 text-green-500 shrink-0"/> {t.plans.save_25_vs}</li>
                   </ul>
                   <Button onClick={() => handleCheckout("semi")} disabled={!!loading} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">
@@ -341,15 +361,15 @@ function DashboardInner() {
                     <p className="text-sm font-bold text-pink-600 mb-6">{t.plans.only_mo}</p>
                     
                     <div className="flex gap-2 mb-8 flex-wrap">
-                       <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">7-Day Free Trial</div>
+                       <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.status.trial_period}</div>
                        <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">{t.plans.save_37}</div>
                     </div>
 
                     <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
-                      <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.copilot}</li>
-                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.storage}</li>
-                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.devices}</li>
-                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.connect}</li>
+                      <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.copilot}</li>
+                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.storage}</li>
+                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.devices}</li>
+                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.connect}</li>
                       <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> {t.plans.save_37_vs}</li>
                     </ul>
                     <div className="mt-auto">
@@ -363,6 +383,7 @@ function DashboardInner() {
           </div>
         )}
 
+        {/* 应用下载区 */}
         <Card className="border border-slate-200 shadow-sm mt-8 bg-white">
            <CardHeader>
              <CardTitle className="text-lg">{t.common.install_apps}</CardTitle>
@@ -370,37 +391,40 @@ function DashboardInner() {
            </CardHeader>
            <CardContent>
              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                {INSTALL_APPS.map((app: any) => (
-                  <div 
-                    key={app.name} 
-                    className={`
-                      relative p-4 border border-slate-100 rounded-xl transition flex flex-col items-center text-center
-                      ${isPro 
-                        ? 'hover:bg-slate-50 cursor-pointer group hover:shadow-md hover:-translate-y-1' 
-                        : 'opacity-50 grayscale cursor-not-allowed bg-slate-50'
-                      }
-                    `}
-                    onClick={() => isPro && window.open(app.url, '_blank')}
-                  >
-                     <div className="w-14 h-14 mb-3 bg-white rounded-xl flex items-center justify-center shadow-sm p-2 relative">
-                       <Image src={app.icon} alt={app.name} width={56} height={56} className="object-contain p-1" />
-                     </div>
-                     <h4 className="font-bold text-slate-900">{app.name}</h4>
-                     <p className="text-xs text-slate-500 mt-1">{(t.apps as any)[app.descKey]}</p>
-                     
-                     {isPro ? (
-                       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                         <ExternalLink className="w-4 h-4 text-blue-500" />
+                {INSTALL_APPS.map((app: any) => {
+                  const appDesc = (t.apps as any)?.[app.descKey] || app.name;
+                  return (
+                    <div 
+                      key={app.name} 
+                      className={`
+                        relative p-4 border border-slate-100 rounded-xl transition flex flex-col items-center text-center
+                        ${isPro 
+                          ? 'hover:bg-slate-50 cursor-pointer group hover:shadow-md hover:-translate-y-1' 
+                          : 'opacity-50 grayscale cursor-not-allowed bg-slate-50'
+                        }
+                      `}
+                      onClick={() => isPro && window.open(app.url, '_blank')}
+                    >
+                       <div className="w-14 h-14 mb-3 bg-white rounded-xl flex items-center justify-center shadow-sm p-2 relative">
+                         <Image src={app.icon} alt={app.name} width={56} height={56} className="object-contain p-1" />
                        </div>
-                     ) : (
-                       <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px] rounded-xl opacity-0 hover:opacity-100 transition-opacity">
-                          <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-md font-bold flex items-center gap-1">
-                            <Lock className="w-3 h-3" /> {t.common.locked}
-                          </span>
-                       </div>
-                     )}
-                  </div>
-                ))}
+                       <h4 className="font-bold text-slate-900">{app.name}</h4>
+                       <p className="text-xs text-slate-500 mt-1">{appDesc}</p>
+                       
+                       {isPro ? (
+                         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                           <ExternalLink className="w-4 h-4 text-blue-500" />
+                         </div>
+                       ) : (
+                         <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-[1px] rounded-xl opacity-0 hover:opacity-100 transition-opacity">
+                            <span className="bg-slate-800 text-white text-xs px-2 py-1 rounded-md font-bold flex items-center gap-1">
+                              <Lock className="w-3 h-3" /> {t.common.locked}
+                            </span>
+                         </div>
+                       )}
+                    </div>
+                  );
+                })}
              </div>
            </CardContent>
         </Card>
