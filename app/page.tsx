@@ -29,6 +29,7 @@ const ModernLogo = () => (
         fill 
         className="object-contain"
         sizes="36px"
+        priority // 首页 Logo 优先加载
       />
   </div>
 );
@@ -568,7 +569,8 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen relative font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden bg-[#fafafa]">
+    // 🔥 添加 suppressHydrationWarning 防止多语言切换报错
+    <div className="min-h-screen relative font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden bg-[#fafafa]" suppressHydrationWarning>
       
       <div className="fixed top-0 left-0 w-full h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent -z-10 pointer-events-none"></div>
 
@@ -667,7 +669,8 @@ export default function Home() {
                   {/* 🔥 Modified Pay Later Text */}
                   <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.feat_pay_monthly}</li>
                 </ul>
-                <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.btn_trial}</Button>
+                {/* 🔥 优化：带参数跳转 */}
+                <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login?plan=monthly")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.btn_trial}</Button>
               </div>
             </div>
 
@@ -689,7 +692,7 @@ export default function Home() {
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.feat_devices}</li>
                   <li className="flex gap-3 text-slate-900 font-bold items-center"><Check className="w-4 h-4 text-green-500 shrink-0"/> {t.feat_save_semi}</li>
                 </ul>
-                <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.btn_semi}</Button>
+                <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.btn_semi}</Button>
               </div>
             </div>
 
@@ -714,7 +717,7 @@ export default function Home() {
                     <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> {t.feat_save_yearly}</li>
                   </ul>
                   <div className="mt-auto">
-                    <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.btn_yearly}</Button>
+                    <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login?plan=yearly")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.btn_yearly}</Button>
                   </div>
                 </div>
               </div>
