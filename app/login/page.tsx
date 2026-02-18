@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -12,9 +13,17 @@ import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { Suspense } from "react";
 
+// --- 统一的 Logo 组件 ---
 const MiniLogo = () => (
-  <div className="w-8 h-8 relative flex items-center justify-center shrink-0 mr-2">
-      <img src="/icons/365sharehub.png" alt="Logo" className="w-full h-full object-contain rounded-md" />
+  <div className="w-12 h-12 relative flex items-center justify-center shrink-0 mb-4">
+    <Image 
+      src="/icons/365sharehub.png" 
+      alt="365ShareHub" 
+      width={48}
+      height={48}
+      className="object-contain rounded-lg shadow-sm"
+      priority
+    />
   </div>
 );
 
@@ -36,32 +45,20 @@ const GoogleIcon = () => (
   </svg>
 );
 
-// 内部组件：负责渲染内容并使用 useLanguage
+// --- 登录页面核心内容 ---
 function LoginContent() {
-  const { t, lang } = useLanguage(); // 🔥 获取翻译对象
-
-  // 简单的本地临时映射（因为 translations.ts 可能还没加这些具体的表单字段）
-  // 后续你可以把这些加到 translations.ts 的 common 里
-  const labels = {
-    email: lang.startsWith('zh') ? "电子邮箱" : "Email address",
-    password: lang.startsWith('zh') ? "密码" : "Password",
-    remember: lang.startsWith('zh') ? "记住我" : "Remember me",
-    forgot: lang.startsWith('zh') ? "忘记密码？" : "Forgot password?",
-    signIn: lang.startsWith('zh') ? "登 录" : "Sign In",
-    noAccount: lang.startsWith('zh') ? "还没有账号？" : "Don't have an account?",
-    signUp: lang.startsWith('zh') ? "立即注册" : "Sign up",
-    orContinue: lang.startsWith('zh') ? "或通过以下方式" : "Or continue with",
-  };
+  const { t } = useLanguage(); 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fafafa] relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden">
       
+      {/* 背景装饰 */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/20 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-[120px]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/10 rounded-full blur-[120px]"></div>
       </div>
 
-      {/* 🌍 语言切换器：放在右上角 */}
+      {/* 🌍 语言切换器 */}
       <div className="absolute top-6 right-6 z-20">
         <LanguageSwitcher />
       </div>
@@ -70,29 +67,31 @@ function LoginContent() {
         
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-          {t.common.back_home} {/* 🔥 使用翻译 */}
+          {t.common.back_home}
         </Link>
 
-        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-xl ring-1 ring-slate-100">
+        <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-xl ring-1 ring-slate-200/50">
           <CardHeader className="space-y-1 text-center pb-8 pt-8">
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center">
                <MiniLogo />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
-              {t.common.login_title} {/* 🔥 使用翻译: Welcome back */}
+              {t.common.sign_in}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              {t.common.login_desc} {/* 🔥 使用翻译: Access your account */}
+              {t.common.sign_in_desc}
             </CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4">
+          
+          <CardContent className="grid gap-6">
             
+            {/* 第三方登录 */}
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50">
+              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11">
                 <MicrosoftIcon />
                 <span className="ml-2">Microsoft</span>
               </Button>
-              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50">
+              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11">
                 <GoogleIcon />
                 <span className="ml-2">Google</span>
               </Button>
@@ -102,43 +101,58 @@ function LoginContent() {
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-slate-200" />
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-slate-400 font-medium">{labels.orContinue}</span>
+              <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-slate-400">
+                <span className="bg-white px-2">{t.common.or_continue}</span>
               </div>
             </div>
 
-            <form action={login} className="grid gap-2">
+            {/* 登录表单 */}
+            <form action={login} className="grid gap-4">
               <div className="grid gap-2">
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                  <Input name="email" type="email" placeholder={labels.email} required className="pl-9 border-slate-200 bg-white" />
+                  <Mail className="absolute left-3 top-3 h-4.5 w-4.5 text-slate-400" />
+                  <Input 
+                    name="email" 
+                    type="email" 
+                    placeholder={t.common.email_placeholder} 
+                    required 
+                    className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
+                  />
                 </div>
               </div>
               
               <div className="grid gap-2">
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                  <Input name="password" type="password" placeholder={labels.password} required className="pl-9 border-slate-200 bg-white" />
+                  <Lock className="absolute left-3 top-3 h-4.5 w-4.5 text-slate-400" />
+                  <Input 
+                    name="password" 
+                    type="password" 
+                    placeholder={t.common.password_placeholder} 
+                    required 
+                    className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
+                  />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-xs mt-2">
-                <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900">
-                  <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-                  {labels.remember}
+              <div className="flex items-center justify-between text-xs font-medium">
+                <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900 transition-colors">
+                  <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4" />
+                  {t.common.remember_me}
                 </label>
-                <Link href="#" className="text-blue-600 hover:underline font-medium">{labels.forgot}</Link>
+                <Link href="#" className="text-blue-600 hover:text-blue-700 underline-offset-4 hover:underline">
+                  {t.common.forgot_password}
+                </Link>
               </div>
 
-              <Button type="submit" className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-10 shadow-md mt-4">
-                {labels.signIn}
+              <Button type="submit" className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
+                {t.common.sign_in}
               </Button>
             </form>
 
-            <div className="mt-4 text-center text-sm text-slate-500">
-              {labels.noAccount}{" "}
-              <Link href="/register" className="text-blue-600 font-bold hover:underline">
-                {labels.signUp}
+            <div className="mt-2 text-center text-sm text-slate-500">
+              {t.common.no_account}{" "}
+              <Link href="/register" className="text-blue-600 font-bold hover:text-blue-700 hover:underline underline-offset-4">
+                {t.common.sign_up}
               </Link>
             </div>
 
@@ -149,10 +163,14 @@ function LoginContent() {
   );
 }
 
-// 外部组件：提供 Provider 和 Suspense
+// --- 页面导出 (带 Provider 和 Suspense) ---
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    }>
       <LanguageProvider>
         <LoginContent />
       </LanguageProvider>

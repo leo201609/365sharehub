@@ -1,11 +1,11 @@
 // utils/translations.ts
 
 export type Language = 
-  | 'en-US' | 'en-GB' | 'en-CA' | 'en-AS' // 英语变体
-  | 'zh-CN' | 'zh-TW' // 中文变体
+  | 'en-US' | 'en-GB' | 'en-CA' | 'en-AS' 
+  | 'zh-CN' | 'zh-TW' 
   | 'de' | 'fr' | 'es' | 'es-MX' | 'it' | 'nl' | 'ja' | 'ko' | 'pt-BR';
 
-// 基础英语文案 (作为回退)
+// --- 英语基础文案 (Base) ---
 const enBase = {
   common: {
     loading: "Loading...",
@@ -22,9 +22,16 @@ const enBase = {
     manage_billing: "Manage Billing / Cancel",
     connection_failed: "Connection failed. Please try again.",
     network_error: "Network error.",
-    login_title: "Sign In",
-    login_desc: "Access your 365ShareHub account",
     back_home: "Back to Home",
+    sign_in: "Sign In",
+    sign_in_desc: "Access your 365ShareHub account",
+    email_placeholder: "Email address",
+    password_placeholder: "Password",
+    remember_me: "Remember me",
+    forgot_password: "Forgot password?",
+    no_account: "Don't have an account?",
+    sign_up: "Sign up",
+    or_continue: "OR CONTINUE WITH",
   },
   status: {
     subscription_status: "Subscription Status",
@@ -46,37 +53,19 @@ const enBase = {
     monthly: "Monthly Plan",
     semi: "Semi-Annual Plan",
     yearly: "Annual Pro",
-    most_popular: "MOST POPULAR",
-    best_value: "BEST VALUE",
-    flexible: "FLEXIBLE",
     mo: "/mo",
     yr: "/yr",
-    save_25: "Save 25%",
-    save_37: "Save 37%",
-    save_25_vs: "Save 25% vs Monthly",
-    save_37_vs: "Save 37% vs Monthly",
-    only_mo: "Only €2.49 / mo",
-    per_mo: "€2.98 / mo",
     start_trial: "Start Free Trial",
     choose_semi: "Choose 6-Months",
     sub_yearly: "Subscribe Yearly",
     pay_after: "Pay after trial, cancel anytime",
-  },
-  features: {
-    copilot: "Includes Copilot & All Apps",
-    storage: "1TB OneDrive Storage",
-    devices: "PC, Mac, iOS & Android",
-    connect: "Connect 5 Devices",
-  },
-  apps: {
-    ai_companion: "Your AI Companion",
-    cloud_storage: "Cloud Storage",
-    office_portal: "Office Portal",
-    email_calendar: "Email & Calendar",
+    flexible: "FLEXIBLE",
+    most_popular: "MOST POPULAR",
+    best_value: "BEST VALUE",
   }
 };
 
-// 基础中文文案
+// --- 中文基础文案 (简体) ---
 const zhBase = {
   common: {
     loading: "加载中...",
@@ -93,9 +82,16 @@ const zhBase = {
     manage_billing: "管理订阅 / 取消",
     connection_failed: "连接失败，请重试。",
     network_error: "网络错误。",
-    login_title: "登录",
-    login_desc: "访问您的 365ShareHub 账户",
     back_home: "返回首页",
+    sign_in: "登录",
+    sign_in_desc: "访问您的 365ShareHub 账户",
+    email_placeholder: "电子邮箱地址",
+    password_placeholder: "密码",
+    remember_me: "记住我",
+    forgot_password: "忘记密码？",
+    no_account: "还没有账号？",
+    sign_up: "立即注册",
+    or_continue: "或者使用以下方式登录",
   },
   status: {
     subscription_status: "订阅状态",
@@ -117,64 +113,100 @@ const zhBase = {
     monthly: "月付计划",
     semi: "半年付计划",
     yearly: "年付专业版",
-    most_popular: "最受欢迎",
-    best_value: "超值首选",
-    flexible: "灵活之选",
     mo: "/月",
     yr: "/年",
-    save_25: "省 25%",
-    save_37: "省 37%",
-    save_25_vs: "比月付省 25%",
-    save_37_vs: "比月付省 37%",
-    only_mo: "仅 €2.49 / 月",
-    per_mo: "€2.98 / 月",
     start_trial: "开始免费试用",
     choose_semi: "选择半年付",
-    sub_yearly: "订阅年付",
+    sub_yearly: "订阅年付项目",
     pay_after: "试用后付款，随时可取消",
-  },
-  features: {
-    copilot: "包含 Copilot 及所有应用",
-    storage: "1TB OneDrive 云存储",
-    devices: "支持 PC, Mac, iOS & Android",
-    connect: "同时连接 5 台设备",
-  },
-  apps: {
-    ai_companion: "您的 AI 助手",
-    cloud_storage: "云存储",
-    office_portal: "Office 门户",
-    email_calendar: "邮件与日历",
+    flexible: "灵活之选",
+    most_popular: "最受欢迎",
+    best_value: "超值首选",
   }
 };
 
-// 映射所有语言
-export const translations: Record<Language, typeof enBase> = {
+// --- 德语基础文案 (你截图中的语言) ---
+const deBase = {
+  common: {
+    loading: "Wird geladen...",
+    logout: "Abmelden",
+    my_account: "Mein Konto",
+    dashboard: "Übersicht",
+    welcome: "Willkommen zurück,",
+    member_since: "Mitglied seit:",
+    joined: "Beigetreten:",
+    days_ago: "Tagen",
+    install_apps: "Apps installieren",
+    install_desc: "Laden Sie Ihre Apps sofort herunter. Verfügbar für aktive Abonnenten.",
+    locked: "Gesperrt",
+    manage_billing: "Abrechnung verwalten / Kündigen",
+    connection_failed: "Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    network_error: "Netzwerkfehler.",
+    back_home: "Zurück zur Startseite",
+    sign_in: "Anmelden",
+    sign_in_desc: "Greifen Sie auf Ihr 365ShareHub-Konto zu",
+    email_placeholder: "E-Mail-Adresse",
+    password_placeholder: "Passwort",
+    remember_me: "Angemeldet bleiben",
+    forgot_password: "Passwort vergessen?",
+    no_account: "Noch kein Konto?",
+    sign_up: "Registrieren",
+    or_continue: "ODER WEITER MIT",
+  },
+  status: {
+    subscription_status: "Abonnement-Status",
+    trial_active: "Kostenlose Testversion aktiv",
+    active: "Aktiv",
+    trial_started: "Testversion gestartet",
+    first_billing: "Erster Abrechnungstermin",
+    trial_ends: "Testversion endet",
+    plan_active_since: "Plan aktiv seit",
+    next_renewal: "Nächste Verlängerung",
+    enjoy_trial: "Genießen Sie Ihren 7-tägigen kostenlosen Zugang. Jederzeit vor der Abrechnung kündbar.",
+    sub_active: "Abonnement aktiv",
+    status_label: "Status",
+    trial_period: "Testzeitraum",
+    paid: "Aktiv / Bezahlt",
+    you_are_on: "Sie nutzen den",
+  },
+  plans: {
+    monthly: "Monatsplan",
+    semi: "Halbjahresplan",
+    yearly: "Jahresplan Pro",
+    mo: "/Mon.",
+    yr: "/Jahr",
+    start_trial: "Kostenlos testen",
+    choose_semi: "6-Monate wählen",
+    sub_yearly: "Jährlich abonnieren",
+    pay_after: "Nach dem Test bezahlen, jederzeit kündbar",
+    flexible: "FLEXIBEL",
+    most_popular: "BELIEBTESTE",
+    best_value: "BESTES ANGEBOT",
+  }
+};
+
+export const translations: Record<Language, any> = {
   'en-US': enBase,
   'en-GB': enBase,
   'en-CA': enBase,
   'en-AS': enBase,
-  
   'zh-CN': zhBase,
   'zh-TW': {
     ...zhBase,
-    common: { ...zhBase.common, loading: "載入中...", logout: "登出", my_account: "我的帳戶", dashboard: "儀表板", install_apps: "安裝應用程式", locked: "未解鎖" },
-    status: { ...zhBase.status, subscription_status: "訂閱狀態", active: "訂閱生效中", trial_active: "免費試用進行中" },
-    plans: { ...zhBase.plans, monthly: "月付計畫", semi: "半年付計畫", yearly: "年付專業版" }
+    common: { ...zhBase.common, loading: "載入中...", logout: "登出", my_account: "我的帳戶", dashboard: "儀表板" }
   },
-
-  // --- 其他语言 (使用英文作为基础，您可以稍后完善翻译) ---
-  'de': { ...enBase, common: { ...enBase.common, dashboard: "Übersicht", logout: "Abmelden", my_account: "Mein Konto" }, plans: { ...enBase.plans, monthly: "Monatsplan", start_trial: "Kostenlos testen" } },
-  'fr': { ...enBase, common: { ...enBase.common, dashboard: "Tableau de bord", logout: "Se déconnecter" }, plans: { ...enBase.plans, monthly: "Plan Mensuel", start_trial: "Essai gratuit" } },
-  'es': { ...enBase, common: { ...enBase.common, dashboard: "Panel", logout: "Cerrar sesión" }, plans: { ...enBase.plans, start_trial: "Prueba gratis" } },
-  'es-MX': { ...enBase, common: { ...enBase.common, dashboard: "Panel", logout: "Cerrar sesión" } },
-  'it': { ...enBase, common: { ...enBase.common, dashboard: "Cruscotto", logout: "Disconnettersi" } },
-  'nl': { ...enBase, common: { ...enBase.common, dashboard: "Dashboard", logout: "Uitloggen" } },
-  'ja': { ...enBase, common: { ...enBase.common, dashboard: "ダッシュボード", logout: "ログアウト", my_account: "マイアカウント" }, plans: { ...enBase.plans, monthly: "月額プラン", start_trial: "無料トライアル" } },
-  'ko': { ...enBase, common: { ...enBase.common, dashboard: "대시보드", logout: "로그아웃", my_account: "내 계정" }, plans: { ...enBase.plans, monthly: "월간 요금제", start_trial: "무료 체험" } },
-  'pt-BR': { ...enBase, common: { ...enBase.common, dashboard: "Painel", logout: "Sair" }, plans: { ...enBase.plans, start_trial: "Teste grátis" } },
+  'de': deBase,
+  'fr': { ...enBase, common: { ...enBase.common, sign_in: "Se connecter", dashboard: "Tableau de bord" } },
+  'es': { ...enBase, common: { ...enBase.common, sign_in: "Iniciar sesión", dashboard: "Panel" } },
+  'es-MX': { ...enBase, common: { ...enBase.common, sign_in: "Iniciar sesión" } },
+  'it': { ...enBase, common: { ...enBase.common, sign_in: "Accedi", dashboard: "Cruscotto" } },
+  'nl': { ...enBase, common: { ...enBase.common, sign_in: "Inloggen" } },
+  'ja': { ...enBase, common: { ...enBase.common, sign_in: "サインイン", dashboard: "ダッシュボード" } },
+  'ko': { ...enBase, common: { ...enBase.common, sign_in: "로그인", dashboard: "대시보드" } },
+  'pt-BR': { ...enBase, common: { ...enBase.common, sign_in: "Entrar" } },
 };
 
-export const languageOptions: { code: Language; label: string; flag: string }[] = [
+export const languageOptions = [
   { code: 'en-US', label: 'English (US)', flag: '🇺🇸' },
   { code: 'en-GB', label: 'English (UK)', flag: '🇬🇧' },
   { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
