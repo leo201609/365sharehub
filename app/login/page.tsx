@@ -11,7 +11,7 @@ import { login } from "@/app/auth/actions";
 // 引入多语言组件
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 
 // --- 统一的 Logo 组件 ---
 const MiniLogo = () => (
@@ -48,9 +48,11 @@ const GoogleIcon = () => (
 // --- 登录页面核心内容 ---
 function LoginContent() {
   const { t } = useLanguage(); 
+  const [loading, setLoading] = useState(false); // 添加加载状态
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden">
+    // 🔥 优化：添加 suppressHydrationWarning 防止语言切换报错
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden" suppressHydrationWarning>
       
       {/* 背景装饰 */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -87,11 +89,11 @@ function LoginContent() {
             
             {/* 第三方登录 */}
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11">
+              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11 text-slate-700">
                 <MicrosoftIcon />
                 <span className="ml-2">Microsoft</span>
               </Button>
-              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11">
+              <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11 text-slate-700">
                 <GoogleIcon />
                 <span className="ml-2">Google</span>
               </Button>
@@ -107,7 +109,7 @@ function LoginContent() {
             </div>
 
             {/* 登录表单 */}
-            <form action={login} className="grid gap-4">
+            <form action={login} onSubmit={() => setLoading(true)} className="grid gap-4">
               <div className="grid gap-2">
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4.5 w-4.5 text-slate-400" />
@@ -116,6 +118,7 @@ function LoginContent() {
                     type="email" 
                     placeholder={t.common.email_placeholder} 
                     required 
+                    autoComplete="email" // 🔥 优化：自动填充提示
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -129,6 +132,7 @@ function LoginContent() {
                     type="password" 
                     placeholder={t.common.password_placeholder} 
                     required 
+                    autoComplete="current-password" // 🔥 优化：自动填充提示
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -144,8 +148,8 @@ function LoginContent() {
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
-                {t.common.sign_in}
+              <Button type="submit" disabled={loading} className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.common.sign_in}
               </Button>
             </form>
 
