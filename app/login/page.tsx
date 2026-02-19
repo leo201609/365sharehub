@@ -48,10 +48,9 @@ const GoogleIcon = () => (
 // --- 登录页面核心内容 ---
 function LoginContent() {
   const { t } = useLanguage(); 
-  const [loading, setLoading] = useState(false); // 添加加载状态
+  const [loading, setLoading] = useState(false); 
 
   return (
-    // 🔥 优化：添加 suppressHydrationWarning 防止语言切换报错
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden" suppressHydrationWarning>
       
       {/* 背景装饰 */}
@@ -69,7 +68,8 @@ function LoginContent() {
         
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-          {t.common.back_home}
+          {/* 🔥 替换为 t.auth */}
+          {t.auth.back_home}
         </Link>
 
         <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-xl ring-1 ring-slate-200/50">
@@ -78,10 +78,12 @@ function LoginContent() {
                <MiniLogo />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
-              {t.common.sign_in}
+              {/* 🔥 替换为 t.auth */}
+              {t.auth.sign_in}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              {t.common.sign_in_desc}
+              {/* 🔥 替换为 t.auth */}
+              {t.auth.sign_in_desc}
             </CardDescription>
           </CardHeader>
           
@@ -104,7 +106,8 @@ function LoginContent() {
                 <span className="w-full border-t border-slate-200" />
               </div>
               <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-slate-400">
-                <span className="bg-white px-2">{t.common.or_continue}</span>
+                {/* 🔥 替换为 t.auth */}
+                <span className="bg-white px-2">{t.auth.or_continue}</span>
               </div>
             </div>
 
@@ -116,9 +119,10 @@ function LoginContent() {
                   <Input 
                     name="email" 
                     type="email" 
-                    placeholder={t.common.email_placeholder} 
+                    // 🔥 替换为 t.auth
+                    placeholder={t.auth.email} 
                     required 
-                    autoComplete="email" // 🔥 优化：自动填充提示
+                    autoComplete="email" 
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -130,9 +134,10 @@ function LoginContent() {
                   <Input 
                     name="password" 
                     type="password" 
-                    placeholder={t.common.password_placeholder} 
+                    // 🔥 替换为 t.auth
+                    placeholder={t.auth.password} 
                     required 
-                    autoComplete="current-password" // 🔥 优化：自动填充提示
+                    autoComplete="current-password" 
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -141,22 +146,27 @@ function LoginContent() {
               <div className="flex items-center justify-between text-xs font-medium">
                 <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900 transition-colors">
                   <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4" />
-                  {t.common.remember_me}
+                  {/* 🔥 替换为 t.auth */}
+                  {t.auth.remember_me}
                 </label>
                 <Link href="#" className="text-blue-600 hover:text-blue-700 underline-offset-4 hover:underline">
-                  {t.common.forgot_password}
+                  {/* 🔥 替换为 t.auth */}
+                  {t.auth.forgot_password}
                 </Link>
               </div>
 
               <Button type="submit" disabled={loading} className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.common.sign_in}
+                {/* 🔥 替换为 t.auth */}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.auth.sign_in}
               </Button>
             </form>
 
             <div className="mt-2 text-center text-sm text-slate-500">
-              {t.common.no_account}{" "}
+              {/* 🔥 替换为 t.auth */}
+              {t.auth.no_account}{" "}
               <Link href="/register" className="text-blue-600 font-bold hover:text-blue-700 hover:underline underline-offset-4">
-                {t.common.sign_up}
+                {/* 🔥 替换为 t.auth */}
+                {t.auth.sign_up}
               </Link>
             </div>
 

@@ -11,7 +11,7 @@ import { signup } from "@/app/auth/actions";
 // 引入多语言组件
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 
 // --- 统一的 Logo 组件 ---
 const MiniLogo = () => (
@@ -29,20 +29,13 @@ const MiniLogo = () => (
 
 // --- 注册页面核心内容 ---
 function RegisterContent() {
-  const { t, lang } = useLanguage(); 
-
-  // 临时映射注册页特有文案 (后续可移至 translations.ts)
-  const labels = {
-    fullName: lang.startsWith('zh') ? "全名" : "Full Name",
-    email: t.common.email_placeholder,
-    password: t.common.password_placeholder,
-    createAccount: lang.startsWith('zh') ? "创建账号" : "Create Account",
-    alreadyHaveAccount: lang.startsWith('zh') ? "已有账号？" : "Already have an account?",
-    signUpBtn: t.common.sign_up,
-  };
+  // 🔥 这里直接调用全局 t 对象，移除了孤岛 labels
+  const { t } = useLanguage(); 
+  const [loading, setLoading] = useState(false); // 添加加载状态，提升体验
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden">
+    // 🔥 优化：添加 suppressHydrationWarning 防止多语言在客户端刷新时闪烁报错
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden" suppressHydrationWarning>
       
       {/* 背景装饰 */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
@@ -50,7 +43,7 @@ function RegisterContent() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/10 rounded-full blur-[120px]"></div>
       </div>
 
-      {/* 🌍 语言切换器 */}
+      {/* 🌍 全新的高颜值胶囊状语言切换器 */}
       <div className="absolute top-6 right-6 z-20">
         <LanguageSwitcher />
       </div>
@@ -59,7 +52,8 @@ function RegisterContent() {
         
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-          {t.common.back_home}
+          {/* 🔥 替换为 t.auth */}
+          {t.auth.back_home}
         </Link>
 
         <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-xl ring-1 ring-slate-200/50">
@@ -68,16 +62,19 @@ function RegisterContent() {
                <MiniLogo />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
-              {labels.createAccount}
+              {/* 🔥 替换为 t.auth */}
+              {t.auth.create_account}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              {lang.startsWith('zh') ? "开启您的 Copilot 生产力之旅" : "Start your Copilot journey today"}
+              {/* 🔥 替换为 t.auth */}
+              {t.auth.create_desc}
             </CardDescription>
           </CardHeader>
           
           <CardContent className="grid gap-6">
             
-            <form action={signup} className="grid gap-4">
+            <form action={signup} onSubmit={() => setLoading(true)} className="grid gap-4">
+              
               {/* 全名输入 */}
               <div className="grid gap-2">
                 <div className="relative">
@@ -85,8 +82,10 @@ function RegisterContent() {
                   <Input 
                     name="fullName" 
                     type="text" 
-                    placeholder={labels.fullName} 
+                    // 🔥 替换为 t.auth
+                    placeholder={t.auth.full_name} 
                     required 
+                    autoComplete="name" // 🔥 自动填充优化
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -99,8 +98,10 @@ function RegisterContent() {
                   <Input 
                     name="email" 
                     type="email" 
-                    placeholder={labels.email} 
+                    // 🔥 替换为 t.auth
+                    placeholder={t.auth.email} 
                     required 
+                    autoComplete="email" 
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -113,22 +114,27 @@ function RegisterContent() {
                   <Input 
                     name="password" 
                     type="password" 
-                    placeholder={labels.password} 
+                    // 🔥 替换为 t.auth
+                    placeholder={t.auth.password} 
                     required 
+                    autoComplete="new-password" 
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
               </div>
 
-              <Button type="submit" className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
-                {labels.signUpBtn}
+              <Button type="submit" disabled={loading} className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
+                {/* 🔥 替换为 t.auth，并加入加载动画 */}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.auth.sign_up}
               </Button>
             </form>
 
             <div className="mt-2 text-center text-sm text-slate-500">
-              {labels.alreadyHaveAccount}{" "}
+              {/* 🔥 替换为 t.auth */}
+              {t.auth.have_account}{" "}
               <Link href="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline underline-offset-4">
-                {t.common.sign_in}
+                {/* 🔥 替换为 t.auth */}
+                {t.auth.sign_in}
               </Link>
             </div>
 
