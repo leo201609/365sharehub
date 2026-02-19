@@ -13,7 +13,6 @@ import {
   DropdownMenuLabel, 
   DropdownMenuSeparator 
 } from "@/components/ui/dropdown-menu";
-// 🔥 引入了 Plus 和 Minus 图标用于 FAQ
 import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles, Plus, Minus } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link"; 
@@ -80,7 +79,7 @@ function HomeContent() {
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [emailInput, setEmailInput] = useState("");
-  // 🔥 新增：控制 FAQ 展开状态的 state，默认展开第一个 (index 0)
+  // 控制 FAQ 展开状态的 state，默认展开第一个 (index 0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   
   const router = useRouter(); 
@@ -112,7 +111,7 @@ function HomeContent() {
     }
   };
 
-  // 🔥 新增：根据当前语言动态生成 FAQ 数组，带有回退保护
+  // 根据当前语言动态生成 FAQ 数组，带有回退保护
   const faqs = t.faq ? [
     { q: t.faq.q1, a: t.faq.a1 },
     { q: t.faq.q2, a: t.faq.a2 },
@@ -187,7 +186,8 @@ function HomeContent() {
           <div className="max-w-md mx-auto relative group mt-10">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 group-hover:opacity-40 blur transition duration-500 pointer-events-none"></div>
             <div className="relative flex bg-white rounded-full p-2 shadow-xl shadow-blue-100 group-hover:shadow-2xl transition-all border border-slate-100 items-center z-10">
-              <Input type="email" placeholder={t.home.email_placeholder} value={emailInput} onChange={(e) => setEmailInput(e.target.value)} className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base pl-4 h-10" onKeyDown={(e) => e.key === 'Enter' && handleGetStarted()}/>
+              {/* 🔥 修复此行，将 t.home.email_placeholder 改为 t.common.email_placeholder */}
+              <Input type="email" placeholder={t.common.email_placeholder} value={emailInput} onChange={(e) => setEmailInput(e.target.value)} className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base pl-4 h-10" onKeyDown={(e) => e.key === 'Enter' && handleGetStarted()}/>
               <Button onClick={handleGetStarted} className="rounded-full px-6 bg-[#0078D4] hover:bg-[#0060aa] text-white font-medium h-10 transition-all whitespace-nowrap">
                 {t.home.cta_start} <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
@@ -283,7 +283,7 @@ function HomeContent() {
                     <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> {t.plans.save_37_vs}</li>
                   </ul>
                   <div className="mt-auto">
-                    <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login?plan=yearly")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.plans.sub_annual}</Button>
+                    <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login?plan=yearly")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.plans.sub_yearly}</Button>
                   </div>
                 </div>
               </div>
@@ -292,7 +292,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* 🔥 新增：高颜值 FAQ 模块 */}
+      {/* 新增：高颜值 FAQ 模块 */}
       {faqs.length > 0 && (
         <section id="faq" className="py-24 relative bg-white border-t border-slate-100">
           <div className="max-w-4xl mx-auto px-6">

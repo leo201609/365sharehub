@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { 
   LayoutDashboard, Crown, Loader2, Check, Sparkles, 
   LogOut, Calendar, Clock, CreditCard, ShieldCheck, ExternalLink, Lock, AlertCircle,
-  // 🔥 新增：用于客服弹窗的图标
   MessageSquare, X, Send 
 } from "lucide-react";
 
@@ -33,7 +32,7 @@ function DashboardInner() {
   const supabase = createClient();
   const [subscription, setSubscription] = useState<any>(null);
 
-  // 🔥 新增：客服工单状态管理
+  // 客服工单状态管理
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [ticketSubject, setTicketSubject] = useState("");
   const [ticketMsg, setTicketMsg] = useState("");
@@ -135,7 +134,7 @@ function DashboardInner() {
     router.push("/login");
   };
 
-  // 🔥 新增：提交工单到 Supabase
+  // 🔥 提交工单到 Supabase (已增加 user_email)
   const handleSubmitTicket = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ticketSubject.trim() || !ticketMsg.trim()) return;
@@ -147,6 +146,7 @@ function DashboardInner() {
         .insert([
           { 
             user_id: user.id, 
+            user_email: user.email, // 🔥 记录用户邮箱
             subject: ticketSubject, 
             description: ticketMsg 
           }
@@ -471,7 +471,7 @@ function DashboardInner() {
         </Card>
       </main>
 
-      {/* 🔥 新增：右下角悬浮客服按钮 */}
+      {/* 🔥 客服悬浮按钮 */}
       <button
         onClick={() => setIsSupportOpen(true)}
         className="fixed bottom-8 right-8 w-14 h-14 bg-[#0078D4] hover:bg-[#0060aa] text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95 z-40 group"
@@ -479,11 +479,10 @@ function DashboardInner() {
         <MessageSquare className="w-6 h-6 group-hover:animate-pulse" />
       </button>
 
-      {/* 🔥 新增：客服工单弹窗 (Modal) */}
+      {/* 🔥 客服表单弹窗 */}
       {isSupportOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-300">
-            {/* 弹窗头部 */}
             <div className="bg-slate-50 px-6 py-5 border-b border-slate-100 flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-bold text-slate-900">{t.support?.title || "Contact Support"}</h3>
@@ -497,7 +496,6 @@ function DashboardInner() {
               </button>
             </div>
 
-            {/* 弹窗表单 */}
             <form onSubmit={handleSubmitTicket} className="p-6">
               <div className="space-y-4">
                 <div>
@@ -524,7 +522,6 @@ function DashboardInner() {
                 </div>
               </div>
 
-              {/* 弹窗底部按钮 */}
               <div className="mt-8 flex items-center justify-end gap-3">
                 <button
                   type="button"
