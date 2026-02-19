@@ -9,13 +9,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
   LayoutDashboard, Crown, Loader2, Check, Sparkles, 
-  LogOut, Calendar, Clock, CreditCard, ShieldCheck, ExternalLink, Lock, AlertCircle
+  LogOut, Calendar, Clock, CreditCard, ShieldCheck, ExternalLink, Lock, AlertCircle,
+  // 🔥 新增：用于客服弹窗的图标
+  MessageSquare, X, Send 
 } from "lucide-react";
 
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 
-// --- 配置应用列表 (descKey 对应 translations.ts 中的 apps 对象) ---
+// --- 配置应用列表 ---
 const INSTALL_APPS = [
   { name: "Copilot", icon: "/icons/copilot.png", url: "https://copilot.microsoft.com/", descKey: "ai_companion" },
   { name: "OneDrive", icon: "/icons/onedrive.png", url: "https://onedrive.live.com/login/", descKey: "cloud_storage" },
@@ -31,6 +33,12 @@ function DashboardInner() {
   const supabase = createClient();
   const [subscription, setSubscription] = useState<any>(null);
 
+  // 🔥 新增：客服工单状态管理
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
+  const [ticketSubject, setTicketSubject] = useState("");
+  const [ticketMsg, setTicketMsg] = useState("");
+  const [isSubmittingTicket, setIsSubmittingTicket] = useState(false);
+
   // --- 辅助函数：计算加入天数 ---
   const getDaysSince = (dateString: string) => {
     if (!dateString) return 0;
@@ -40,7 +48,7 @@ function DashboardInner() {
     return Math.floor(diff / (1000 * 60 * 60 * 24));
   };
 
-  // --- 辅助函数：根据当前选择的 14 种语言自动本地化日期格式 ---
+  // --- 辅助函数：格式化日期 ---
   const formatDate = (dateString: string) => {
     if (!dateString) return "N/A";
     try {
@@ -88,6 +96,7 @@ function DashboardInner() {
     init();
   }, [router, supabase]);
 
+  // --- Checkout 逻辑 ---
   const handleCheckout = async (planType: string) => {
     setLoading(planType);
     try {
@@ -106,6 +115,7 @@ function DashboardInner() {
     }
   };
 
+  // --- Portal 逻辑 ---
   const handlePortal = async () => {
     setLoading("portal");
     try {
@@ -123,6 +133,37 @@ function DashboardInner() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push("/login");
+  };
+
+  // 🔥 新增：提交工单到 Supabase
+  const handleSubmitTicket = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ticketSubject.trim() || !ticketMsg.trim()) return;
+
+    setIsSubmittingTicket(true);
+    try {
+      const { error } = await supabase
+        .from('tickets')
+        .insert([
+          { 
+            user_id: user.id, 
+            subject: ticketSubject, 
+            description: ticketMsg 
+          }
+        ]);
+
+      if (error) throw error;
+
+      alert(t.support?.success || "Message sent successfully!");
+      setIsSupportOpen(false);
+      setTicketSubject("");
+      setTicketMsg("");
+    } catch (error) {
+      console.error("Error submitting ticket:", error);
+      alert(t.support?.error || "Failed to send message. Please try again.");
+    } finally {
+      setIsSubmittingTicket(false);
+    }
   };
 
   if (!user) return <div className="min-h-screen flex items-center justify-center bg-[#fafafa]"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>;
@@ -429,13 +470,88 @@ function DashboardInner() {
            </CardContent>
         </Card>
       </main>
+
+      {/* 🔥 新增：右下角悬浮客服按钮 */}
+      <button
+        onClick={() => setIsSupportOpen(true)}
+        className="fixed bottom-8 right-8 w-14 h-14 bg-[#0078D4] hover:bg-[#0060aa] text-white rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95 z-40 group"
+      >
+        <MessageSquare className="w-6 h-6 group-hover:animate-pulse" />
+      </button>
+
+      {/* 🔥 新增：客服工单弹窗 (Modal) */}
+      {isSupportOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-300">
+            {/* 弹窗头部 */}
+            <div className="bg-slate-50 px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">{t.support?.title || "Contact Support"}</h3>
+                <p className="text-sm text-slate-500 mt-1">{t.support?.desc || "How can we help you today?"}</p>
+              </div>
+              <button 
+                onClick={() => setIsSupportOpen(false)}
+                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 弹窗表单 */}
+            <form onSubmit={handleSubmitTicket} className="p-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">{t.support?.subject || "Subject"}</label>
+                  <input
+                    type="text"
+                    required
+                    value={ticketSubject}
+                    onChange={(e) => setTicketSubject(e.target.value)}
+                    placeholder={t.support?.subject_placeholder || "Briefly describe your issue"}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">{t.support?.message || "Message"}</label>
+                  <textarea
+                    required
+                    value={ticketMsg}
+                    onChange={(e) => setTicketMsg(e.target.value)}
+                    placeholder={t.support?.message_placeholder || "Provide more details..."}
+                    rows={4}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all resize-none"
+                  ></textarea>
+                </div>
+              </div>
+
+              {/* 弹窗底部按钮 */}
+              <div className="mt-8 flex items-center justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsSupportOpen(false)}
+                  className="px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+                >
+                  {t.support?.cancel || "Cancel"}
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingTicket}
+                  className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-[#0078D4] hover:bg-[#0060aa] rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isSubmittingTicket ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4" /> {t.support?.submit || "Send Message"}</>}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#fafafa]"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>}>
       <LanguageProvider>
         <DashboardInner />
       </LanguageProvider>

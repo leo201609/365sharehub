@@ -13,11 +13,12 @@ import {
   DropdownMenuLabel, 
   DropdownMenuSeparator 
 } from "@/components/ui/dropdown-menu";
-import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles } from "lucide-react";
+// 🔥 引入了 Plus 和 Minus 图标用于 FAQ
+import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles, Plus, Minus } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link"; 
 
-// 🔥 引入全新的多语言组件和 Provider
+// 引入全新的多语言组件和 Provider
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 
@@ -25,7 +26,7 @@ import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider
 const ModernLogo = () => (
   <div className="w-9 h-9 relative flex items-center justify-center shrink-0 cursor-pointer hover:opacity-90 transition-opacity">
       <Image 
-        src="/icons/365sharehub.png" 
+        src="/icons/logo-main.png" 
         alt="365ShareHub Logo" 
         fill 
         className="object-contain"
@@ -76,10 +77,12 @@ const AppCard = ({ item }: any) => (
 
 // --- 首页内部组件 (连接全局状态) ---
 function HomeContent() {
-  // 🔥 这里调用了全新的全局翻译对象 t，删除了原本几百行的孤岛词典！
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [emailInput, setEmailInput] = useState("");
+  // 🔥 新增：控制 FAQ 展开状态的 state，默认展开第一个 (index 0)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  
   const router = useRouter(); 
   const supabase = createClient();
 
@@ -109,6 +112,15 @@ function HomeContent() {
     }
   };
 
+  // 🔥 新增：根据当前语言动态生成 FAQ 数组，带有回退保护
+  const faqs = t.faq ? [
+    { q: t.faq.q1, a: t.faq.a1 },
+    { q: t.faq.q2, a: t.faq.a2 },
+    { q: t.faq.q3, a: t.faq.a3 },
+    { q: t.faq.q4, a: t.faq.a4 },
+    { q: t.faq.q5, a: t.faq.a5 },
+  ] : [];
+
   return (
     <>
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
@@ -119,7 +131,7 @@ function HomeContent() {
           </div>
           <div className="flex items-center gap-4">
             
-            {/* 🔥 全新的高颜值胶囊状 LanguageSwitcher */}
+            {/* 高颜值胶囊状 LanguageSwitcher */}
             <div className="hidden md:block border-r border-slate-200 pr-4 mr-1">
                <LanguageSwitcher />
             </div>
@@ -280,6 +292,62 @@ function HomeContent() {
         </div>
       </section>
 
+      {/* 🔥 新增：高颜值 FAQ 模块 */}
+      {faqs.length > 0 && (
+        <section id="faq" className="py-24 relative bg-white border-t border-slate-100">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t.faq?.title}</h2>
+              <p className="text-lg text-slate-500">{t.faq?.desc}</p>
+            </div>
+
+            <div className="space-y-4">
+              {faqs.map((faq, index) => {
+                const isOpen = openFaqIndex === index;
+                return (
+                  <div 
+                    key={index} 
+                    className={`border rounded-2xl transition-all duration-300 overflow-hidden ${
+                      isOpen ? 'border-blue-200 bg-blue-50/30 shadow-md shadow-blue-100/50' : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+                    }`}
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                      className="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none"
+                    >
+                      <span className={`font-semibold pr-8 text-base md:text-lg transition-colors ${isOpen ? 'text-blue-700' : 'text-slate-800'}`}>
+                        {faq.q}
+                      </span>
+                      <div className={`shrink-0 p-2 rounded-full transition-colors ${isOpen ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-400'}`}>
+                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                      </div>
+                    </button>
+                    
+                    {/* CSS Grid 技巧实现丝滑折叠动画 */}
+                    <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                      <div className="overflow-hidden">
+                        <p className="px-6 pb-6 text-slate-600 leading-relaxed">
+                          {faq.a}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* 底部促转化文案 */}
+            <div className="mt-12 text-center p-8 bg-slate-50 rounded-3xl border border-slate-100">
+               <h3 className="font-bold text-slate-900 mb-2">Still have questions?</h3>
+               <p className="text-slate-500 mb-6 text-sm">Our support team is ready to help you 24/7.</p>
+               <Button onClick={() => handleNav("/login")} className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-8">
+                 {t.home.cta_start}
+               </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* --- Footer --- */}
       <footer className="bg-slate-50 pt-16 pb-8 text-xs text-slate-500 border-t border-slate-200">
         <div className="max-w-[1600px] mx-auto px-6">
@@ -299,12 +367,15 @@ function HomeContent() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2 font-medium">
-               {/* 🔥 底部同样使用统一的新组件 */}
                <div className="flex items-center gap-2 cursor-pointer hover:text-slate-800 transition-colors">
                   <LanguageSwitcher />
                </div>
             </div>
-            <div className="flex gap-6"><Link href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</Link><Link href="#" className="hover:text-blue-600 transition-colors">Terms of Service</Link><Link href="#" className="hover:text-blue-600 transition-colors">Sitemap</Link></div>
+            <div className="flex gap-6">
+              <Link href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
+              <Link href="#" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
+              <Link href="#" className="hover:text-blue-600 transition-colors">Sitemap</Link>
+            </div>
             <div>{t.home.footer_copy}</div>
           </div>
         </div>
