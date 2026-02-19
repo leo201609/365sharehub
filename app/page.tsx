@@ -186,7 +186,7 @@ function HomeContent() {
           <div className="max-w-md mx-auto relative group mt-10">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 group-hover:opacity-40 blur transition duration-500 pointer-events-none"></div>
             <div className="relative flex bg-white rounded-full p-2 shadow-xl shadow-blue-100 group-hover:shadow-2xl transition-all border border-slate-100 items-center z-10">
-              {/* 🔥 修复此行，将 t.home.email_placeholder 改为 t.common.email_placeholder */}
+              {/* 修复：使用 t.common.email_placeholder */}
               <Input type="email" placeholder={t.common.email_placeholder} value={emailInput} onChange={(e) => setEmailInput(e.target.value)} className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base pl-4 h-10" onKeyDown={(e) => e.key === 'Enter' && handleGetStarted()}/>
               <Button onClick={handleGetStarted} className="rounded-full px-6 bg-[#0078D4] hover:bg-[#0060aa] text-white font-medium h-10 transition-all whitespace-nowrap">
                 {t.home.cta_start} <ArrowRight className="w-4 h-4 ml-1" />
@@ -230,10 +230,11 @@ function HomeContent() {
                 <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€3.59</span><span className="text-slate-400 ml-1">{t.plans.mo}</span></div>
                 <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.plans.trial_7d}</div>
                 <ul className="space-y-4 mb-8 text-sm flex-grow">
+                  {/* 🔥 修复：去掉了不存在的 platform 属性 */}
                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.platform}</li>
                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
+                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
                   <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
                 </ul>
                 <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login?plan=monthly")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.plans.start_trial}</Button>
@@ -252,10 +253,11 @@ function HomeContent() {
                    <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">{t.plans.save_25}</div>
                 </div>
                 <ul className="space-y-4 mb-8 text-sm flex-grow">
+                  {/* 🔥 修复：去掉了不存在的 platform 属性 */}
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.platform}</li>
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
+                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
                   <li className="flex gap-3 text-slate-900 font-bold items-center"><Check className="w-4 h-4 text-green-500 shrink-0"/> {t.plans.save_25_vs}</li>
                 </ul>
                 <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.plans.choose_semi}</Button>
@@ -268,7 +270,7 @@ function HomeContent() {
               <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-purple-100 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold py-2 uppercase tracking-widest text-center">{t.plans.best_value}</div>
                 <div className="p-8 pt-12 flex flex-col h-full">
-                  <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.annual}</h3>
+                  <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly}</h3>
                   <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€29.90</span><span className="text-slate-400 ml-1">{t.plans.yr}</span></div>
                   <p className="text-sm font-bold text-pink-600 mb-6">{t.plans.only_mo}</p>
                   <div className="flex gap-2 mb-8 flex-wrap">
@@ -276,10 +278,11 @@ function HomeContent() {
                      <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">{t.plans.save_37}</div>
                   </div>
                   <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    {/* 🔥 修复：去掉了不存在的 platform 属性 */}
                     <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.copilot}</li>
                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.storage}</li>
-                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.platform}</li>
                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.devices}</li>
+                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.connect}</li>
                     <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> {t.plans.save_37_vs}</li>
                   </ul>
                   <div className="mt-auto">
@@ -326,7 +329,7 @@ function HomeContent() {
                     {/* CSS Grid 技巧实现丝滑折叠动画 */}
                     <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                       <div className="overflow-hidden">
-                        <p className="px-6 pb-6 text-slate-600 leading-relaxed">
+                        <p className="px-6 pb-6 text-slate-600 leading-relaxed whitespace-pre-line">
                           {faq.a}
                         </p>
                       </div>
@@ -384,7 +387,6 @@ function HomeContent() {
   );
 }
 
-// --- 最终导出 (使用 Provider 包裹) ---
 export default function Home() {
   return (
     <LanguageProvider>
