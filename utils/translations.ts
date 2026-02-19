@@ -46,6 +46,7 @@ const enBase = {
     start_trial: "Start Free Trial", choose_semi: "Choose 6-Months", sub_yearly: "Subscribe Yearly",
     pay_after: "Pay after trial, cancel anytime", save_25_vs: "Save 25% vs Monthly", save_37_vs: "Save 37% vs Monthly",
   },
+  // 🔥 标准的 features 结构：copilot, storage, devices, connect
   features: { copilot: "Includes Copilot & All Apps", storage: "1TB OneDrive Storage", devices: "PC, Mac, iOS & Android", connect: "Connect 5 Devices" },
   apps: { ai_companion: "Your AI Companion", cloud_storage: "Cloud Storage", office_portal: "Office Portal", email_calendar: "Email & Calendar" },
   faq: {
@@ -184,7 +185,7 @@ const jaBase = {
   common: { ...enBase.common, my_account: "マイアカウント", dashboard: "ダッシュボード", loading: "読み込み中...", logout: "ログアウト", welcome: "お帰りなさい、", member_since: "登録日:", joined: "加入:", days_ago: "日前", install_apps: "アプリをインストール", install_desc: "アプリを今すぐダウンロード。", locked: "ロック中", manage_billing: "請求管理 / キャンセル", sign_in: "サインイン", sign_up: "登録" },
   status: { ...enBase.status, subscription_status: "サブスクリプション状況", trial_active: "無料トライアル中", active: "有効", trial_started: "開始日", first_billing: "初回請求日", trial_ends: "終了日", plan_active_since: "開始日", next_renewal: "次回更新日", enjoy_trial: "7日間の無料アクセス。いつでもキャンセル可。", sub_active: "サブスクリプション有効", status_label: "ステータス", trial_period: "トライアル期間", paid: "支払い済み", you_are_on: "現在のプラン:" },
   plans: { ...enBase.plans, flexible: "柔軟", most_popular: "一番人気", best_value: "ベストバリュー", monthly: "月額プラン", semi: "半年プラン", yearly: "年間プロ", mo: "/月", yr: "/年", trial_7d: "7日間無料", save_25: "25% お得", save_37: "37% お得", start_trial: "無料体験", choose_semi: "半年プラン", sub_yearly: "年間購読", pay_after: "後払い、キャンセル可", save_25_vs: "25% お得", save_37_vs: "37% お得" },
-  features: { copilot: "Copilot 含む", storage: "1TB ストレージ", devices: "5台接続", platform: "全デバイス対応" },
+  features: { copilot: "Copilot 含む", storage: "1TB ストレージ", devices: "全デバイス対応", connect: "5台接続" },
   apps: { ai_companion: "AIコンパニオン", cloud_storage: "クラウド", office_portal: "Officeポータル", email_calendar: "メール & カレンダー" },
   faq: {
     title: "よくある質問",
@@ -211,7 +212,7 @@ const jaBase = {
 };
 
 // ==========================================
-// 6. 韩语 (Korean) - 🔥 新增完整韩语支持
+// 6. 韩语 (Korean) 
 // ==========================================
 const koBase = {
   home: { hero_title_1: "Microsoft 365 잠금 해제", hero_title_2: "Copilot 생산성", hero_desc: "Copilot과 함께 생산성을 높이세요. AI가 내장된 앱, 고급 보안, 1TB 클라우드 스토리지를 하나의 요금제로 이용하세요.", cta_start: "시작하기", hero_badge_1: "7일 무료 체험", hero_badge_2: "먼저 사용, 나중에 결제", section_apps_title: "모든 것을 하나의 플랜으로", section_apps_desc: "프리미엄 앱, 클라우드 스토리지 및 보안을 모두 받으세요.", pricing_promo: "합리적인 가격으로 기능을 즐기세요", pricing_title: "투명한 가격", footer_copy: "© 2026 365ShareHub. 판권 소유." },
@@ -219,7 +220,7 @@ const koBase = {
   common: { ...enBase.common, my_account: "내 계정", dashboard: "대시보드", loading: "로딩 중...", logout: "로그아웃", welcome: "환영합니다,", member_since: "가입일:", joined: "가입:", days_ago: "일 전", install_apps: "앱 설치", install_desc: "앱을 즉시 다운로드하세요.", locked: "잠김", manage_billing: "결제 관리 / 취소", sign_in: "로그인", sign_up: "가입하기" },
   status: { ...enBase.status, subscription_status: "구독 상태", trial_active: "무료 체험 중", active: "활성", trial_started: "체험 시작일", first_billing: "첫 결제일", trial_ends: "체험 종료일", plan_active_since: "구독 시작일", next_renewal: "다음 갱신일", enjoy_trial: "7일 무료 체험을 즐기세요. 언제든 취소 가능합니다.", sub_active: "구독 활성", status_label: "상태", trial_period: "체험 기간", paid: "결제됨", you_are_on: "현재 플랜:" },
   plans: { ...enBase.plans, flexible: "유연한", most_popular: "인기", best_value: "최고의 가치", monthly: "월간 플랜", semi: "반기 플랜", yearly: "연간 프로", mo: "/월", yr: "/년", trial_7d: "7일 무료 체험", save_25: "25% 할인", save_37: "37% 할인", start_trial: "무료 체험 시작", choose_semi: "6개월 선택", sub_yearly: "연간 구독", pay_after: "후불, 언제든 취소", save_25_vs: "월간 대비 25% 절약", save_37_vs: "월간 대비 37% 절약" },
-  features: { copilot: "Copilot 포함", storage: "1TB 스토리지", devices: "5대 연결", platform: "모든 기기 지원" },
+  features: { copilot: "Copilot 포함", storage: "1TB 스토리지", devices: "모든 기기 지원", connect: "5대 연결" },
   apps: { ai_companion: "AI 도우미", cloud_storage: "클라우드", office_portal: "Office 포털", email_calendar: "이메일 및 일정" },
   faq: {
     title: "자주 묻는 질문",
@@ -254,7 +255,7 @@ const esBase = {
   common: { ...enBase.common, my_account: "Mi Cuenta", dashboard: "Panel", loading: "Cargando...", logout: "Cerrar sesión", welcome: "Bienvenido,", member_since: "Miembro desde:", joined: "Unido:", days_ago: "días", install_apps: "Instalar apps", install_desc: "Descarga tus aplicaciones inmediatamente.", locked: "Bloqueado", manage_billing: "Gestionar facturación", sign_in: "Iniciar sesión", sign_up: "Registrarse" },
   status: { ...enBase.status, subscription_status: "Estado de suscripción", trial_active: "Prueba Activa", active: "Activo", trial_started: "Inicio de prueba", first_billing: "Primer cobro", trial_ends: "Fin de prueba", plan_active_since: "Activo desde", next_renewal: "Renovación", enjoy_trial: "Disfruta 7 días gratis. Cancela cuando quieras.", sub_active: "Suscripción Activa", status_label: "Estado", trial_period: "Período de prueba", paid: "Pagado", you_are_on: "Tu plan:" },
   plans: { ...enBase.plans, flexible: "FLEXIBLE", most_popular: "POPULAR", best_value: "MEJOR VALOR", monthly: "Plan Mensual", semi: "Plan Semestral", yearly: "Pro Anual", mo: "/mes", yr: "/año", trial_7d: "Prueba 7 días", save_25: "Ahorra 25%", save_37: "Ahorra 37%", start_trial: "Prueba gratis", choose_semi: "Elegir 6 Meses", sub_yearly: "Suscribirse Anual", pay_after: "Cancela cuando quieras", save_25_vs: "Ahorra 25%", save_37_vs: "Ahorra 37%" },
-  features: { copilot: "Incluye Copilot y Apps", storage: "1 TB de almacenamiento", devices: "Conecta 5 dispositivos", platform: "PC, Mac, iOS y Android" },
+  features: { copilot: "Incluye Copilot y Apps", storage: "1 TB de almacenamiento", devices: "PC, Mac, iOS y Android", connect: "Conecta 5 dispositivos" },
   apps: { ai_companion: "Tu IA", cloud_storage: "Nube", office_portal: "Portal Office", email_calendar: "Correo y Calendario" },
   faq: {
     title: "Preguntas frecuentes",
@@ -287,9 +288,9 @@ const frBase = {
   home: { hero_title_1: "Débloquez Microsoft 365", hero_title_2: "Productivité Copilot.", hero_desc: "Boostez votre productivité avec Copilot. Obtenez des apps avec IA intégrée et 1 To de stockage cloud.", cta_start: "Commencer", hero_badge_1: "Essai gratuit 7 jours", hero_badge_2: "Utilisez d'abord, payez ensuite", section_apps_title: "Tout dans un seul plan", section_apps_desc: "Obtenez les applications premium et le stockage dont vous avez besoin.", pricing_promo: "Profitez de fonctionnalités complètes à bon prix", pricing_title: "Tarification simple", footer_copy: "© 2026 365ShareHub. Tous droits réservés." },
   auth: { email: "Adresse e-mail", password: "Mot de passe", full_name: "Nom complet", sign_in: "Se connecter", sign_in_desc: "Accédez à votre compte", sign_up: "S'inscrire", create_account: "Créer un compte", create_desc: "Commencez votre voyage Copilot", remember_me: "Se souvenir de moi", forgot_password: "Mot de passe oublié ?", no_account: "Pas de compte ?", have_account: "Déjà un compte ?", or_continue: "OU CONTINUER AVEC", back_home: "Retour à l'accueil" },
   common: { ...enBase.common, my_account: "Mon Compte", dashboard: "Tableau de bord", loading: "Chargement...", logout: "Déconnexion", welcome: "Bienvenue,", member_since: "Membre depuis:", joined: "Rejoint:", days_ago: "jours", install_apps: "Installer les apps", install_desc: "Téléchargez vos applications immédiatement.", locked: "Verrouillé", manage_billing: "Gérer la facturation", sign_in: "Se connecter", sign_up: "S'inscrire" },
-  status: { ...enBase.status, subscription_status: "Statut de l'abonnement", trial_active: "Essai Actif", active: "Actif", trial_started: "Début de l'essai", first_billing: "Première facturation", trial_ends: "Fin de l'essai", plan_active_since: "Actif depuis", next_renewal: "Renouvellement", enjoy_trial: "Profitez de 7 jours gratuits. Annulez à tout moment.", sub_active: "Abonnement Actif", status_label: "Statut", trial_period: "Période d'essai", paid: "Payé", you_are_on: "Votre plan:" },
+  status: { ...enBase.status, subscription_status: "Statut de l'abonnement", trial_active: "Essai Actif", active: "Activo", trial_started: "Début de l'essai", first_billing: "Première facturation", trial_ends: "Fin de l'essai", plan_active_since: "Actif depuis", next_renewal: "Renouvellement", enjoy_trial: "Profitez de 7 jours gratuits. Annulez à tout moment.", sub_active: "Abonnement Actif", status_label: "Statut", trial_period: "Période d'essai", paid: "Payé", you_are_on: "Votre plan:" },
   plans: { ...enBase.plans, flexible: "FLEXIBLE", most_popular: "POPULAIRE", best_value: "MEILLEUR PRIX", monthly: "Plan Mensuel", semi: "Plan Semestriel", yearly: "Pro Annuel", mo: "/mois", yr: "/an", trial_7d: "Essai gratuit 7j", save_25: "Économisez 25%", save_37: "Économisez 37%", start_trial: "Essai gratuit", choose_semi: "Choisir 6 Mois", sub_yearly: "S'abonner", pay_after: "Payez après l'essai", save_25_vs: "-25%", save_37_vs: "-37%" },
-  features: { copilot: "Inclut Copilot & Apps", storage: "1 To de stockage cloud", devices: "Connectez 5 appareils", platform: "PC, Mac, iOS & Android" },
+  features: { copilot: "Inclut Copilot & Apps", storage: "1 To de stockage cloud", devices: "PC, Mac, iOS & Android", connect: "Connectez 5 appareils" },
   apps: { ai_companion: "Compagnon IA", cloud_storage: "Stockage Cloud", office_portal: "Portail Office", email_calendar: "Email & Calendrier" },
   faq: {
     title: "Questions fréquemment posées",
