@@ -143,7 +143,7 @@ function DashboardInner() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-bold text-slate-800 hover:opacity-80 transition">
              <Image 
-               src="/icons/365sharehub.png" 
+               src="/icons/logo-main.png" 
                alt="365ShareHub" 
                width={32} 
                height={32} 

@@ -1,5 +1,6 @@
 "use client";
 
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image"; 
 import { useRouter } from "next/navigation"; 
@@ -24,7 +25,7 @@ import Link from "next/link";
 const ModernLogo = () => (
   <div className="w-9 h-9 relative flex items-center justify-center shrink-0 cursor-pointer hover:opacity-90 transition-opacity">
       <Image 
-        src="/icons/365sharehub.png" 
+        src="/icons/logo-main.png" 
         alt="365ShareHub Logo" 
         fill 
         className="object-contain"

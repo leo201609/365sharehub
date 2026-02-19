@@ -17,7 +17,7 @@ import { Suspense } from "react";
 const MiniLogo = () => (
   <div className="w-12 h-12 relative flex items-center justify-center shrink-0 mb-4">
     <Image 
-      src="/icons/365sharehub.png" 
+      src="/icons/logo-main.png" 
       alt="365ShareHub" 
       width={48}
       height={48}
