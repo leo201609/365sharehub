@@ -27,14 +27,16 @@ export async function signup(formData: FormData) {
     redirect('/register?error=true')
   }
 
-  // 🔥 新增：唤醒 Telegram 秘书，发送注册报喜通知！
+  // 🔔 Telegram 秘书通报逻辑
+  // 已经在 Coolify 中配置了 TELEGRAM_BOT_TOKEN 和 TELEGRAM_CHAT_ID
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  
+
   if (botToken && chatId) {
     try {
-      // 状态里写着“等待验证”，这样以后谁注册了但没付钱，老板你一清二楚！
-      const message = `🎉 滴滴！有新客户提交注册啦！\n📧 邮箱: ${email}\n👤 姓名: ${fullName || '未提供'}\n⏳ 状态: 刚发送验证邮件，等待用户点击...`;
+      const message = `🎉 滴滴！有新客户提交注册啦！\n📧 邮箱: ${email}\n👤 姓名: ${fullName || '未提供'}\n⏳ 状态: 验证邮件已发出，引导页已展示。`;
+      
+      // 使用 await 确保在跳转前消息已成功发送到 Telegram
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,13 +45,15 @@ export async function signup(formData: FormData) {
           text: message,
         }),
       });
-    } catch (e) {
-      console.error("Telegram 注册推送失败:", e);
+      console.log('Telegram 注册通知发送成功');
+    } catch (tgError) {
+      console.error('Telegram 通知失败:', tgError);
     }
   }
 
-  // 🔥 商业级 UX 优化：因为开启了强制验证，我们不再直接跳 Dashboard，而是提醒用户查收邮件
-  redirect('/login?message=Registration successful! Please check your email to verify your account.') 
+  // 🔥 极致体验优化：跳转到专门的“邮件验证引导页”
+  // 请确保你已经创建了 app/verify-email/page.tsx
+  redirect('/verify-email')
 }
 
 // --- 登录逻辑 ---
@@ -69,7 +73,7 @@ export async function login(formData: FormData) {
     redirect('/login?error=true')
   }
 
-  // 🔥 登录成功后清除 Dashboard 缓存并跳转
+  // 登录成功后清除缓存并跳转到控制面板
   revalidatePath('/dashboard', 'layout')
-  redirect('/dashboard') 
+  redirect('/dashboard')
 }

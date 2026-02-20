@@ -5,13 +5,14 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ArrowLeft, Mail, Lock, Loader2 } from "lucide-react";
+import { ArrowLeft, Mail, Lock, Loader2, CheckCircle2 } from "lucide-react"; // 增加 CheckCircle2 图标
 // 引入登录逻辑
 import { login } from "@/app/auth/actions";
 // 引入多语言组件
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation"; // 增加 searchParams 钩子
 
 // --- 统一的 Logo 组件 ---
 const MiniLogo = () => (
@@ -49,6 +50,11 @@ const GoogleIcon = () => (
 function LoginContent() {
   const { t } = useLanguage(); 
   const [loading, setLoading] = useState(false); 
+  const searchParams = useSearchParams(); // 获取 URL 参数
+  
+  // 读取来自注册跳转的消息
+  const message = searchParams.get("message");
+  const error = searchParams.get("error");
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden" suppressHydrationWarning>
@@ -68,9 +74,27 @@ function LoginContent() {
         
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-          {/* 🔥 替换为 t.auth */}
           {t.auth.back_home}
         </Link>
+
+        {/* 🔥 优化后的注册成功提示框 */}
+        {message && (
+          <div className="mb-6 p-4 rounded-xl bg-blue-50 border border-blue-100 flex items-start gap-3 animate-in slide-in-from-top-4 duration-500">
+            <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-blue-800 leading-relaxed font-medium">
+              {message}
+            </p>
+          </div>
+        )}
+
+        {/* 🔥 错误提示框 */}
+        {error && (
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3">
+            <p className="text-sm text-red-800 font-medium">
+              ❌ Invalid credentials. Please try again.
+            </p>
+          </div>
+        )}
 
         <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-xl ring-1 ring-slate-200/50">
           <CardHeader className="space-y-1 text-center pb-8 pt-8">
@@ -78,11 +102,9 @@ function LoginContent() {
                <MiniLogo />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
-              {/* 🔥 替换为 t.auth */}
               {t.auth.sign_in}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              {/* 🔥 替换为 t.auth */}
               {t.auth.sign_in_desc}
             </CardDescription>
           </CardHeader>
@@ -106,7 +128,6 @@ function LoginContent() {
                 <span className="w-full border-t border-slate-200" />
               </div>
               <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-slate-400">
-                {/* 🔥 替换为 t.auth */}
                 <span className="bg-white px-2">{t.auth.or_continue}</span>
               </div>
             </div>
@@ -119,7 +140,6 @@ function LoginContent() {
                   <Input 
                     name="email" 
                     type="email" 
-                    // 🔥 替换为 t.auth
                     placeholder={t.auth.email} 
                     required 
                     autoComplete="email" 
@@ -134,7 +154,6 @@ function LoginContent() {
                   <Input 
                     name="password" 
                     type="password" 
-                    // 🔥 替换为 t.auth
                     placeholder={t.auth.password} 
                     required 
                     autoComplete="current-password" 
@@ -146,26 +165,21 @@ function LoginContent() {
               <div className="flex items-center justify-between text-xs font-medium">
                 <label className="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-900 transition-colors">
                   <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4" />
-                  {/* 🔥 替换为 t.auth */}
                   {t.auth.remember_me}
                 </label>
                 <Link href="#" className="text-blue-600 hover:text-blue-700 underline-offset-4 hover:underline">
-                  {/* 🔥 替换为 t.auth */}
                   {t.auth.forgot_password}
                 </Link>
               </div>
 
               <Button type="submit" disabled={loading} className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
-                {/* 🔥 替换为 t.auth */}
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.auth.sign_in}
               </Button>
             </form>
 
             <div className="mt-2 text-center text-sm text-slate-500">
-              {/* 🔥 替换为 t.auth */}
               {t.auth.no_account}{" "}
               <Link href="/register" className="text-blue-600 font-bold hover:text-blue-700 hover:underline underline-offset-4">
-                {/* 🔥 替换为 t.auth */}
                 {t.auth.sign_up}
               </Link>
             </div>
