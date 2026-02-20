@@ -5,8 +5,38 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "365ShareHub - Unlock Microsoft 365 Copilot",
-  description: "Get premium Microsoft 365 apps including Copilot at an unbeatable price.",
+  // 基础 SEO
+  title: "365ShareHub - Unlock Microsoft 365 Copilot Productivity",
+  description: "Boost productivity with Copilot alongside you. Get premium Microsoft 365 apps with built-in AI, advanced security, and 1 TB cloud storage in one plan.",
+  
+  // 关键：告诉爬虫你的主站域名是什么
+  metadataBase: new URL('https://365sharehub.com'),
+  
+  // 🌍 Open Graph (适用于 Facebook, WhatsApp, Telegram, LinkedIn 等)
+  openGraph: {
+    title: "365ShareHub - Premium Microsoft 365 & Copilot",
+    description: "Upgrade your workflow with Microsoft 365 & Copilot. Flexible plans, instant access, and unbeatable prices.",
+    url: "https://365sharehub.com",
+    siteName: "365ShareHub",
+    images: [
+      {
+        url: "/og-image.png", // 指向你刚才放在 public 文件夹里的图片
+        width: 1200,
+        height: 630,
+        alt: "365ShareHub Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+
+  // 🐦 Twitter 专属卡片配置
+  twitter: {
+    card: "summary_large_image", // 这会让推文显示为超级显眼的大图卡片
+    title: "365ShareHub - Premium Microsoft 365 & Copilot",
+    description: "Upgrade your workflow with Microsoft 365 & Copilot. Flexible plans, instant access, and unbeatable prices.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
