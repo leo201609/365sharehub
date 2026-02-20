@@ -134,25 +134,46 @@ function DashboardInner() {
     router.push("/login");
   };
 
-  // 🔥 提交工单到 Supabase (已增加 user_email)
+  // 🔥 提交工单到 Supabase，并秒推到 Telegram！
   const handleSubmitTicket = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ticketSubject.trim() || !ticketMsg.trim()) return;
 
     setIsSubmittingTicket(true);
     try {
+      // 1. 存入数据库
       const { error } = await supabase
         .from('tickets')
         .insert([
           { 
             user_id: user.id, 
-            user_email: user.email, // 🔥 记录用户邮箱
+            user_email: user.email, 
             subject: ticketSubject, 
             description: ticketMsg 
           }
         ]);
 
       if (error) throw error;
+
+      // ==========================================
+      // 🚀 2. 触发 Telegram 机器人提醒 (10行代码)
+      // ==========================================
+      // ⚠️ 替换下面两个变量为你自己的密钥！！！
+      const TELEGRAM_BOT_TOKEN = "8579670530:AAGoECcOTHmIksxC94Pa25geLRC6XOsTV-k"; 
+      const TELEGRAM_CHAT_ID = "6225103560";
+      
+      const message = `🚨 <b>新工单提醒 (New Ticket)</b>\n\n👤 <b>用户:</b> ${user.email}\n📝 <b>主题:</b> ${ticketSubject}\n💬 <b>内容:</b>\n${ticketMsg}`;
+      
+      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: "HTML"
+        })
+      }).catch(err => console.error("TG Push Failed", err)); // 即使失败也不影响用户前台体验
+      // ==========================================
 
       alert(t.support?.success || "Message sent successfully!");
       setIsSupportOpen(false);
