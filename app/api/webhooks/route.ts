@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import stripe from '@/utils/stripe/server';
-import { createClient } from '@supabase/supabase-js'; // 🔥 改用核心库直接创建
+import { createClient } from '@supabase/supabase-js';
 import { headers } from 'next/headers';
+import { sendTelegramMessage } from '@/utils/telegram'; // 🔥 引入我们刚刚创建的 Telegram 全局推送工具
 
 export const dynamic = 'force-dynamic';
 
@@ -23,7 +24,6 @@ export async function POST(req: Request) {
   }
 
   // 🔥 核心修改：使用 Service Role Key 创建超级管理员客户端
-  // 这样可以绕过 RLS (Row Level Security) 限制，确保能写入数据库
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!, 
@@ -41,6 +41,12 @@ export async function POST(req: Request) {
         const session = event.data.object as any;
         const subscriptionId = session.subscription as string;
         const userId = session.client_reference_id;
+        
+        // 提取更丰富的订单信息用于推送
+        const customerEmail = session.customer_details?.email || '未知邮箱';
+        const planName = session.metadata?.plan_name || 'Pro Plan';
+        const amount = (session.amount_total / 100).toFixed(2);
+        const currency = session.currency?.toUpperCase() || 'EUR';
 
         if (!userId) {
             console.error("❌ No user_id found in session metadata");
@@ -57,7 +63,7 @@ export async function POST(req: Request) {
             user_id: userId,
             stripe_subscription_id: subscriptionId,
             stripe_customer_id: session.customer as string,
-            plan_name: session.metadata?.plan_name || 'Pro Plan',
+            plan_name: planName,
             status: subscription.status,
             current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
             current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
@@ -67,6 +73,16 @@ export async function POST(req: Request) {
             console.error('❌ Supabase Insert Error:', error);
             throw error;
         }
+
+        // ==========================================
+        // 🚀 发送 Telegram 订单成功捷报！
+        // ==========================================
+        const statusText = subscription.status === 'trialing' ? '🎁 开启免费试用 (Trial)' : '✅ 订阅已激活 (Active)';
+        const msg = `🎉 <b>新订单成交啦！(New Order)</b>\n\n👤 <b>客户:</b> ${customerEmail}\n📦 <b>套餐:</b> ${planName}\n💰 <b>金额:</b> ${amount} ${currency}\n📈 <b>状态:</b> ${statusText}`;
+        
+        await sendTelegramMessage(msg);
+        // ==========================================
+
         break;
       }
 
@@ -83,6 +99,15 @@ export async function POST(req: Request) {
           .eq('stripe_subscription_id', subscription.id);
 
         if (error) console.error('❌ Supabase Update Error:', error);
+
+        // ==========================================
+        // ⚠️ 客户流失/取消订阅提醒
+        // ==========================================
+        if (event.type === 'customer.subscription.deleted') {
+           await sendTelegramMessage(`⚠️ <b>客户取消了订阅 (Subscription Canceled)</b>\n\n🆔 <b>Stripe ID:</b> ${subscription.id}`);
+        }
+        // ==========================================
+
         break;
       }
 
