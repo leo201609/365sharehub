@@ -29,12 +29,10 @@ const MiniLogo = () => (
 
 // --- 注册页面核心内容 ---
 function RegisterContent() {
-  // 🔥 这里直接调用全局 t 对象，移除了孤岛 labels
-  const { t } = useLanguage(); 
-  const [loading, setLoading] = useState(false); // 添加加载状态，提升体验
+  const { t, language } = useLanguage(); // 🔥 额外解构出 language (即当前 locale)
+  const [loading, setLoading] = useState(false); 
 
   return (
-    // 🔥 优化：添加 suppressHydrationWarning 防止多语言在客户端刷新时闪烁报错
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden" suppressHydrationWarning>
       
       {/* 背景装饰 */}
@@ -43,7 +41,7 @@ function RegisterContent() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/10 rounded-full blur-[120px]"></div>
       </div>
 
-      {/* 🌍 全新的高颜值胶囊状语言切换器 */}
+      {/* 🌍 语言切换器 */}
       <div className="absolute top-6 right-6 z-20">
         <LanguageSwitcher />
       </div>
@@ -52,7 +50,6 @@ function RegisterContent() {
         
         <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-900 mb-6 transition-colors group">
           <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
-          {/* 🔥 替换为 t.auth */}
           {t.auth.back_home}
         </Link>
 
@@ -62,11 +59,9 @@ function RegisterContent() {
                <MiniLogo />
             </div>
             <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
-              {/* 🔥 替换为 t.auth */}
               {t.auth.create_account}
             </CardTitle>
             <CardDescription className="text-slate-500">
-              {/* 🔥 替换为 t.auth */}
               {t.auth.create_desc}
             </CardDescription>
           </CardHeader>
@@ -75,6 +70,9 @@ function RegisterContent() {
             
             <form action={signup} onSubmit={() => setLoading(true)} className="grid gap-4">
               
+              {/* 🔥 核心改进：添加隐藏的语言偏好字段 */}
+              <input type="hidden" name="locale" value={language} />
+
               {/* 全名输入 */}
               <div className="grid gap-2">
                 <div className="relative">
@@ -82,10 +80,9 @@ function RegisterContent() {
                   <Input 
                     name="fullName" 
                     type="text" 
-                    // 🔥 替换为 t.auth
                     placeholder={t.auth.full_name} 
                     required 
-                    autoComplete="name" // 🔥 自动填充优化
+                    autoComplete="name" 
                     className="pl-10 h-11 border-slate-200 bg-white focus:ring-blue-500" 
                   />
                 </div>
@@ -98,7 +95,6 @@ function RegisterContent() {
                   <Input 
                     name="email" 
                     type="email" 
-                    // 🔥 替换为 t.auth
                     placeholder={t.auth.email} 
                     required 
                     autoComplete="email" 
@@ -114,7 +110,6 @@ function RegisterContent() {
                   <Input 
                     name="password" 
                     type="password" 
-                    // 🔥 替换为 t.auth
                     placeholder={t.auth.password} 
                     required 
                     autoComplete="new-password" 
@@ -124,16 +119,13 @@ function RegisterContent() {
               </div>
 
               <Button type="submit" disabled={loading} className="w-full bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-11 shadow-lg shadow-blue-100 transition-all active:scale-[0.98] mt-2">
-                {/* 🔥 替换为 t.auth，并加入加载动画 */}
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t.auth.sign_up}
               </Button>
             </form>
 
             <div className="mt-2 text-center text-sm text-slate-500">
-              {/* 🔥 替换为 t.auth */}
               {t.auth.have_account}{" "}
               <Link href="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline underline-offset-4">
-                {/* 🔥 替换为 t.auth */}
                 {t.auth.sign_in}
               </Link>
             </div>

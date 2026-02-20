@@ -11,6 +11,10 @@ export async function signup(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const fullName = formData.get('fullName') as string
+  
+  // 🔥 新增：获取用户当前的语言偏好 (通常从前端隐藏域传入)
+  // 如果前端没传，我们默认为 'en'
+  const locale = formData.get('locale') as string || 'en'
 
   const { error } = await supabase.auth.signUp({
     email,
@@ -18,6 +22,7 @@ export async function signup(formData: FormData) {
     options: {
       data: {
         full_name: fullName,
+        locale: locale, // 🔥 进阶方案：将语言偏好持久化到 Supabase
       },
     },
   })
@@ -28,15 +33,14 @@ export async function signup(formData: FormData) {
   }
 
   // 🔔 Telegram 秘书通报逻辑
-  // 已经在 Coolify 中配置了 TELEGRAM_BOT_TOKEN 和 TELEGRAM_CHAT_ID
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (botToken && chatId) {
     try {
-      const message = `🎉 滴滴！有新客户提交注册啦！\n📧 邮箱: ${email}\n👤 姓名: ${fullName || '未提供'}\n⏳ 状态: 验证邮件已发出，引导页已展示。`;
+      // 在 Telegram 消息中也体现出用户的语言
+      const message = `🎉 滴滴！有新客户注册啦！\n📧 邮箱: ${email}\n👤 姓名: ${fullName || '未提供'}\n🌍 语言: ${locale === 'zh' ? '中文' : 'English'}\n⏳ 状态: 验证邮件已发出。`;
       
-      // 使用 await 确保在跳转前消息已成功发送到 Telegram
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,9 +55,9 @@ export async function signup(formData: FormData) {
     }
   }
 
-  // 🔥 极致体验优化：跳转到专门的“邮件验证引导页”
-  // 请确保你已经创建了 app/verify-email/page.tsx
-  redirect('/verify-email')
+  // 跳转到验证引导页
+  // 你可以在 URL 里带上 locale，让引导页也显示对应语言
+  redirect(`/verify-email?locale=${locale}`)
 }
 
 // --- 登录逻辑 ---
