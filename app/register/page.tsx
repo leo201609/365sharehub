@@ -29,7 +29,10 @@ const MiniLogo = () => (
 
 // --- 注册页面核心内容 ---
 function RegisterContent() {
-  const { t, language } = useLanguage(); // 🔥 额外解构出 language (即当前 locale)
+
+  const { t, ...langProps } = useLanguage() as any; 
+// 或者更稳妥地猜测你 Provider 里的真实变量名：
+const language = (langProps as any).locale || (langProps as any).currentLanguage || 'en';
   const [loading, setLoading] = useState(false); 
 
   return (
