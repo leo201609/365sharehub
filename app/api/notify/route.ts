@@ -4,7 +4,7 @@ export async function POST(req: Request) {
   try {
     const { email, subject, message } = await req.json();
 
-    // ⚠️ 在这里填入你的真实 Token 和 ID (注意必须保留外面的双引号)
+    // 已经帮你填好了你专属的真实 Token 和 ID！
     const TELEGRAM_BOT_TOKEN = "8579670530:AAHdkioFO77qp74IkAzzBS5PqHeo9p5ZPWw";
     const TELEGRAM_CHAT_ID = "6225103560";
 
