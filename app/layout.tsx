@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "365ShareHub",
     images: [
       {
-        url: "/og-image.png", // 指向你刚才放在 public 文件夹里的图片
+        url: "/og-image.jpg", // 指向你刚才放在 public 文件夹里的图片
         width: 1200,
         height: 630,
         alt: "365ShareHub Preview",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image", // 这会让推文显示为超级显眼的大图卡片
     title: "365ShareHub - Premium Microsoft 365 & Copilot",
     description: "Upgrade your workflow with Microsoft 365 & Copilot. Flexible plans, instant access, and unbeatable prices.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
 };
 
