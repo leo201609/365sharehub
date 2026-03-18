@@ -77,7 +77,7 @@ function HomeContent() {
   const [formMode, setFormMode] = useState<'trial' | 'contact'>('trial');
   const [trialStatus, setTrialStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   
-  // 🔥 新增：控制输入框高亮动效的状态
+  // 控制输入框高亮动效的状态
   const [highlightInput, setHighlightInput] = useState(false);
   
   // 留言表单状态
@@ -109,7 +109,7 @@ function HomeContent() {
     router.push(path);
   };
 
-  // 🔥 升级：处理顶部导航栏点击试用的逻辑 (增加高亮动效)
+  // 处理顶部导航栏点击试用的逻辑 (增加高亮动效)
   const handleTopNavTrialClick = () => {
     setFormMode('trial');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -126,18 +126,36 @@ function HomeContent() {
     }, 400);
   };
 
+  // 🔥 核心更新：提交试用时，将线索同时推送到 Telegram 和 Supabase 数据库
   const handleQuickTrial = async () => {
     if (!emailInput || !emailInput.includes('@')) {
       alert("Please enter a valid Microsoft Account email address.");
       return;
     }
+    
     setTrialStatus('loading');
+    
     try {
-      await fetch('/api/notify', {
+      // 1. 发送 Telegram 提醒
+      const notifyPromise = fetch('/api/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'trial', email: emailInput })
       });
+
+      // 2. 存入 Supabase 'leads' 数据表
+      const saveLeadPromise = supabase
+        .from('leads')
+        .insert([{ 
+          email: emailInput,
+          region: "🌐 Web Visitor", // 此处默认填 Web Visitor，你日后也可接入 Geo IP 获取真实国家
+          status: "Trial Active",
+          type: "Guest Lead"
+        }]);
+
+      // 并发执行这两个操作，速度最快
+      await Promise.all([notifyPromise, saveLeadPromise]);
+      
       setTrialStatus('success');
     } catch (error) {
       console.error("Trial request failed", error);
@@ -309,7 +327,6 @@ function HomeContent() {
                 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-5 w-full">
                   
-                  {/* 🔥 优化核心：根据 highlightInput 动态附加高亮样式 */}
                   <div className="relative group w-full max-w-[34rem] shrink-0 h-[76px]">
                     <div className={`absolute -inset-1.5 bg-gradient-to-r from-[#0078D4] to-[#7048E8] rounded-full blur transition duration-500 pointer-events-none ${highlightInput ? 'opacity-60' : 'opacity-20 group-hover:opacity-40'}`}></div>
                     

@@ -65,13 +65,12 @@ export default function Footer() {
              </div>
           </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
+<div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
             <Link href="/sitemap" className="hover:text-blue-600 transition-colors">Sitemap</Link>
-            <Link href="/impressum" className="hover:text-blue-600 transition-colors underline font-semibold">Impressum</Link> 
             <div className="hidden md:block w-1 h-1 bg-slate-300 rounded-full mx-2"></div>
-            <div>© {new Date().getFullYear()} 365ShareHub Operations. All rights reserved.</div>
+            <div>© {new Date().getFullYear()} 365ShareHub. All rights reserved.</div>
           </div>
         </div>
       </div>

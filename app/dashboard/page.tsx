@@ -166,7 +166,7 @@ function DashboardInner() {
           subject: ticketSubject, 
           message: ticketMsg 
         })
-      }).catch(err => console.error("Notify failed", err)); // 即使通知失败，也不影响用户弹窗的成功提示
+      }).catch(err => console.error("Notify failed", err)); 
       // ==========================================
 
       alert(t.support?.success || "Message sent successfully!");
@@ -358,82 +358,80 @@ function DashboardInner() {
             </Card>
           </div>
         ) : (
-          // === 🅱️ 非会员视图 ===
+          // === 🅱️ 非会员视图：已与首页完美同步 ===
           <div className="grid md:grid-cols-3 gap-8 mb-12 max-w-6xl mx-auto items-stretch animate-in fade-in slide-in-from-bottom-8 duration-700">
              {/* 1. Monthly */}
              <div className="group relative bg-white rounded-3xl border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
-                <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible}</div>
-                <div className="p-8 pt-12 flex flex-col h-full">
-                  <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
-                  <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€3.59</span><span className="text-slate-400 ml-1">{t.plans.mo}</span></div>
-                  <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.status.trial_period}</div>
-                  <ul className="space-y-4 mb-8 text-sm flex-grow">
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.copilot || "Copilot"}</li>
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.storage || "1TB Storage"}</li>
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.devices || "All Devices"}</li>
-                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.connect || "Connect 5"}</li>
-                    <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
-                  </ul>
-                  <Button onClick={() => handleCheckout("monthly")} disabled={!!loading} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">
-                    {loading === "monthly" ? <Loader2 className="animate-spin w-4 h-4" /> : t.plans.start_trial}
-                  </Button>
-                </div>
+               <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible}</div>
+               <div className="p-8 pt-12 flex flex-col h-full"> 
+                 <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
+                 <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€2.50</span><span className="text-slate-400 ml-2 font-medium">/ month</span></div>
+                 <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.status?.trial_period || t.plans.trial_7d}</div>
+                 <ul className="space-y-4 mb-8 text-sm flex-grow">
+                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.copilot || "Copilot"}</li>
+                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.storage || "1TB Storage"}</li>
+                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.devices || "All Devices"}</li>
+                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.connect || "Connect 5"}</li>
+                   <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
+                 </ul>
+                 <Button onClick={() => handleCheckout("monthly")} disabled={!!loading} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">
+                   {loading === "monthly" ? <Loader2 className="animate-spin w-4 h-4" /> : t.plans.start_trial}
+                 </Button>
+               </div>
              </div>
 
              {/* 2. Semi-Annual */}
              <div className="group relative bg-white rounded-3xl border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
                 <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular}</div>
-                <div className="p-8 pt-12 flex flex-col h-full">
-                  <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
-                  <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€17.90</span></div>
-                  <p className="text-sm font-medium text-green-600 mb-6">{t.plans.per_mo}</p>
-                  
-                  <div className="flex gap-2 mb-8 flex-wrap">
-                     <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.status.trial_period}</div>
-                     <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">{t.plans.save_25}</div>
-                  </div>
+               <div className="p-8 pt-12 flex flex-col h-full">
+                 <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
+                 <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€12.90</span><span className="text-slate-400 ml-2 font-medium">/ 6 months</span></div>
+                 <p className="text-sm font-medium text-green-600 mb-6">≈ €2.15 / month</p>
+                 
+                 <div className="flex gap-2 mb-8 flex-wrap">
+                    <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.status?.trial_period || t.plans.trial_7d}</div>
+                    <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">Save 14%</div>
+                 </div>
 
-                  <ul className="space-y-4 mb-8 text-sm flex-grow">
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.copilot}</li>
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.storage}</li>
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.devices}</li>
-                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.connect}</li>
-                    <li className="flex gap-3 text-slate-900 font-bold items-center"><Check className="w-4 h-4 text-green-500 shrink-0"/> {t.plans.save_25_vs}</li>
-                  </ul>
-                  <Button onClick={() => handleCheckout("semi")} disabled={!!loading} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">
-                    {loading === "semi" ? <Loader2 className="animate-spin w-4 h-4" /> : t.plans.choose_semi}
-                  </Button>
-                </div>
+                 <ul className="space-y-4 mb-8 text-sm flex-grow">
+                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.copilot || "Copilot"}</li>
+                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.storage || "1TB Storage"}</li>
+                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.devices || "All Devices"}</li>
+                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features?.connect || "Connect 5"}</li>
+                 </ul>
+                 <Button onClick={() => handleCheckout("semi")} disabled={!!loading} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">
+                   {loading === "semi" ? <Loader2 className="animate-spin w-4 h-4" /> : t.plans.choose_semi}
+                 </Button>
+               </div>
              </div>
 
              {/* 3. Yearly */}
              <div className="relative group md:-translate-y-4 h-full">
                <div className="absolute -inset-0.5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-[24px] blur opacity-30 group-hover:opacity-60 transition duration-500 pointer-events-none group-hover:scale-105"></div>
                <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-purple-100 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold py-2 uppercase tracking-widest text-center">{t.plans.best_value}</div>
-                  <div className="p-8 pt-12 flex flex-col h-full">
-                    <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly}</h3>
-                    <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€29.90</span><span className="text-slate-400 ml-1">{t.plans.yr}</span></div>
-                    <p className="text-sm font-bold text-pink-600 mb-6">{t.plans.only_mo}</p>
-                    
-                    <div className="flex gap-2 mb-8 flex-wrap">
-                       <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.status.trial_period}</div>
-                       <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">{t.plans.save_37}</div>
-                    </div>
+                 <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold py-2 uppercase tracking-widest text-center">{t.plans.best_value}</div>
+                 <div className="p-8 pt-12 flex flex-col h-full">
+                   <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly}</h3>
+                   <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€21.90</span><span className="text-slate-400 ml-2 font-medium">/ year</span></div>
+                   <p className="text-sm font-bold text-pink-600 mb-6">≈ €1.82 / month</p>
+                   
+                   <div className="flex gap-2 mb-8 flex-wrap">
+                      <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.status?.trial_period || t.plans.trial_7d}</div>
+                      <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">Save 27%</div>
+                   </div>
 
-                    <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
-                      <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.copilot}</li>
-                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.storage}</li>
-                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.devices}</li>
-                      <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.connect}</li>
-                      <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> {t.plans.save_37_vs}</li>
-                    </ul>
-                    <div className="mt-auto">
-                      <Button onClick={() => handleCheckout("yearly")} disabled={!!loading} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">
-                        {loading === "yearly" ? <Loader2 className="animate-spin w-5 h-5" /> : t.plans.sub_yearly}
-                      </Button>
-                    </div>
-                  </div>
+                   <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
+                     <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.copilot || "Copilot"}</li>
+                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.storage || "1TB Storage"}</li>
+                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.devices || "All Devices"}</li>
+                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features?.connect || "Connect 5"}</li>
+                   </ul>
+                   <div className="mt-auto">
+                     <Button onClick={() => handleCheckout("yearly")} disabled={!!loading} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">
+                       {loading === "yearly" ? <Loader2 className="animate-spin w-5 h-5" /> : t.plans.sub_yearly}
+                     </Button>
+                   </div>
+                 </div>
                </div>
              </div>
           </div>
