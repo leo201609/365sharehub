@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import stripe from '@/utils/stripe/server';
 import { createClient } from '@/utils/supabase/server';
 
-// 🔥 核心配置：强制动态路由，且确保只定义一次
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
@@ -10,40 +9,30 @@ export async function POST(req: Request) {
     const { plan } = await req.json();
     const supabase = await createClient();
     
-    // 1. 获取当前用户
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 2. 定义套餐价格 ID (对应你 Stripe 后台的 Price ID)
-const PLAN_MAP: any = {
-      monthly: { 
-        id: 'price_1T16qUJzsK7SvKdfKQNmBGrC', // 👈 粘贴 "365ShareHub Monthly" 的 ID
-        name: 'Monthly Plan' 
-      },
-      semi: { 
-        id: 'price_1T16qqJzsK7SvKdfmGtyVIVG', // 👈 粘贴 "365ShareHub 6-Months" 的 ID
-        name: 'Semi-Annual Plan' 
-      },
-      yearly: { 
-        id: 'price_1T143rJzsK7SvKdfnGCgQ3rj', // 👈 粘贴 "365ShareHub Pro" 的 ID
-        name: 'Annual Pro' 
-      },
-    };
+    const userLocale = user.user_metadata?.locale || 'en';
 
+    const PLAN_MAP: any = {
+      monthly: { id: 'price_1TCHd0JzsK7SvKdfixEtuVRA', name: 'Monthly Plan' },
+      semi: { id: 'price_1TCHfCJzsK7SvKdfgSyCttWe', name: 'Semi-Annual Plan' },
+      yearly: { id: 'price_1TCHfrJzsK7SvKdfXGyGh0uk', name: 'Annual Pro' },
+    };
 
     const selectedPlan = PLAN_MAP[plan];
     if (!selectedPlan) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
 
-    // 3. 创建 Stripe Checkout 会话
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      // 🔥 核心修改：删除了 payment_method_types: ['card']
+      // 让 Stripe 自动接管，根据用户 IP 展示 Klarna, SEPA, PayPal, Apple Pay 等
+      ui_mode: 'hosted', 
       line_items: [{ price: selectedPlan.id, quantity: 1 }],
       mode: 'subscription',
-      // 允许 7 天免费试用
       subscription_data: {
         trial_period_days: 7,
       },
@@ -53,6 +42,7 @@ const PLAN_MAP: any = {
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
       metadata: {
         plan_name: selectedPlan.name,
+        locale: userLocale, 
       },
     });
 

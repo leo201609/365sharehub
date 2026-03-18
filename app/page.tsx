@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image"; 
 import { useRouter } from "next/navigation"; 
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,13 @@ import {
   DropdownMenuLabel, 
   DropdownMenuSeparator 
 } from "@/components/ui/dropdown-menu";
-import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles, Plus, Minus } from "lucide-react";
+import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles, Plus, Minus, Mail, Loader2, Send, MessageSquare, X, ShieldCheck } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link"; 
 
-// 引入全新的多语言组件和 Provider
+// 引入多语言组件和 Hook
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
-import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
+import { useLanguage } from "@/app/components/LanguageProvider";
 
 // --- 0. Icons & Logo ---
 const ModernLogo = () => (
@@ -35,15 +35,7 @@ const ModernLogo = () => (
   </div>
 );
 
-// Social Media Icons (SVG)
-const XIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>);
-const TikTokIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.03 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.35-1.17 1.09-1.07 1.73.07.45.27.9.55 1.15.5.41 1.13.56 1.75.52 1.25.1 2.56-.63 3.09-1.78.27-.58.33-1.25.32-1.88.02-5.5.01-11 .01-16.51z"/></svg>);
-const WhatsAppIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>);
-const TelegramIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 11.944 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>);
-const YouTubeIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>);
-const LinkedInIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>);
-
-// --- 应用数据 ---
+// --- 1. 应用数据 ---
 const APPS_DATA = [
   { id: "copilot", title: "Copilot", desc: "Your everyday AI companion.", icon: "/icons/copilot.png", link: "https://copilot.microsoft.com/" },
   { id: "onedrive", title: "OneDrive", desc: "Save and share safely.", icon: "/icons/onedrive.png", link: "https://onedrive.live.com/" },
@@ -74,16 +66,30 @@ const AppCard = ({ item }: any) => (
   </a>
 );
 
-// --- 首页内部组件 (连接全局状态) ---
+// --- 3. 首页核心内容组件 ---
 function HomeContent() {
   const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [emailInput, setEmailInput] = useState("");
-  // 控制 FAQ 展开状态的 state，默认展开第一个 (index 0)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   
+  // 核心交互状态
+  const [formMode, setFormMode] = useState<'trial' | 'contact'>('trial');
+  const [trialStatus, setTrialStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  
+  // 🔥 新增：控制输入框高亮动效的状态
+  const [highlightInput, setHighlightInput] = useState(false);
+  
+  // 留言表单状态
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+
   const router = useRouter(); 
   const supabase = createClient();
+  
+  // 用于定位和聚焦主输入框的引用 (Ref)
+  const emailInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -103,21 +109,73 @@ function HomeContent() {
     router.push(path);
   };
 
-  const handleGetStarted = () => {
-    if (user) {
-      router.push("/dashboard");
-    } else {
-      router.push(`/login?email=${encodeURIComponent(emailInput)}`);
+  // 🔥 升级：处理顶部导航栏点击试用的逻辑 (增加高亮动效)
+  const handleTopNavTrialClick = () => {
+    setFormMode('trial');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // 延迟 400ms 等待页面滚动完成
+    setTimeout(() => {
+      emailInputRef.current?.focus(); // 自动聚焦光标
+      setHighlightInput(true); // 触发高亮放大动效
+      
+      // 2 秒后移除高亮动效，恢复原样
+      setTimeout(() => {
+        setHighlightInput(false);
+      }, 2000);
+    }, 400);
+  };
+
+  const handleQuickTrial = async () => {
+    if (!emailInput || !emailInput.includes('@')) {
+      alert("Please enter a valid Microsoft Account email address.");
+      return;
+    }
+    setTrialStatus('loading');
+    try {
+      await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'trial', email: emailInput })
+      });
+      setTrialStatus('success');
+    } catch (error) {
+      console.error("Trial request failed", error);
+      alert("Something went wrong. Please try again.");
+      setTrialStatus('idle');
     }
   };
 
-  // 根据当前语言动态生成 FAQ 数组，带有回退保护
+  const handleQuickContact = async () => {
+    if (!contactMessage) return;
+    setContactStatus('loading');
+    try {
+      await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'contact', email: contactEmail, message: contactMessage })
+      });
+      setContactStatus('success');
+    } catch (error) {
+      console.error("Contact request failed", error);
+      alert("Something went wrong. Please try again.");
+      setContactStatus('idle');
+    }
+  };
+
   const faqs = t.faq ? [
     { q: t.faq.q1, a: t.faq.a1 },
-    { q: t.faq.q2, a: t.faq.a2 },
+    { 
+      q: t.faq.q2, 
+      a: "You can enjoy a 7-day free trial and pay only after you are 100% satisfied. If you are not satisfied, you can easily cancel anytime before the trial ends without being charged a single cent. If you are satisfied after the trial, please sign up with your email and subscribe to the plan you need." 
+    },
     { q: t.faq.q3, a: t.faq.a3 },
     { q: t.faq.q4, a: t.faq.a4 },
     { q: t.faq.q5, a: t.faq.a5 },
+    { 
+      q: t.faq.q6 || "Is my payment secure? What payment methods do you support?", 
+      a: t.faq.a6 || "Absolutely. All transactions are securely processed with bank-level encryption through Stripe, a global leader in payment infrastructure. We never store your credit card data on our servers. For your convenience and safety, we support a wide range of flexible payment methods, including Credit/Debit Cards, PayPal, Klarna, Apple Pay, Google Pay, and SEPA Direct Debit." 
+    },
   ] : [];
 
   return (
@@ -129,12 +187,9 @@ function HomeContent() {
             <span className="font-bold text-xl tracking-tight hidden md:block text-slate-800">365ShareHub</span>
           </div>
           <div className="flex items-center gap-4">
-            
-            {/* 高颜值胶囊状 LanguageSwitcher */}
             <div className="hidden md:block border-r border-slate-200 pr-4 mr-1">
                <LanguageSwitcher />
             </div>
-
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -163,7 +218,7 @@ function HomeContent() {
                 <button onClick={() => router.push("/login")} className="text-sm font-medium text-slate-600 hover:text-[#0078D4] transition hidden sm:block">
                   {t.common.sign_in}
                 </button>
-                <Button onClick={() => router.push("/login")} className="bg-[#0078D4] text-white hover:bg-[#0060aa] rounded-full px-6 h-10 text-sm font-semibold shadow-md shadow-blue-200 transition-all hover:scale-105">
+                <Button onClick={handleTopNavTrialClick} className="bg-[#0078D4] text-white hover:bg-[#0060aa] rounded-full px-6 h-10 text-sm font-semibold shadow-md shadow-blue-200 transition-all hover:scale-105">
                   {t.plans.start_trial}
                 </Button>
               </>
@@ -172,7 +227,7 @@ function HomeContent() {
         </div>
       </nav>
 
-      <section className="relative pt-24 pb-20 px-6 text-center">
+      <section className="relative pt-24 pb-20 px-6 text-center min-h-[600px] flex flex-col justify-center">
         <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] text-slate-900 drop-shadow-sm">
             {t.home.hero_title_1}<br/>
@@ -180,22 +235,147 @@ function HomeContent() {
               {t.home.hero_title_2}
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium mb-8">
             {t.home.hero_desc}
           </p>
-          <div className="max-w-md mx-auto relative group mt-10">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 group-hover:opacity-40 blur transition duration-500 pointer-events-none"></div>
-            <div className="relative flex bg-white rounded-full p-2 shadow-xl shadow-blue-100 group-hover:shadow-2xl transition-all border border-slate-100 items-center z-10">
-              {/* 修复：使用 t.common.email_placeholder */}
-              <Input type="email" placeholder={t.common.email_placeholder} value={emailInput} onChange={(e) => setEmailInput(e.target.value)} className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base pl-4 h-10" onKeyDown={(e) => e.key === 'Enter' && handleGetStarted()}/>
-              <Button onClick={handleGetStarted} className="rounded-full px-6 bg-[#0078D4] hover:bg-[#0060aa] text-white font-medium h-10 transition-all whitespace-nowrap">
-                {t.home.cta_start} <ArrowRight className="w-4 h-4 ml-1" />
-              </Button>
-            </div>
-            <p className="text-xs text-slate-400 mt-4 flex items-center justify-center gap-4">
-               <span className="flex items-center"><Check className="w-3 h-3 mr-1 text-green-500"/> {t.home.hero_badge_1}</span>
-               <span className="flex items-center"><Check className="w-3 h-3 mr-1 text-green-500"/> {t.home.hero_badge_2}</span>
-            </p>
+          
+          <div className="w-full max-w-4xl mx-auto relative mt-12 flex flex-col items-center">
+            
+            {trialStatus === 'success' ? (
+              <div className="w-full max-w-xl bg-green-50/80 backdrop-blur-sm border border-green-200 rounded-[2rem] p-8 animate-in zoom-in duration-300 shadow-xl shadow-green-100/50">
+                <div className="flex items-center justify-center w-14 h-14 bg-green-100 rounded-full mx-auto mb-4">
+                  <Check className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-green-800 font-extrabold text-2xl mb-2">Request Received!</h3>
+                <p className="text-green-700/80 font-medium">
+                  We are preparing your Family Group invitation.<br/>
+                  Please check your inbox (and spam folder) for <b>{emailInput}</b> within the next 24 hours.
+                </p>
+              </div>
+            ) : formMode === 'contact' ? (
+              <div className="w-full max-w-2xl animate-in flip-in-y duration-500">
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-[#7048E8] to-[#0078D4] rounded-[2.5rem] opacity-30 blur-lg transition duration-500 pointer-events-none"></div>
+                <div className="relative bg-white/95 backdrop-blur-xl rounded-[2.5rem] p-5 shadow-2xl shadow-blue-100/50 border border-slate-100 z-10 flex flex-col gap-4 text-left">
+                  
+                  <div className="flex items-center justify-between px-2 mb-1">
+                    <span className="font-extrabold text-slate-800 flex items-center text-base">
+                      <div className="bg-blue-100 p-1.5 rounded-full mr-3"><MessageSquare className="w-4 h-4 text-[#0078D4]"/></div>
+                      Drop us a line
+                    </span>
+                    <button onClick={() => { setFormMode('trial'); setContactStatus('idle'); }} className="text-slate-400 hover:text-slate-700 transition-colors bg-slate-50 hover:bg-slate-100 rounded-full p-2">
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  {contactStatus === 'success' ? (
+                    <div className="text-center py-8 animate-in zoom-in">
+                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <Check className="w-6 h-6 text-green-600"/>
+                      </div>
+                      <p className="font-bold text-green-700 text-xl mb-1">Message Sent!</p>
+                      <p className="text-sm text-green-600/80">We will reply to your email shortly.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      <Input 
+                        type="email" 
+                        placeholder="Your Email (so we can reply)" 
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                        className="bg-slate-50/50 border-slate-200 h-14 rounded-[1rem] focus-visible:ring-[#0078D4] px-4 text-base"
+                      />
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Input 
+                          placeholder="How can we help?" 
+                          value={contactMessage}
+                          onChange={(e) => setContactMessage(e.target.value)}
+                          className="bg-slate-50/50 border-slate-200 h-14 rounded-[1rem] focus-visible:ring-[#0078D4] px-4 text-base flex-grow"
+                          onKeyDown={(e) => e.key === 'Enter' && handleQuickContact()}
+                        />
+                        <Button 
+                          onClick={handleQuickContact} 
+                          disabled={contactStatus === 'loading' || !contactMessage}
+                          className="rounded-[1rem] w-full sm:w-auto px-8 bg-[#0078D4] hover:bg-[#0060aa] text-white font-bold h-14 transition-all shrink-0 shadow-lg hover:shadow-blue-500/30 text-base"
+                        >
+                          {contactStatus === 'loading' ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Send <Send className="w-4 h-4 ml-2" /></>}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="w-full animate-in fade-in duration-500 flex flex-col items-center">
+                
+                <div className="flex flex-col md:flex-row items-center justify-center gap-5 w-full">
+                  
+                  {/* 🔥 优化核心：根据 highlightInput 动态附加高亮样式 */}
+                  <div className="relative group w-full max-w-[34rem] shrink-0 h-[76px]">
+                    <div className={`absolute -inset-1.5 bg-gradient-to-r from-[#0078D4] to-[#7048E8] rounded-full blur transition duration-500 pointer-events-none ${highlightInput ? 'opacity-60' : 'opacity-20 group-hover:opacity-40'}`}></div>
+                    
+                    <div className={`relative bg-white/90 backdrop-blur-md rounded-full p-2.5 transition-all duration-500 z-10 flex flex-col sm:flex-row gap-2 h-full ${
+                      highlightInput 
+                        ? 'ring-4 ring-[#0078D4]/50 border border-[#0078D4] scale-[1.02] shadow-2xl shadow-blue-500/40' 
+                        : 'shadow-xl hover:shadow-2xl border border-white'
+                    }`}>
+                      
+                      <div className="relative flex-grow flex items-center bg-slate-50 rounded-full px-5 h-full overflow-hidden border border-slate-100/50">
+                        <Mail className={`w-5 h-5 mr-3 shrink-0 transition-colors duration-500 ${highlightInput ? 'text-[#0078D4]' : 'text-slate-400'}`} />
+                        <Input 
+                          ref={emailInputRef}
+                          type="email" 
+                          placeholder="Your MS Account Email" 
+                          value={emailInput} 
+                          onChange={(e) => setEmailInput(e.target.value)} 
+                          className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base p-0 w-full placeholder:text-slate-400" 
+                          onKeyDown={(e) => e.key === 'Enter' && handleQuickTrial()}
+                          disabled={trialStatus === 'loading'}
+                        />
+                      </div>
+
+                      <Button 
+                        onClick={handleQuickTrial} 
+                        disabled={trialStatus === 'loading' || !emailInput}
+                        className={`rounded-full px-8 text-white font-bold h-full transition-all whitespace-nowrap w-full sm:w-auto text-base shrink-0 ${
+                          highlightInput ? 'bg-[#0078D4] shadow-lg shadow-blue-500/50' : 'bg-slate-900 hover:bg-[#0078D4] shadow-md hover:shadow-blue-500/30'
+                        }`}
+                      >
+                        {trialStatus === 'loading' ? (
+                          <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Processing...</>
+                        ) : (
+                          <>Get Free Trial <ArrowRight className="w-4 h-4 ml-2" /></>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="relative group w-full md:w-auto shrink-0 h-[76px]">
+                    <div className="absolute -inset-1.5 bg-gradient-to-r from-[#7048E8] to-[#0078D4] rounded-full opacity-20 group-hover:opacity-45 blur transition duration-500 pointer-events-none"></div>
+                    <Button 
+                      onClick={() => setFormMode('contact')}
+                      variant="ghost"
+                      className="relative h-full px-6 pr-8 bg-white/80 backdrop-blur-md rounded-full border border-white shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3.5 z-10 shrink-0 group w-full hover:-translate-y-0.5"
+                    >
+                      <div className="bg-gradient-to-tr from-[#7048E8] to-[#0078D4] w-10 h-10 rounded-full flex items-center justify-center text-white shadow-[0_0_15px_rgba(112,72,232,0.4)] group-hover:scale-110 transition-transform duration-300 shrink-0">
+                         <MessageSquare className="w-5 h-5" />
+                      </div>
+                      <span className="font-extrabold text-[15px] whitespace-nowrap bg-clip-text text-transparent bg-gradient-to-r from-slate-700 to-slate-900 group-hover:from-[#7048E8] group-hover:to-[#0078D4] transition-colors duration-300">
+                        Questions?
+                      </span>
+                    </Button>
+                  </div>
+
+                </div>
+                
+                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-8 text-sm font-medium text-slate-500 max-w-3xl mx-auto">
+                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> No credit card required</span>
+                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> No registration</span>
+                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> Instant access</span>
+                   <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-[#0078D4]"/> Try first, pay later</span>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       </section>
@@ -227,10 +407,9 @@ function HomeContent() {
               <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible}</div>
               <div className="p-8 pt-12 flex flex-col h-full"> 
                 <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
-                <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€3.59</span><span className="text-slate-400 ml-1">{t.plans.mo}</span></div>
+                <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€2.50</span><span className="text-slate-400 ml-2 font-medium">/ month</span></div>
                 <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.plans.trial_7d}</div>
                 <ul className="space-y-4 mb-8 text-sm flex-grow">
-                  {/* 🔥 修复：去掉了不存在的 platform 属性 */}
                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
                   <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
@@ -246,19 +425,17 @@ function HomeContent() {
                <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular}</div>
               <div className="p-8 pt-12 flex flex-col h-full">
                 <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
-                <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€17.90</span></div>
-                <p className="text-sm font-medium text-green-600 mb-6">{t.plans.per_mo}</p>
+                <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€12.90</span><span className="text-slate-400 ml-2 font-medium">/ 6 months</span></div>
+                <p className="text-sm font-medium text-green-600 mb-6">≈ €2.15 / month</p>
                 <div className="flex gap-2 mb-8 flex-wrap">
                    <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
-                   <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">{t.plans.save_25}</div>
+                   <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">Save 14%</div>
                 </div>
                 <ul className="space-y-4 mb-8 text-sm flex-grow">
-                  {/* 🔥 修复：去掉了不存在的 platform 属性 */}
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
                   <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
-                  <li className="flex gap-3 text-slate-900 font-bold items-center"><Check className="w-4 h-4 text-green-500 shrink-0"/> {t.plans.save_25_vs}</li>
                 </ul>
                 <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.plans.choose_semi}</Button>
               </div>
@@ -271,19 +448,17 @@ function HomeContent() {
                 <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold py-2 uppercase tracking-widest text-center">{t.plans.best_value}</div>
                 <div className="p-8 pt-12 flex flex-col h-full">
                   <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly}</h3>
-                  <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€29.90</span><span className="text-slate-400 ml-1">{t.plans.yr}</span></div>
-                  <p className="text-sm font-bold text-pink-600 mb-6">{t.plans.only_mo}</p>
+                  <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€21.90</span><span className="text-slate-400 ml-2 font-medium">/ year</span></div>
+                  <p className="text-sm font-bold text-pink-600 mb-6">≈ €1.82 / month</p>
                   <div className="flex gap-2 mb-8 flex-wrap">
                      <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
-                     <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">{t.plans.save_37}</div>
+                     <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">Save 27%</div>
                   </div>
                   <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
-                    {/* 🔥 修复：去掉了不存在的 platform 属性 */}
                     <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.copilot}</li>
                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.storage}</li>
                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.devices}</li>
                     <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.connect}</li>
-                    <li className="flex gap-3 p-3 bg-pink-50/50 rounded-xl border border-pink-100 font-bold text-slate-900 items-center"><Check className="w-5 h-5 text-red-500 shrink-0"/> {t.plans.save_37_vs}</li>
                   </ul>
                   <div className="mt-auto">
                     <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login?plan=yearly")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.plans.sub_yearly}</Button>
@@ -295,7 +470,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* 新增：高颜值 FAQ 模块 */}
+      {/* FAQ */}
       {faqs.length > 0 && (
         <section id="faq" className="py-24 relative bg-white border-t border-slate-100">
           <div className="max-w-4xl mx-auto px-6">
@@ -326,7 +501,6 @@ function HomeContent() {
                       </div>
                     </button>
                     
-                    {/* CSS Grid 技巧实现丝滑折叠动画 */}
                     <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                       <div className="overflow-hidden">
                         <p className="px-6 pb-6 text-slate-600 leading-relaxed whitespace-pre-line">
@@ -339,61 +513,29 @@ function HomeContent() {
               })}
             </div>
 
-            {/* 底部促转化文案 */}
             <div className="mt-12 text-center p-8 bg-slate-50 rounded-3xl border border-slate-100">
                <h3 className="font-bold text-slate-900 mb-2">Still have questions?</h3>
                <p className="text-slate-500 mb-6 text-sm">Our support team is ready to help you 24/7.</p>
-               <Button onClick={() => handleNav("/login")} className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-8">
-                 {t.home.cta_start}
+               <Button onClick={() => {
+                 window.scrollTo({top: 0, behavior: 'smooth'});
+                 setTimeout(() => setFormMode('contact'), 500); 
+               }} className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-8">
+                 Contact Support
                </Button>
             </div>
+
           </div>
         </section>
       )}
-
-      {/* --- Footer --- */}
-      <footer className="bg-slate-50 pt-16 pb-8 text-xs text-slate-500 border-t border-slate-200">
-        <div className="max-w-[1600px] mx-auto px-6">
-          <div className="flex items-center gap-4 mb-8">
-             <span className="font-bold text-slate-700 text-sm">Follow 365ShareHub</span>
-             <div className="flex gap-4">
-                <a href="#" className="text-slate-400 hover:text-blue-600 transition"><XIcon className="w-5 h-5" /></a>
-                <a href="#" className="text-slate-400 hover:text-blue-600 transition"><LinkedInIcon className="w-5 h-5" /></a>
-                <a href="#" className="text-slate-400 hover:text-red-600 transition"><YouTubeIcon className="w-5 h-5" /></a>
-                <a href="#" className="text-slate-400 hover:text-pink-600 transition"><TikTokIcon className="w-5 h-5" /></a>
-                <a href="#" className="text-slate-400 hover:text-green-600 transition"><WhatsAppIcon className="w-5 h-5" /></a>
-                <a href="#" className="text-slate-400 hover:text-blue-500 transition"><TelegramIcon className="w-5 h-5" /></a>
-             </div>
-          </div>
-
-          <div className="w-full h-px bg-slate-200 mb-8"></div>
-
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2 font-medium">
-               <div className="flex items-center gap-2 cursor-pointer hover:text-slate-800 transition-colors">
-                  <LanguageSwitcher />
-               </div>
-            </div>
-            <div className="flex gap-6">
-              <Link href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
-              <Link href="#" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
-              <Link href="#" className="hover:text-blue-600 transition-colors">Sitemap</Link>
-            </div>
-            <div>{t.home.footer_copy}</div>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
 
 export default function Home() {
   return (
-    <LanguageProvider>
-      <div className="min-h-screen relative font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden bg-[#fafafa]" suppressHydrationWarning>
-        <div className="fixed top-0 left-0 w-full h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent -z-10 pointer-events-none"></div>
-        <HomeContent />
-      </div>
-    </LanguageProvider>
+    <div className="min-h-screen relative font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden bg-[#fafafa]" suppressHydrationWarning>
+      <div className="fixed top-0 left-0 w-full h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent -z-10 pointer-events-none"></div>
+      <HomeContent />
+    </div>
   );
 }
