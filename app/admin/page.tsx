@@ -11,6 +11,10 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
+// 👉 修复：新增引入 UI 组件
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 // ⚠️ 极其重要：将这里替换为你用来当管理员的真实登录邮箱
 const ADMIN_EMAIL = "ronalgang007@gmail.com"; 
 
