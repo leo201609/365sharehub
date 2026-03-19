@@ -61,7 +61,9 @@ const enBase = {
     q4: "Is my 1TB cloud storage private?",
     a4: "100% private. Although you join via a Family Group, your 1TB OneDrive storage is completely independent and secured by Microsoft. No one else can access your personal files.",
     q5: "Is the service stable for long-term use?",
-    a5: "We guarantee long-term stable operation and reliable service. We welcome you to join our long-term subscription plans to enjoy continuous productivity. Wish you a pleasant experience!"
+    a5: "We guarantee long-term stable operation and reliable service. We welcome you to join our long-term subscription plans to enjoy continuous productivity. Wish you a pleasant experience!",
+    q6: "Is my payment secure? What payment methods do you support?",
+    a6: "Absolutely. All transactions are securely processed with bank-level encryption through Stripe. We never store your credit card data on our servers. We support Credit/Debit Cards, PayPal, Klarna, Apple Pay, Google Pay, and SEPA."
   },
   support: {
     title: "Contact Support", desc: "How can we help you today?",
@@ -96,7 +98,9 @@ const deBase = {
     q4: "Ist mein 1 TB Cloud-Speicher privat?",
     a4: "100 % privat. Obwohl Sie einer Familiengruppe beitreten, ist Ihr 1 TB OneDrive-Speicher völlig unabhängig. Niemand sonst hat Zugriff auf Ihre Dateien.",
     q5: "Ist der Service langfristig stabil?",
-    a5: "Wir garantieren einen langfristig stabilen Betrieb. Wir laden Sie herzlich ein, sich unseren langfristigen Abos anzuschließen. Wir wünschen Ihnen viel Freude bei der Nutzung!"
+    a5: "Wir garantieren einen langfristig stabilen Betrieb. Wir laden Sie herzlich ein, sich unseren langfristigen Abos anzuschließen. Wir wünschen Ihnen viel Freude bei der Nutzung!",
+    q6: "Ist meine Zahlung sicher? Welche Zahlungsmethoden werden unterstützt?",
+    a6: "Absolut. Alle Transaktionen werden sicher und mit Bankenverschlüsselung über Stripe verarbeitet. Wir speichern niemals Ihre Kreditkartendaten auf unseren Servern. Wir unterstützen Kredit-/Debitkarten, PayPal, Klarna, Apple Pay, Google Pay und SEPA."
   },
   support: {
     title: "Support kontaktieren", desc: "Wie können wir Ihnen heute helfen?",
@@ -131,7 +135,9 @@ const zhBase = {
     q4: "我的 1TB 云存储文件是私密的吗？",
     a4: "绝对私密。虽然您是通过家庭组邀请加入，但您的 1TB OneDrive 存储空间完全独立且受微软最高级别的安全保护，任何人都无法访问您的私人文件。",
     q5: "服务稳定吗？可以长期订阅吗？",
-    a5: "我们承诺长期稳定运行并提供高质量服务。非常欢迎您在体验后加入我们的长期订阅计划，享受最优惠的折扣。祝您使用愉快！"
+    a5: "我们承诺长期稳定运行并提供高质量服务。非常欢迎您在体验后加入我们的长期订阅计划，享受最优惠的折扣。祝您使用愉快！",
+    q6: "我的支付安全吗？支持哪些支付方式？",
+    a6: "绝对安全。所有交易均通过 Stripe 进行银行级加密处理，我们绝不会在服务器上存储您的信用卡数据。我们支持信用卡/借记卡、PayPal、Klarna、Apple Pay、Google Pay 以及 SEPA 直连汇款。"
   },
   support: {
     title: "联系客服", desc: "请问有什么我们可以帮您的？",
@@ -164,7 +170,9 @@ const twBase = {
     q4: "我的 1TB 雲端存儲文件是私密的嗎？",
     a4: "絕對私密。雖然您是透過家庭組邀請加入，但您的 1TB OneDrive 存儲空間完全獨立，任何人都無法訪問您的私人文件。",
     q5: "服務穩定嗎？可以長期訂閱嗎？",
-    a5: "我們承諾長期穩定運行並提供高品質服務。非常歡迎您在體驗後加入我們的長期訂閱計劃，享受最優惠的折扣。祝您使用愉快！"
+    a5: "我們承諾長期穩定運行並提供高品質服務。非常歡迎您在體驗後加入我們的長期訂閱計劃，享受最優惠的折扣。祝您使用愉快！",
+    q6: "我的支付安全嗎？支援哪些支付方式？",
+    a6: "絕對安全。所有交易均透過 Stripe 進行銀行級加密處理，我們絕不會在伺服器上儲存您的信用卡資料。我們支援信用卡/簽帳金融卡、PayPal、Klarna、Apple Pay、Google Pay 以及 SEPA 直連匯款。"
   },
   support: {
     title: "聯繫客服", desc: "請問有什麼我們可以幫您的？",
@@ -199,7 +207,9 @@ const jaBase = {
     q4: "1TBのクラウドストレージはプライベートですか？",
     a4: "完全にプライベートです。ファミリーグループを通じて参加しますが、1TBのOneDriveストレージは完全に独立しており、他の誰にもあなたのファイルにはアクセスできません。",
     q5: "サービスは安定していますか？長期契約は可能ですか？",
-    a5: "長期的に安定した稼働とサービス提供をお約束します。ご満足いただいた後は、ぜひ長期サブスクリプションプランにご参加ください。快適なご利用をお祈りしております！"
+    a5: "長期的に安定した稼働とサービス提供をお約束します。ご満足いただいた後は、ぜひ長期サブスクリプションプランにご参加ください。快適なご利用をお祈りしております！",
+    q6: "支払いは安全ですか？ どの支払い方法に対応していますか？",
+    a6: "はい、安全です。すべての取引はStripeを通じて銀行レベルの暗号化で安全に処理されます。クレジットカードデータを当社のサーバーに保存することはありません。クレジットカード/デビットカード、PayPal、Klarna、Apple Pay、Google Pay、およびSEPAに対応しています。"
   },
   support: {
     title: "サポートに連絡", desc: "本日はどのようなご用件でしょうか？",
@@ -234,7 +244,9 @@ const koBase = {
     q4: "내 1TB 스토리지는 비공개인가요?",
     a4: "100% 비공개입니다. 가족 그룹을 통해 가입하지만 귀하의 1TB 스토리지는 완전히 독립적이며 다른 누구도 액세스할 수 없습니다.",
     q5: "장기적으로 안정적인가요?",
-    a5: "장기적이고 안정적인 운영을 보장합니다. 당사의 연간 구독 플랜에 가입하여 지속적인 생산성을 누려보세요."
+    a5: "장기적이고 안정적인 운영을 보장합니다. 당사의 연간 구독 플랜에 가입하여 지속적인 생산성을 누려보세요.",
+    q6: "결제는 안전한가요? 지원하는 결제 수단은 무엇인가요?",
+    a6: "절대적으로 안전합니다. 모든 거래는 Stripe를 통해 은행 수준의 암호화로 안전하게 처리됩니다. 당사 서버에는 귀하의 신용카드 데이터가 절대 저장되지 않습니다. 신용/체크카드, PayPal, Klarna, Apple Pay, Google Pay, SEPA를 지원합니다."
   },
   support: {
     title: "고객 지원", desc: "무엇을 도와드릴까요?",
@@ -254,7 +266,7 @@ const esBase = {
   auth: { email: "Correo electrónico", password: "Contraseña", full_name: "Nombre completo", sign_in: "Iniciar sesión", sign_in_desc: "Accede a tu cuenta", sign_up: "Registrarse", create_account: "Crear cuenta", create_desc: "Inicia tu viaje con Copilot", remember_me: "Recuérdame", forgot_password: "¿Olvidaste tu contraseña?", no_account: "¿No tienes cuenta?", have_account: "¿Ya tienes cuenta?", or_continue: "O CONTINUAR CON", back_home: "Volver al inicio" },
   common: { ...enBase.common, my_account: "Mi Cuenta", dashboard: "Panel", loading: "Cargando...", logout: "Cerrar sesión", welcome: "Bienvenido,", member_since: "Miembro desde:", joined: "Unido:", days_ago: "días", install_apps: "Instalar apps", install_desc: "Descarga tus aplicaciones inmediatamente.", locked: "Bloqueado", manage_billing: "Gestionar facturación", sign_in: "Iniciar sesión", sign_up: "Registrarse" },
   status: { ...enBase.status, subscription_status: "Estado de suscripción", trial_active: "Prueba Activa", active: "Activo", trial_started: "Inicio de prueba", first_billing: "Primer cobro", trial_ends: "Fin de prueba", plan_active_since: "Activo desde", next_renewal: "Renovación", enjoy_trial: "Disfruta 7 días gratis. Cancela cuando quieras.", sub_active: "Suscripción Activa", status_label: "Estado", trial_period: "Período de prueba", paid: "Pagado", you_are_on: "Tu plan:" },
-  plans: { ...enBase.plans, flexible: "FLEXIBLE", most_popular: "POPULAR", best_value: "MEJOR VALOR", monthly: "Plan Mensual", semi: "Plan Semestral", yearly: "Pro Anual", mo: "/mes", yr: "/año", trial_7d: "Prueba 7 días", save_25: "Ahorra 25%", save_37: "Ahorra 37%", start_trial: "Prueba gratis", choose_semi: "Elegir 6 Meses", sub_yearly: "Suscribirse Anual", pay_after: "Cancela cuando quieras", save_25_vs: "Ahorra 25%", save_37_vs: "Ahorra 37%" },
+  plans: { ...enBase.plans, flexible: "FLEXIBLE", most_popular: "POPULAR", best_value: "MEJOR VALOR", monthly: "Plan Mensuel", semi: "Plan Semestral", yearly: "Pro Anual", mo: "/mes", yr: "/año", trial_7d: "Prueba 7 días", save_25: "Ahorra 25%", save_37: "Ahorra 37%", start_trial: "Prueba gratis", choose_semi: "Elegir 6 Meses", sub_yearly: "Suscribirse Anual", pay_after: "Cancela cuando quieras", save_25_vs: "Ahorra 25%", save_37_vs: "Ahorra 37%" },
   features: { copilot: "Incluye Copilot y Apps", storage: "1 TB de almacenamiento", devices: "PC, Mac, iOS y Android", connect: "Conecta 5 dispositivos" },
   apps: { ai_companion: "Tu IA", cloud_storage: "Nube", office_portal: "Portal Office", email_calendar: "Correo y Calendario" },
   faq: {
@@ -269,7 +281,9 @@ const esBase = {
     q4: "¿Es privado mi almacenamiento de 1TB?",
     a4: "100% privado. Aunque te unes a través de un Grupo Familiar, tu almacenamiento es completamente independiente. Nadie más puede acceder a tus archivos.",
     q5: "¿Es un servicio estable a largo plazo?",
-    a5: "Garantizamos un funcionamiento estable a largo plazo. Te invitamos a unirte a nuestros planes de suscripción anual para disfrutar de productividad continua."
+    a5: "Garantizamos un funcionamiento estable a largo plazo. Te invitamos a unirte a nuestros planes de suscripción anual para disfrutar de productividad continua.",
+    q6: "¿Es seguro mi pago? ¿Qué métodos de pago aceptan?",
+    a6: "Absolutamente. Todas las transacciones se procesan de forma segura con cifrado de nivel bancario a través de Stripe. Nunca almacenamos los datos de su tarjeta de crédito. Aceptamos Tarjetas de Crédito/Débito, PayPal, Klarna, Apple Pay, Google Pay y SEPA."
   },
   support: {
     title: "Contactar Soporte", desc: "¿En qué podemos ayudarte hoy?",
@@ -304,7 +318,9 @@ const frBase = {
     q4: "Mon stockage cloud de 1 To est-il privé ?",
     a4: "100% privé. Bien que vous rejoigniez un groupe familial, votre espace OneDrive est totalement indépendant. Personne d'autre ne peut accéder à vos fichiers.",
     q5: "Le service est-il stable à long terme ?",
-    a5: "Nous garantissons un fonctionnement stable à long terme. Nous vous invitons à rejoindre nos plans d'abonnement pour profiter d'une productivité continue."
+    a5: "Nous garantissons un fonctionnement stable à long terme. Nous vous invitons à rejoindre nos plans d'abonnement pour profiter d'une productivité continue.",
+    q6: "Mon paiement est-il sécurisé ? Quels modes de paiement acceptez-vous ?",
+    a6: "Absolument. Toutes les transactions sont traitées en toute sécurité avec un cryptage de niveau bancaire via Stripe. Nous ne stockons jamais vos données de carte de crédit. Nous acceptons les Cartes de Crédit/Débit, PayPal, Klarna, Apple Pay, Google Pay et SEPA."
   },
   support: {
     title: "Contacter le support", desc: "Comment pouvons-nous vous aider ?",
