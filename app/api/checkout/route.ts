@@ -16,25 +16,36 @@ export async function POST(req: Request) {
 
     const userLocale = user.user_metadata?.locale || 'en';
 
+    // ✨ 关键修复：让代码去读取 Coolify 里的环境变量，而不是死板的字符串
     const PLAN_MAP: any = {
-      monthly: { id: 'price_1TCHd0JzsK7SvKdfixEtuVRA', name: 'Monthly Plan' },
-      semi: { id: 'price_1TCHfCJzsK7SvKdfgSyCttWe', name: 'Semi-Annual Plan' },
-      yearly: { id: 'price_1TCHfrJzsK7SvKdfXGyGh0uk', name: 'Annual Pro' },
+      monthly: { 
+        id: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY, 
+        name: 'Monthly Plan' 
+      },
+      semi: { 
+        id: process.env.NEXT_PUBLIC_STRIPE_PRICE_SEMI, 
+        name: 'Semi-Annual Plan' 
+      },
+      yearly: { 
+        id: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY, 
+        name: 'Annual Pro' 
+      },
     };
 
     const selectedPlan = PLAN_MAP[plan];
-    if (!selectedPlan) {
-      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
+    
+    // 安全检查：防止变量没读到导致崩溃
+    if (!selectedPlan || !selectedPlan.id) {
+      console.error('❌ Missing Price ID for plan:', plan);
+      return NextResponse.json({ error: 'Invalid plan or missing Price ID' }, { status: 400 });
     }
 
     const session = await stripe.checkout.sessions.create({
-      // 🔥 核心修改：删除了 payment_method_types: ['card']
-      // 让 Stripe 自动接管，根据用户 IP 展示 Klarna, SEPA, PayPal, Apple Pay 等
       ui_mode: 'hosted', 
       line_items: [{ price: selectedPlan.id, quantity: 1 }],
       mode: 'subscription',
       subscription_data: {
-        trial_period_days: 7,
+        trial_period_days: 7, // 确保你在 Stripe 后台的价格没有禁用 Trial
       },
       customer_email: user.email,
       client_reference_id: user.id,
