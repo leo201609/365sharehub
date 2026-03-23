@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: "365ShareHub",
     images: [
       {
-        url: "/og-image.jpg", // 指向你刚才放在 public 文件夹里的宣传图
+        url: "/og-image-v2.jpg", // 🔥 已更新为 v2 强行打破缓存
         width: 1200,
         height: 630,
         alt: "365ShareHub - Affordable Microsoft 365",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image", 
     title: "365ShareHub - Premium Microsoft 365 for €1.65/mo",
     description: "Stop overpaying for Office. Get 1TB OneDrive, Copilot, Word, and Excel for just €1.65/month. Start your 7-day free trial today!",
-    images: ["/og-image.jpg"],
+    images: ["/og-image-v2.jpg"], // 🔥 已更新为 v2 强行打破缓存
   },
 };
 
