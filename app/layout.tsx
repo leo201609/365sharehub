@@ -10,25 +10,36 @@ import { LanguageProvider } from "@/app/components/LanguageProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  // 基础 SEO
-  title: "365ShareHub - Unlock Microsoft 365 Copilot Productivity",
-  description: "Boost productivity with Copilot alongside you. Get premium Microsoft 365 apps with built-in AI, advanced security, and 1 TB cloud storage in one plan.",
+  // 🔥 基础 SEO (更新了直击痛点的描述)
+  title: "365ShareHub - Premium Microsoft 365 & Copilot from €1.65/mo",
+  description: "Stop overpaying for Microsoft Office. Join our secure platform to get 1TB OneDrive, premium Office apps, and AI-powered Copilot for just €1.65/month. Start your 7-day free trial today.",
   
+  // 🔥 新增：精准的 SEO 关键词，帮助 Google 抓取
+  keywords: [
+    "Microsoft 365 subscription", 
+    "Office 365 family sharing", 
+    "cheap Copilot access", 
+    "1TB OneDrive storage", 
+    "Microsoft 365 discount",
+    "Share Microsoft 365",
+    "Office 365 alternatives"
+  ],
+
   // 关键：告诉爬虫你的主站域名是什么
   metadataBase: new URL('https://365sharehub.com'),
   
-  // 🌍 Open Graph
+  // 🌍 Open Graph (分享到 WhatsApp, Discord, Facebook 时的卡片)
   openGraph: {
-    title: "365ShareHub - Premium Microsoft 365 & Copilot",
-    description: "Upgrade your workflow with Microsoft 365 & Copilot. Flexible plans, instant access, and unbeatable prices.",
+    title: "365ShareHub - Premium Microsoft 365 for €1.65/mo",
+    description: "Get full access to Microsoft 365, Copilot, and 1TB OneDrive for a fraction of the cost. 7-day free trial available. Upgrade your workflow today!",
     url: "https://365sharehub.com",
     siteName: "365ShareHub",
     images: [
       {
-        url: "/og-image.jpg", // 指向你刚才放在 public 文件夹里的图片
+        url: "/og-image.jpg", // 指向你刚才放在 public 文件夹里的宣传图
         width: 1200,
         height: 630,
-        alt: "365ShareHub Preview",
+        alt: "365ShareHub - Affordable Microsoft 365",
       },
     ],
     locale: "en_US",
@@ -38,8 +49,8 @@ export const metadata: Metadata = {
   // 🐦 Twitter 专属卡片配置
   twitter: {
     card: "summary_large_image", 
-    title: "365ShareHub - Premium Microsoft 365 & Copilot",
-    description: "Upgrade your workflow with Microsoft 365 & Copilot. Flexible plans, instant access, and unbeatable prices.",
+    title: "365ShareHub - Premium Microsoft 365 for €1.65/mo",
+    description: "Stop overpaying for Office. Get 1TB OneDrive, Copilot, Word, and Excel for just €1.65/month. Start your 7-day free trial today!",
     images: ["/og-image.jpg"],
   },
 };

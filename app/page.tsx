@@ -247,14 +247,15 @@ function HomeContent() {
 
       <section className="relative pt-24 pb-20 px-6 text-center min-h-[600px] flex flex-col justify-center">
         <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          {/* SEO 优化：强化 Hero 标题和副标题的痛点感知 */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] text-slate-900 drop-shadow-sm">
-            {t.home.hero_title_1}<br/>
+            {t.home.hero_title_1 || "Stop Overpaying for"} <br/>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#0078D4] via-[#7048E8] to-[#0078D4] bg-[length:200%_auto] animate-gradient">
-              {t.home.hero_title_2}
+              {t.home.hero_title_2 || "Microsoft 365 & Copilot"}
             </span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium mb-8">
-            {t.home.hero_desc}
+            {t.home.hero_desc || "Join our secure platform to get 1TB OneDrive, premium Office apps, and AI-powered Copilot for just €1.65/mo. Start your 7-day free trial today—no upfront commitment."}
           </p>
           
           <div className="w-full max-w-4xl mx-auto relative mt-12 flex flex-col items-center">
@@ -400,8 +401,8 @@ function HomeContent() {
       <section id="apps" className="py-24 px-6 bg-white border-y border-slate-100">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">{t.home.section_apps_title}</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg">{t.home.section_apps_desc}</p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">{t.home.section_apps_title || "Everything you need to create and collaborate"}</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto text-lg">{t.home.section_apps_desc || "Unlock the full potential of Microsoft 365, beautifully integrated and secure."}</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {APPS_DATA.map((app: any) => (<AppCard key={app.id} item={app} />))}
@@ -413,76 +414,72 @@ function HomeContent() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h3 className="text-xl md:text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-[#0078D4] via-[#7048E8] to-[#D13438] animate-gradient bg-[length:200%_auto]">
-              {t.home.pricing_promo}
+              {t.home.pricing_promo || "Special Offer: Upgrade Today"}
             </h3>
-            <h2 className="text-xl font-semibold text-slate-600 mb-4">{t.home.pricing_title}</h2>
+            <h2 className="text-xl font-semibold text-slate-600 mb-4">{t.home.pricing_title || "Choose the plan that's right for you"}</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {/* 1. Monthly */}
             <div className="group relative bg-white rounded-3xl border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
-              <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible}</div>
+              <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible || "FLEXIBLE"}</div>
               <div className="p-8 pt-12 flex flex-col h-full"> 
-                <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
+                <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly || "Monthly Plan"}</h3>
                 <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€2.50</span><span className="text-slate-400 ml-2 font-medium">/ month</span></div>
-                <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.plans.trial_7d}</div>
+                <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.plans.trial_7d || "7-Day Free Trial"}</div>
                 <ul className="space-y-4 mb-8 text-sm flex-grow">
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
-                  <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
+                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot || "Includes Copilot & All Apps"}</li>
+                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage || "1TB OneDrive Storage"}</li>
+                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices || "Connect 5 Devices"}</li>
+                  <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after || "Pay after trial, cancel anytime"}</li>
                 </ul>
-                <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login?plan=monthly")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.plans.start_trial}</Button>
+                <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login?plan=monthly")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.plans.start_trial || "Start Free Trial"}</Button>
               </div>
             </div>
 
             {/* 2. Semi-Annual */}
             <div className="group relative bg-white rounded-3xl border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
-               <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular}</div>
+               <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular || "MOST POPULAR"}</div>
               <div className="p-8 pt-12 flex flex-col h-full">
-                <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
+                <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi || "Semi-Annual Plan"}</h3>
                 <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€12.90</span><span className="text-slate-400 ml-2 font-medium">/ 6 months</span></div>
                 <p className="text-sm font-medium text-green-600 mb-6">≈ €2.15 / month</p>
                 <div className="flex gap-2 mb-8 flex-wrap">
-                   <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
+                   <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d || "7-Day Free Trial"}</div>
                    <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">Save 14%</div>
                 </div>
                 <ul className="space-y-4 mb-8 text-sm flex-grow">
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.connect}</li>
+                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot || "Includes Copilot & All Apps"}</li>
+                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage || "1TB OneDrive Storage"}</li>
+                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices || "Connect 5 Devices"}</li>
                 </ul>
-                <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.plans.choose_semi}</Button>
+                <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.plans.choose_semi || "Choose 6-Months"}</Button>
               </div>
             </div>
 
-            {/* 3. Yearly (恢复紫粉色渐变 + 排版调整) */}
+            {/* 3. Yearly (BEST VALUE) */}
             <div className="relative group md:-translate-y-4 h-full">
               <div className="absolute -inset-0.5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-[24px] blur opacity-30 group-hover:opacity-60 transition duration-500 pointer-events-none group-hover:scale-105"></div>
               <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-purple-100 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
-                <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 text-center text-xs font-bold uppercase tracking-widest">{t.plans.best_value}</div>
+                <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 text-center text-xs font-bold uppercase tracking-widest">{t.plans.best_value || "BEST VALUE"}</div>
                 <div className="p-8 pt-12 flex flex-col h-full">
-                  <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly}</h3>
+                  <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly || "Annual Pro"}</h3>
                   <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€19.90</span><span className="text-slate-400 ml-2 font-medium">/ year</span></div>
                   <p className="text-sm font-bold text-pink-600 mb-6">≈ €1.65 / month</p>
                   
-                  {/* 这里是严格按照半年付对齐调整的折扣区块 */}
                   <div className="flex gap-2 mb-8 flex-wrap items-center">
-                     <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
+                     <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d || "7-Day Free Trial"}</div>
                      <div className="inline-block bg-pink-50 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-pink-100 w-fit">Save 33%</div>
                      <span className="text-sm font-bold text-pink-600 ml-1">(Get 4 months free! 🎉)</span>
                   </div>
                   
                   <ul className="space-y-4 mb-8 text-sm font-medium flex-grow">
-                    <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.copilot}</li>
-                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.storage}</li>
-                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.devices}</li>
-                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.connect}</li>
+                    <li className="flex gap-3 items-center"><Sparkles className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.copilot || "Includes Copilot & All Apps"}</li>
+                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.storage || "1TB OneDrive Storage"}</li>
+                    <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-purple-500 shrink-0"/> {t.features.devices || "Connect 5 Devices"}</li>
                   </ul>
                   <div className="mt-auto">
-                    <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login?plan=yearly")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.plans.sub_yearly}</Button>
+                    <Button onClick={() => handleNav(user ? "/dashboard?plan=yearly" : "/login?plan=yearly")} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold rounded-xl h-14 shadow-lg shadow-purple-200 text-lg transition-transform active:scale-95">{t.plans.sub_yearly || "Subscribe Yearly"}</Button>
                   </div>
                 </div>
               </div>
@@ -496,8 +493,8 @@ function HomeContent() {
         <section id="faq" className="py-24 relative bg-white border-t border-slate-100">
           <div className="max-w-4xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t.faq?.title}</h2>
-              <p className="text-lg text-slate-500">{t.faq?.desc}</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t.faq?.title || "Frequently Asked Questions"}</h2>
+              <p className="text-lg text-slate-500">{t.faq?.desc || "Everything you need to know about our service."}</p>
             </div>
 
             <div className="space-y-4">
