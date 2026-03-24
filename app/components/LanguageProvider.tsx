@@ -6,13 +6,13 @@ import { translations, Language, languageOptions } from '@/utils/translations';
 interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
-  t: typeof translations['en-US'];
+  t: typeof translations['en']; // 🔥 统一改为更简洁的 'en'
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>('en-US');
+  const [lang, setLangState] = useState<Language>('en'); // 🔥 默认设为 'en'
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -22,9 +22,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (savedLang && translations[savedLang]) {
       setLangState(savedLang);
     } else {
-      // 2. 检测浏览器语言
+      // 2. 检测浏览器语言，进行精简匹配
       const browserLang = navigator.language;
-      // 简单的匹配逻辑
       if (browserLang.startsWith('zh-CN')) setLangState('zh-CN');
       else if (browserLang.startsWith('zh')) setLangState('zh-TW');
       else if (browserLang.startsWith('de')) setLangState('de');
@@ -32,7 +31,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       else if (browserLang.startsWith('ja')) setLangState('ja');
       else if (browserLang.startsWith('ko')) setLangState('ko');
       else if (browserLang.startsWith('es')) setLangState('es');
-      else setLangState('en-US');
+      else if (browserLang.startsWith('pt')) setLangState('pt');
+      else setLangState('en'); // 🔥 所有的英文(US/UK/CA)全部归口到 'en'
     }
     setIsLoaded(true);
   }, []);
@@ -46,7 +46,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   if (!isLoaded) return <div className="min-h-screen bg-[#fafafa]" />;
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] || translations['en-US'] }}>
+    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] || translations['en'] }}>
       {children}
     </LanguageContext.Provider>
   );
