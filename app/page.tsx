@@ -388,9 +388,8 @@ function HomeContent() {
                 </div>
                 
                 <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-8 text-sm font-medium text-slate-500 max-w-3xl mx-auto">
-                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_cc || "No credit card required"}</span>
-                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_reg || "No registration"}</span>
-                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_instant || "Instant access"}</span>
+                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_cc || "No-registration trial"}</span>
+                   <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_reg || "One-click join"}</span>
                    <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-[#0078D4]"/> {t.home.hero_badge_2 || "Try first, pay later"}</span>
                    <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-[#0078D4]"/> {t.home.hero_badge_3 || "100% refund guarantee"}</span>
                 </div>
