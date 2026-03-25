@@ -847,13 +847,28 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
-                      {(Object.keys(EMAIL_TEMPLATES['en']) as Array<keyof typeof EMAIL_TEMPLATES['en']>).filter(k => k !== 'label').map((key) => (
-                        <Button key={key} variant="outline" onClick={() => applyTemplate(key as any)} className="justify-start text-[11px] h-9 bg-slate-50 border-slate-200 shadow-sm hover:border-[#0078D4]/50 hover:bg-blue-50/50 font-bold transition-all px-2 truncate">
-                          {EMAIL_TEMPLATES[templateLang][key as any].name}
-                        </Button>
-                      ))}
-                    </div>
+                    {/* 模板按钮区 */}
+<div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
+  {(Object.keys(EMAIL_TEMPLATES['en']) as Array<keyof typeof EMAIL_TEMPLATES['en']>)
+    .filter(k => k !== 'label')
+    .map((key) => {
+      // 🔥 关键修复：先将语言对象强制转换为 any 绕过索引检查
+      const currentLangTemplates = EMAIL_TEMPLATES[templateLang] as any;
+      const template = currentLangTemplates[key];
+      
+      return (
+        <Button 
+          key={key} 
+          variant="outline" 
+          onClick={() => applyTemplate(key as any)} 
+          className="justify-start text-[11px] h-9 bg-slate-50 border-slate-200 shadow-sm hover:border-[#0078D4]/50 hover:bg-blue-50/50 font-bold transition-all px-2 truncate"
+        >
+          {/* 🔥 修复处的代码：直接使用上面定义的 template 对象 */}
+          {template?.name || key}
+        </Button>
+      );
+    })}
+</div>
 
                     <div className="flex flex-col gap-4">
                       <Input placeholder="Email Subject" value={emailSubject} onChange={(e) => setEmailSubject(e.target.value)} className="font-bold text-sm h-12 bg-slate-50 border-slate-200 focus-visible:ring-[#0078D4]" />
