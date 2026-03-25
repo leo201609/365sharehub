@@ -168,12 +168,24 @@ export default function AdminDashboard() {
     }
   };
 
-  const applyTemplate = (templateKey: keyof typeof EMAIL_TEMPLATES['en']) => {
+  const applyTemplate = (templateKey: string) => {
     if (!selectedItem) return;
-    const template = EMAIL_TEMPLATES[templateLang][templateKey];
+    
+    // 🔥 关键修改：通过类型断言 (any) 绕过复杂的嵌套对象推导
+    const langData = EMAIL_TEMPLATES[templateLang as keyof typeof EMAIL_TEMPLATES] as any;
+    const template = langData[templateKey];
+
+    // 检查模板是否存在且不是那个 label 字符串
+    if (!template || typeof template === 'string') return;
+
     let finalSubject = template.subject;
-    if (templateKey === 'reply' && selectedItem.recordType === 'ticket') finalSubject = `Re: ${selectedItem.subject}`;
+    
+    if (templateKey === 'reply' && selectedItem.recordType === 'ticket') {
+      finalSubject = `Re: ${selectedItem.subject}`;
+    }
+    
     setEmailSubject(finalSubject);
+    
     const targetEmail = selectedItem.recordType === 'ticket' ? selectedItem.user_email : selectedItem.email;
     setEmailBody(template.body.replace(/{{email}}/g, targetEmail || 'Customer'));
   };
