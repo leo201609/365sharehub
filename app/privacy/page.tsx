@@ -1,53 +1,84 @@
-import Link from 'next/link';
-import { ArrowLeft, ShieldCheck } from 'lucide-react';
+"use client";
 
-export default function PrivacyPolicy() {
+import Link from "next/link";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { useLanguage, LanguageProvider } from "@/app/components/LanguageProvider";
+import LanguageSwitcher from "@/app/components/LanguageSwitcher";
+import { Suspense } from "react";
+
+function PrivacyContent() {
+  const { t } = useLanguage();
+
   return (
-    <div className="min-h-screen bg-slate-50 py-20 px-6 font-sans text-slate-700">
-      <div className="max-w-3xl mx-auto bg-white p-10 md:p-16 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
+    <div className="min-h-screen bg-[#fafafa] relative py-12 px-6">
+      
+      {/* 右上角语言切换器 */}
+      <div className="absolute top-6 right-6 z-20">
+        <LanguageSwitcher />
+      </div>
+
+      <div className="max-w-3xl mx-auto bg-white rounded-[2rem] p-8 md:p-12 shadow-xl border border-slate-100 relative z-10 animate-in fade-in zoom-in-95 duration-500">
         
-        <Link href="/" className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800 mb-8 transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+        <Link href="/" className="inline-flex items-center text-sm text-[#0078D4] hover:text-blue-800 mb-8 font-bold transition-colors group">
+          <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+          {t.auth.back_home || "Back to Home"}
         </Link>
 
         <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
-            <ShieldCheck className="w-8 h-8" />
+          <div className="w-12 h-12 bg-blue-50 text-[#0078D4] rounded-xl flex items-center justify-center">
+            <ShieldCheck className="w-6 h-6" />
           </div>
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900">
+            {t.privacy?.title || "Privacy Policy"}
+          </h1>
         </div>
         
-        <p className="mb-10 text-sm font-medium text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-6">Last updated: March 2026</p>
-        
-        <div className="space-y-10 text-base leading-loose text-slate-600">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-10 pb-6 border-b border-slate-100">
+          {t.privacy?.last_updated || "LAST UPDATED: MARCH 2026"}
+        </p>
+
+        <div className="space-y-10 text-slate-600">
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">1. Information We Collect</h2>
-            <p>We collect information that you provide directly to us when you use our services. This includes your email address (specifically your Microsoft account email) when you sign up for a trial or subscription. We use Stripe for payment processing and <strong className="text-slate-900">do not store your credit card information</strong> on our servers.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.privacy?.s1_t || "1. Information We Collect"}</h2>
+            <p className="leading-relaxed">{t.privacy?.s1_d || "We collect information that you provide directly to us when you use our services. This includes your email address (specifically your Microsoft account email) when you sign up for a trial or subscription. We use Stripe for payment processing and do not store your credit card information on our servers."}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">2. How We Use Your Information</h2>
-            <p>We use the information we collect to provide, maintain, and improve our services, including adding your account to our Premium Family Group, processing your transactions, sending you technical notices, and providing customer support.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.privacy?.s2_t || "2. How We Use Your Information"}</h2>
+            <p className="leading-relaxed">{t.privacy?.s2_d || "We use the information we collect to provide, maintain, and improve our services, including adding your account to our Premium Family Group, processing your transactions, sending you technical notices, and providing customer support."}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">3. Microsoft Account Security</h2>
-            <div className="bg-blue-50/50 border border-blue-100 p-6 rounded-2xl">
-              <p className="text-blue-900 mb-0">We do not require or ask for your Microsoft account password. You authenticate directly with Microsoft. We only need your email address to send the Family Group invitation. Your OneDrive data remains strictly private to you; administrators cannot access your personal files.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.privacy?.s3_t || "3. Microsoft Account Security"}</h2>
+            <div className="bg-blue-50/50 border border-blue-100 p-5 rounded-2xl">
+                <p className="leading-relaxed text-blue-900/80">{t.privacy?.s3_d || "We do not require or ask for your Microsoft account password. You authenticate directly with Microsoft. We only need your email address to send the Family Group invitation. Your OneDrive data remains strictly private to you; administrators cannot access your personal files."}</p>
             </div>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">4. Third-Party Services</h2>
-            <p>We use Stripe to process payments securely. When you make a purchase, you are subject to Stripe's Privacy Policy and Terms of Service. We do not share your personal information with other third parties for marketing purposes.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.privacy?.s4_t || "4. Third-Party Services"}</h2>
+            <p className="leading-relaxed">{t.privacy?.s4_d || "We use Stripe to process payments securely. When you make a purchase, you are subject to Stripe's Privacy Policy and Terms of Service. We do not share your personal information with other third parties for marketing purposes."}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">5. Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@365sharehub.com" className="text-blue-600 font-semibold hover:underline">support@365sharehub.com</a>.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.privacy?.s5_t || "5. Contact Us"}</h2>
+            <p className="leading-relaxed">
+              {t.privacy?.s5_d || "If you have any questions about this Privacy Policy, please contact us at support@365sharehub.com."}
+            </p>
           </section>
         </div>
+
       </div>
     </div>
+  );
+}
+
+export default function PrivacyPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#fafafa]"></div>}>
+      <LanguageProvider>
+        <PrivacyContent />
+      </LanguageProvider>
+    </Suspense>
   );
 }

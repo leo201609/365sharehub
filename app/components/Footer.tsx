@@ -2,11 +2,14 @@
 
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
+import { useLanguage } from '@/app/components/LanguageProvider';
 
 // --- 社交媒体图标 (SVG) ---
 const TelegramIcon = ({className}: {className?: string}) => (<svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 11.944 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>);
 
 export default function Footer() {
+  const { t } = useLanguage(); 
+
   return (
     <footer className="bg-slate-50 pt-10 pb-8 text-sm text-slate-500 border-t border-slate-200 mt-auto">
       <div className="max-w-[1600px] mx-auto px-6">
@@ -22,7 +25,7 @@ export default function Footer() {
                 className="flex items-center gap-2 bg-[#0088cc]/10 text-[#0088cc] hover:bg-[#0088cc] hover:text-white px-5 py-2.5 rounded-full transition-all duration-300 group shadow-sm hover:shadow-md border border-[#0088cc]/20"
               >
                 <TelegramIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="font-bold tracking-wide">Join Community</span>
+                <span className="font-bold tracking-wide">{t.common?.join_community || "Join Community"}</span>
               </a>
               
               <div className="flex items-center gap-2 sm:border-l sm:border-slate-200 sm:pl-5 mt-2 sm:mt-0 text-slate-400 hover:text-slate-700 transition-colors">
@@ -33,9 +36,11 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* 支付徽章 */}
+            {/* 🔥 动态读取 "Secure Payment" */}
             <div className="flex flex-wrap justify-center items-center gap-2 text-xs text-slate-400">
-              <span className="font-bold mr-3 uppercase tracking-widest text-[10px]">Secure Payment</span>
+              <span className="font-bold mr-3 uppercase tracking-widest text-[10px]">
+                {t.footer?.secure_payment || "Secure Payment"}
+              </span>
               <div className="h-6 px-2 bg-[#1A1F71] rounded flex items-center justify-center text-[9px] font-bold text-white italic tracking-wider" title="Visa">VISA</div>
               <div className="h-6 px-2 bg-[#FF5F00] rounded flex items-center justify-center text-[9px] font-bold text-white" title="MasterCard">MasterCard</div>
               <div className="h-6 px-2 bg-[#2E77BC] rounded flex items-center justify-center text-[9px] font-bold text-white tracking-wide" title="American Express">AMEX</div>
@@ -49,14 +54,14 @@ export default function Footer() {
 
         <div className="w-full h-px bg-slate-200 mb-8"></div>
 
-        {/* 底部链接与版权 (删除了语言切换，完全居中对齐) */}
+        {/* 🔥 动态读取底部链接和版权 */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
           <div className="flex items-center gap-6 font-medium">
-            <Link href="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
-            <Link href="/sitemap" className="hover:text-blue-600 transition-colors">Sitemap</Link>
+            <Link href="/privacy" className="hover:text-blue-600 transition-colors">{t.footer?.privacy || "Privacy Policy"}</Link>
+            <Link href="/terms" className="hover:text-blue-600 transition-colors">{t.footer?.terms || "Terms of Service"}</Link>
+            <Link href="/sitemap" className="hover:text-blue-600 transition-colors">{t.footer?.sitemap || "Sitemap"}</Link>
           </div>
-          <div>© {new Date().getFullYear()} 365ShareHub. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} 365ShareHub. {t.footer?.rights || "All rights reserved."}</div>
         </div>
 
       </div>

@@ -36,7 +36,13 @@ const ModernLogo = () => (
 
 // --- 1. App Card 组件 (使用动态数据) ---
 const AppCard = ({ item }: { item: any }) => {
-  const iconPath = `/icons/${item.name.toLowerCase()}.png`;
+  const { t } = useLanguage();
+  
+  // 🔥 修复图标名称映射（因为本地图标叫 ppt.png，而字典里叫 PowerPoint）
+  let iconName = item.name.toLowerCase();
+  if (iconName === 'powerpoint') iconName = 'ppt';
+  
+  const iconPath = `/icons/${iconName}.png`;
 
   const linkMap: Record<string, string> = {
     "copilot": "https://copilot.microsoft.com/",
@@ -63,7 +69,8 @@ const AppCard = ({ item }: { item: any }) => {
         <h3 className="font-bold text-lg text-slate-900 mb-2">{item.name}</h3>
         <p className="text-sm text-slate-500 leading-relaxed flex-grow">{item.desc}</p>
         <div className="mt-4 flex items-center text-[#0067b8] text-xs font-semibold group-hover:underline underline-offset-4">
-          Learn more <ArrowRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-1" />
+          {/* 🔥 动态读取 "Learn more" */}
+          {t.common?.learn_more || "Learn more"} <ArrowRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
     </a>
@@ -317,7 +324,6 @@ function HomeContent() {
                         <Input 
                           ref={emailInputRef}
                           type="email" 
-                          // 🔥 动态读取字典：输入框占位符
                           placeholder={t.home.email_placeholder || "Your MS Account Email"} 
                           value={emailInput} 
                           onChange={(e) => setEmailInput(e.target.value)} 
@@ -354,13 +360,12 @@ function HomeContent() {
                          <MessageSquare className="w-5 h-5" />
                       </div>
                       <span className="font-extrabold text-[15px] whitespace-nowrap bg-clip-text text-transparent bg-gradient-to-r from-slate-700 to-slate-900 group-hover:from-[#7048E8] group-hover:to-[#0078D4] transition-colors duration-300">
-                        Questions?
+                        {t.home.questions_btn || "Questions?"}
                       </span>
                     </Button>
                   </div>
                 </div>
                 
-                {/* 🔥 动态读取字典：下方的 3 个小保障和徽章 */}
                 <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-8 text-sm font-medium text-slate-500 max-w-3xl mx-auto">
                    <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_cc || "No credit card required"}</span>
                    <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_reg || "No registration"}</span>
@@ -373,7 +378,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* Apps 区域：完全动态化 */}
+      {/* Apps 区域 */}
       {appList.length > 0 && (
         <section id="apps" className="py-24 px-6 bg-white border-y border-slate-100">
           <div className="max-w-[1400px] mx-auto">
@@ -469,13 +474,14 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* FAQ 区域：双列高级布局 */}
+      {/* FAQ 区域 */}
       {faqList.length > 0 && (
         <section id="faq" className="py-24 relative bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6"> 
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t.faq?.title}</h2>
-              <p className="text-lg text-slate-500">{t.faq?.desc}</p>
+              {/* 🔥 动态读取标题 */}
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t.faq?.title || "Frequently Asked Questions"}</h2>
+              <p className="text-lg text-slate-500">{t.faq?.desc || "Everything you need to know about the product and billing."}</p>
             </div>
 
             {/* 双列网格布局 */}
@@ -555,15 +561,15 @@ function HomeContent() {
 
             </div>
 
-            {/* 底部 Contact Support */}
+            {/* 底部 Contact Support (🔥 动态读取标题和按钮) */}
             <div className="mt-16 text-center p-10 bg-slate-50 rounded-3xl border border-slate-100 max-w-4xl mx-auto shadow-inner">
-               <h3 className="text-2xl font-bold text-slate-900 mb-3">{t.support?.title || "Still have questions?"}</h3>
+               <h3 className="text-2xl font-bold text-slate-900 mb-3">{t.support?.title || "Contact Support"}</h3>
                <p className="text-slate-500 mb-8 text-base">{t.support?.desc || "Our support team is ready to help you 24/7."}</p>
                <Button onClick={() => {
                  window.scrollTo({top: 0, behavior: 'smooth'});
                  setTimeout(() => setFormMode('contact'), 500); 
                }} className="bg-slate-900 hover:bg-[#0078D4] text-white rounded-full px-10 h-12 text-base shadow-lg transition-all hover:scale-105 hover:shadow-blue-500/30">
-                 Contact Support
+                 {t.support?.btn || "Contact Support"}
                </Button>
             </div>
           </div>

@@ -1,53 +1,76 @@
-import Link from 'next/link';
-import { ArrowLeft, FileText } from 'lucide-react';
+"use client";
 
-export default function TermsOfService() {
+import Link from "next/link";
+import { ArrowLeft, FileText } from "lucide-react";
+import { useLanguage, LanguageProvider } from "@/app/components/LanguageProvider";
+import LanguageSwitcher from "@/app/components/LanguageSwitcher";
+import { Suspense } from "react";
+
+function TermsContent() {
+  const { t } = useLanguage();
+
   return (
-    <div className="min-h-screen bg-slate-50 py-20 px-6 font-sans text-slate-700">
-      <div className="max-w-3xl mx-auto bg-white p-10 md:p-16 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
+    <div className="min-h-screen bg-[#fafafa] relative py-12 px-6">
+      
+      <div className="absolute top-6 right-6 z-20">
+        <LanguageSwitcher />
+      </div>
+
+      <div className="max-w-3xl mx-auto bg-white rounded-[2rem] p-8 md:p-12 shadow-xl border border-slate-100 relative z-10 animate-in fade-in zoom-in-95 duration-500">
         
-        <Link href="/" className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800 mb-8 transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+        <Link href="/" className="inline-flex items-center text-sm text-[#0078D4] hover:text-blue-800 mb-8 font-bold transition-colors group">
+          <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+          {t.auth.back_home || "Back to Home"}
         </Link>
 
         <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 bg-purple-50 text-purple-600 rounded-2xl">
-            <FileText className="w-8 h-8" />
+          <div className="w-12 h-12 bg-blue-50 text-[#0078D4] rounded-xl flex items-center justify-center">
+            <FileText className="w-6 h-6" />
           </div>
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Terms of Service</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900">
+            {t.terms?.title || "Terms of Service"}
+          </h1>
         </div>
         
-        <p className="mb-10 text-sm font-medium text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-6">Last updated: March 2026</p>
-        
-        <div className="space-y-10 text-base leading-loose text-slate-600">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-10 pb-6 border-b border-slate-100">
+          {t.terms?.last_updated || "LAST UPDATED: MARCH 2026"}
+        </p>
+
+        <div className="space-y-10 text-slate-600">
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">1. Acceptance of Terms</h2>
-            <p>By accessing or using 365ShareHub, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.terms?.s1_t || "1. Acceptance of Terms"}</h2>
+            <p className="leading-relaxed">{t.terms?.s1_d || "By accessing and using 365ShareHub, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our service."}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">2. Description of Service</h2>
-            <p>365ShareHub provides access to Microsoft 365 Copilot and 1TB OneDrive storage by inviting your Microsoft account to our Premium Family Group. We manage the group subscription and billing on your behalf.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.terms?.s2_t || "2. Description of Service"}</h2>
+            <p className="leading-relaxed">{t.terms?.s2_d || "We provide an automated sharing service for Microsoft 365 Family subscriptions. We are an independent service and are not affiliated with, endorsed by, or sponsored by Microsoft Corporation."}</p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">3. Subscription and Billing</h2>
-            <p>Services are billed on a subscription basis (Monthly, Semi-Annual, or Annual). You will be billed in advance on a recurring schedule. You can cancel your subscription at any time through your dashboard or the Stripe Customer Portal. There are no refunds for partial billing periods.</p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">4. Acceptable Use</h2>
-            <p>You agree not to use the service for any illegal or unauthorized purpose. You must comply with all Microsoft Terms of Service when using Microsoft products accessed through our family group.</p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">5. Disclaimer and Non-Affiliation</h2>
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-              <p className="text-slate-700 font-medium mb-0">365ShareHub is an independent group-sharing management service and is <strong className="text-slate-900">NOT affiliated with, endorsed by, or sponsored by Microsoft Corporation</strong>. "Microsoft 365", "Copilot", and "OneDrive" are trademarks of Microsoft Corporation.</p>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.terms?.s3_t || "3. User Responsibilities"}</h2>
+            <div className="bg-blue-50/50 border border-blue-100 p-5 rounded-2xl">
+                <p className="leading-relaxed text-blue-900/80">{t.terms?.s3_d || "You must provide a valid Microsoft account email to receive the invitation. You agree not to misuse the service or violate Microsoft's own terms of use."}</p>
             </div>
           </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-slate-900 mb-3">{t.terms?.s4_t || "4. Billing and Cancellation"}</h2>
+            <p className="leading-relaxed">{t.terms?.s4_d || "Subscriptions are billed in advance on a recurring basis. You may cancel your subscription at any time through your dashboard. Cancellations take effect at the end of the current billing cycle."}</p>
+          </section>
         </div>
+
       </div>
     </div>
+  );
+}
+
+export default function TermsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#fafafa]"></div>}>
+      <LanguageProvider>
+        <TermsContent />
+      </LanguageProvider>
+    </Suspense>
   );
 }

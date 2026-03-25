@@ -5,14 +5,12 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ArrowLeft, Mail, Lock, Loader2, CheckCircle2 } from "lucide-react"; // 增加 CheckCircle2 图标
-// 引入登录逻辑
+import { ArrowLeft, Mail, Lock, Loader2, CheckCircle2 } from "lucide-react";
 import { login } from "@/app/auth/actions";
-// 引入多语言组件
 import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation"; // 增加 searchParams 钩子
+import { useSearchParams } from "next/navigation";
 
 // --- 统一的 Logo 组件 ---
 const MiniLogo = () => (
@@ -46,26 +44,22 @@ const GoogleIcon = () => (
   </svg>
 );
 
-// --- 登录页面核心内容 ---
 function LoginContent() {
   const { t } = useLanguage(); 
   const [loading, setLoading] = useState(false); 
-  const searchParams = useSearchParams(); // 获取 URL 参数
+  const searchParams = useSearchParams();
   
-  // 读取来自注册跳转的消息
   const message = searchParams.get("message");
   const error = searchParams.get("error");
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fafafa] relative overflow-hidden" suppressHydrationWarning>
       
-      {/* 背景装饰 */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-400/10 rounded-full blur-[120px]"></div>
       </div>
 
-      {/* 🌍 语言切换器 */}
       <div className="absolute top-6 right-6 z-20">
         <LanguageSwitcher />
       </div>
@@ -77,7 +71,6 @@ function LoginContent() {
           {t.auth.back_home}
         </Link>
 
-        {/* 🔥 优化后的注册成功提示框 */}
         {message && (
           <div className="mb-6 p-4 rounded-xl bg-blue-50 border border-blue-100 flex items-start gap-3 animate-in slide-in-from-top-4 duration-500">
             <CheckCircle2 className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
@@ -87,11 +80,11 @@ function LoginContent() {
           </div>
         )}
 
-        {/* 🔥 错误提示框 */}
+        {/* 🔥 这里的硬编码提示已经被替换为了 t.auth.invalid_credentials */}
         {error && (
           <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3">
             <p className="text-sm text-red-800 font-medium">
-              ❌ Invalid credentials. Please try again.
+              {t.auth.invalid_credentials || "❌ Invalid credentials. Please try again."}
             </p>
           </div>
         )}
@@ -111,7 +104,6 @@ function LoginContent() {
           
           <CardContent className="grid gap-6">
             
-            {/* 第三方登录 */}
             <div className="grid grid-cols-2 gap-4">
               <Button variant="outline" className="bg-white border-slate-200 hover:bg-slate-50 h-11 text-slate-700">
                 <MicrosoftIcon />
@@ -132,7 +124,6 @@ function LoginContent() {
               </div>
             </div>
 
-            {/* 登录表单 */}
             <form action={login} onSubmit={() => setLoading(true)} className="grid gap-4">
               <div className="grid gap-2">
                 <div className="relative">
@@ -191,7 +182,6 @@ function LoginContent() {
   );
 }
 
-// --- 页面导出 (带 Provider 和 Suspense) ---
 export default function LoginPage() {
   return (
     <Suspense fallback={
