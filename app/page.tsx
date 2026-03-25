@@ -269,10 +269,14 @@ function HomeContent() {
                 <div className="flex items-center justify-center w-14 h-14 bg-green-100 rounded-full mx-auto mb-4">
                   <Check className="w-8 h-8 text-green-600" />
                 </div>
-                <h3 className="text-green-800 font-extrabold text-2xl mb-2">Request Received!</h3>
+                <h3 className="text-green-800 font-extrabold text-2xl mb-2">
+                  {t.home.trial_success_title || "Request Received!"}
+                </h3>
                 <p className="text-green-700/80 font-medium">
-                  We are preparing your Family Group invitation.<br/>
-                  Please check your inbox (and spam folder) for <b>{emailInput}</b> within the next 24 hours.
+                  {t.home.trial_success_desc_1 || "We are preparing your Family Group invitation."}<br/>
+                  {t.home.trial_success_desc_2 || "Please check your inbox (and spam folder) for "}
+                  <b>{emailInput}</b>
+                  {t.home.trial_success_desc_3 || " within the next 24 hours."}
                 </p>
               </div>
             ) : formMode === 'contact' ? (
