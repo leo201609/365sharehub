@@ -335,16 +335,19 @@ function HomeContent() {
               <div className="w-full animate-in fade-in duration-500 flex flex-col items-center">
                 
                 <div className="flex flex-col md:flex-row items-center justify-center gap-5 w-full">
-                  <div className="relative group w-full max-w-[34rem] shrink-0 h-[76px]">
-                    <div className={`absolute -inset-1.5 bg-gradient-to-r from-[#0078D4] to-[#7048E8] rounded-full blur transition duration-500 pointer-events-none ${highlightInput ? 'opacity-60' : 'opacity-20 group-hover:opacity-40'}`}></div>
+                  
+                  {/* 输入框与按钮的容器 */}
+                  <div className="relative group w-full max-w-[34rem] shrink-0 sm:h-[76px]">
+                    <div className={`absolute -inset-1.5 bg-gradient-to-r from-[#0078D4] to-[#7048E8] rounded-[2rem] sm:rounded-full blur transition duration-500 pointer-events-none ${highlightInput ? 'opacity-60' : 'opacity-20 group-hover:opacity-40'}`}></div>
                     
-                    <div className={`relative bg-white/90 backdrop-blur-md rounded-full p-2.5 transition-all duration-500 z-10 flex flex-col sm:flex-row gap-2 h-full ${
+                    <div className={`relative bg-white/90 backdrop-blur-md rounded-[2rem] sm:rounded-full p-2.5 transition-all duration-500 z-10 flex flex-col sm:flex-row gap-2 h-full ${
                       highlightInput 
                         ? 'ring-4 ring-[#0078D4]/50 border border-[#0078D4] scale-[1.02] shadow-2xl shadow-blue-500/40' 
                         : 'shadow-xl hover:shadow-2xl border border-white'
                     }`}>
                       
-                      <div className="relative flex-grow flex items-center bg-slate-50 rounded-full px-5 h-full overflow-hidden border border-slate-100/50">
+                      {/* 邮箱输入框 */}
+                      <div className="relative flex-grow flex items-center bg-slate-50 rounded-full px-5 h-14 sm:h-full overflow-hidden border border-slate-100/50">
                         <Mail className={`w-5 h-5 mr-3 shrink-0 transition-colors duration-500 ${highlightInput ? 'text-[#0078D4]' : 'text-slate-400'}`} />
                         <Input 
                           ref={emailInputRef}
@@ -352,16 +355,17 @@ function HomeContent() {
                           placeholder={t.home.email_placeholder || "Your MS Account Email"} 
                           value={emailInput} 
                           onChange={(e) => setEmailInput(e.target.value)} 
-                          className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base p-0 w-full placeholder:text-slate-400" 
+                          className="border-0 shadow-none bg-transparent focus-visible:ring-0 text-base p-0 w-full placeholder:text-slate-400 h-full" 
                           onKeyDown={(e) => e.key === 'Enter' && handleQuickTrial()}
                           disabled={trialStatus === 'loading'}
                         />
                       </div>
 
+                      {/* 试用按钮 */}
                       <Button 
                         onClick={handleQuickTrial} 
                         disabled={trialStatus === 'loading' || !emailInput}
-                        className={`rounded-full px-8 text-white font-bold h-full transition-all whitespace-nowrap w-full sm:w-auto text-base shrink-0 ${
+                        className={`rounded-full px-8 text-white font-bold h-14 sm:h-full transition-all whitespace-nowrap w-full sm:w-auto text-base shrink-0 ${
                           highlightInput ? 'bg-[#0078D4] shadow-lg shadow-blue-500/50' : 'bg-slate-900 hover:bg-[#0078D4] shadow-md hover:shadow-blue-500/30'
                         }`}
                       >
@@ -374,12 +378,13 @@ function HomeContent() {
                     </div>
                   </div>
 
-                  <div className="relative group w-full md:w-auto shrink-0 h-[76px]">
-                    <div className="absolute -inset-1.5 bg-gradient-to-r from-[#7048E8] to-[#0078D4] rounded-full opacity-20 group-hover:opacity-45 blur transition duration-500 pointer-events-none"></div>
+                  {/* 联系客服按钮 */}
+                  <div className="relative group w-full md:w-auto shrink-0 h-14 sm:h-[76px]">
+                    <div className="absolute -inset-1.5 bg-gradient-to-r from-[#7048E8] to-[#0078D4] rounded-[2rem] sm:rounded-full opacity-20 group-hover:opacity-45 blur transition duration-500 pointer-events-none"></div>
                     <Button 
                       onClick={() => setFormMode('contact')}
                       variant="ghost"
-                      className="relative h-full px-6 pr-8 bg-white/80 backdrop-blur-md rounded-full border border-white shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3.5 z-10 shrink-0 group w-full hover:-translate-y-0.5"
+                      className="relative h-full px-6 sm:pr-8 bg-white/80 backdrop-blur-md rounded-[2rem] sm:rounded-full border border-white shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3.5 z-10 shrink-0 group w-full hover:-translate-y-0.5"
                     >
                       <div className="bg-gradient-to-tr from-[#7048E8] to-[#0078D4] w-10 h-10 rounded-full flex items-center justify-center text-white shadow-[0_0_15px_rgba(112,72,232,0.4)] group-hover:scale-110 transition-transform duration-300 shrink-0">
                          <MessageSquare className="w-5 h-5" />
