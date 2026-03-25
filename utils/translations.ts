@@ -3,39 +3,22 @@
 export type Language = 'en' | 'zh-CN' | 'zh-TW' | 'de' | 'fr' | 'es' | 'ja' | 'ko' | 'pt';
 
 // ==========================================
-// 1. 英语 (en - Source of Truth)
+// 1. English (en - Source of Truth)
 // ==========================================
 const enBase = {
-  home: { 
-    hero_title_1: "Unlock Microsoft 365", hero_title_2: "Copilot Productivity.", hero_desc: "Boost productivity with Copilot alongside you. Get leading apps with built-in AI, advanced security, and spacious 1 TB cloud storage in one plan.", 
-    cta_start: "Get Started", hero_badge_1: "7-day free trial", hero_badge_2: "Use first, pay later", 
-    section_apps_title: "Everything you need in one plan", section_apps_desc: "Get the premium apps, cloud storage, and security you need.", 
-    pricing_promo: "Enjoy full Microsoft 365 features at a favorable price", pricing_title: "Simple, Transparent Pricing", 
-    footer_copy: "© 2026 365ShareHub Operations. All rights reserved.",
-    email_placeholder: "Your MS Account Email", feature_no_cc: "No credit card required", feature_no_reg: "No registration", feature_instant: "Instant access", questions_btn: "Questions?"
-  },
+  home: { hero_title_1: "Unlock Microsoft 365", hero_title_2: "Copilot Productivity.", hero_desc: "Boost productivity with Copilot alongside you. Get leading apps with built-in AI, advanced security, and spacious 1 TB cloud storage in one plan.", cta_start: "Get Started", hero_badge_1: "7-day free trial", hero_badge_2: "Use first, pay later", section_apps_title: "Everything you need in one plan", section_apps_desc: "Get the premium apps, cloud storage, and security you need.", pricing_promo: "Enjoy full Microsoft 365 features at a favorable price", pricing_title: "Simple, Transparent Pricing", footer_copy: "© 2026 365ShareHub Operations. All rights reserved.", email_placeholder: "Your MS Account Email", feature_no_cc: "No credit card required", feature_no_reg: "No registration", feature_instant: "Instant access", questions_btn: "Questions?" },
   auth: { email: "Email address", password: "Password", full_name: "Full Name", sign_in: "Sign In", sign_in_desc: "Access your 365ShareHub account", sign_up: "Sign up", create_account: "Create Account", create_desc: "Start your Copilot journey today", remember_me: "Remember me", forgot_password: "Forgot password?", no_account: "Don't have an account?", have_account: "Already have an account?", or_continue: "OR CONTINUE WITH", back_home: "Back to Home", invalid_credentials: "❌ Invalid credentials. Please try again." },
-  common: { loading: "Loading...", logout: "Logout", my_account: "My Account", dashboard: "Dashboard", welcome: "Welcome back,", member_since: "Member since:", joined: "Joined:", days_ago: "days ago", install_apps: "Install Apps", install_desc: "Download your apps immediately.", locked: "Locked", manage_billing: "Manage Billing / Cancel", connection_failed: "Failed.", network_error: "Network error.", sign_in: "Sign In", sign_up: "Sign up", email_placeholder: "Email address", password_placeholder: "Password", back_home: "Back to Home", learn_more: "Learn more", join_community: "Join Community" },
-  status: { subscription_status: "Subscription Status", trial_active: "Free Trial Active", active: "Active", trial_started: "Trial Started", first_billing: "First Billing Date", trial_ends: "Trial Ends", plan_active_since: "Plan Active Since", next_renewal: "Next Renewal", enjoy_trial: "Enjoy your 7-day free access. Cancel anytime before billing.", sub_active: "Subscription Active", status_label: "Status", trial_period: "Trial Period", paid: "Active / Paid", you_are_on: "You are on the" },
+  common: { loading: "Loading...", logout: "Logout", my_account: "My Account", dashboard: "Dashboard", welcome: "Welcome back,", member_since: "Member since:", joined: "Joined:", days_ago: "days ago", install_apps: "Install Apps", install_desc: "Download your apps immediately.", locked: "Locked", manage_billing: "Manage Billing / Cancel", connection_failed: "Failed.", network_error: "Network error.", sign_in: "Sign In", sign_up: "Sign up", email_placeholder: "Email address", password_placeholder: "Password", back_home: "Back to Home", learn_more: "Learn more", join_community: "Join Community", account_details: "Account Details", plan_type: "Plan Type", email: "Email" },
+  status: { subscription_status: "Subscription Status", trial_active: "Free Trial Active", active: "Active", trial_started: "TRIAL STARTED", first_billing: "First Billing Date", trial_ends: "Trial Ends", plan_active_since: "Plan Active Since", next_renewal: "NEXT RENEWAL", enjoy_trial: "Enjoy your 7-day free access. Cancel anytime before billing.", sub_active: "Subscription Active", status_label: "Status", trial_period: "Trial Period", paid: "Active / Paid", you_are_on: "You are on the" },
   plans: { flexible: "FLEXIBLE", most_popular: "MOST POPULAR", best_value: "BEST VALUE", monthly: "Monthly Plan", semi: "Semi-Annual Plan", yearly: "Annual Pro", mo: "/mo", yr: "/yr", per_mo: "€2.98 / mo", only_mo: "Only €2.49 / mo", trial_7d: "7-Day Free Trial", save_25: "Save 14%", save_37: "Save 33%", start_trial: "Start Free Trial", choose_semi: "Choose 6-Months", sub_yearly: "Subscribe Yearly", pay_after: "Pay after trial, cancel anytime", save_25_vs: "Save 14%", save_37_vs: "Save 33%" },
   features: { copilot: "Includes Copilot & All Apps", storage: "1TB OneDrive Storage", devices: "PC, Mac, iOS & Android", connect: "Connect 5 Devices" },
   apps: { ai_companion: "Your AI Companion", cloud_storage: "Cloud Storage", office_portal: "Office Portal", email_calendar: "Email & Calendar" },
   faq: { title: "Frequently Asked Questions", desc: "Everything you need to know about the product and billing." },
   support: { title: "Contact Support", btn: "Contact Support", desc: "How can we help you today?", subject: "Subject", subject_placeholder: "Briefly describe your issue", message: "Message", message_placeholder: "Provide more details...", cancel: "Cancel", submit: "Send Message", success: "Message sent successfully!", error: "Failed to send message. Please try again." },
-  
-  // 🔥 新增：Footer 链接翻译
   footer: { secure_payment: "Secure Payment", privacy: "Privacy Policy", terms: "Terms of Service", sitemap: "Sitemap", rights: "All rights reserved." },
-  
-  // 🔥 新增：Privacy Policy 页面翻译
-  privacy: { 
-    title: "Privacy Policy", last_updated: "LAST UPDATED: MARCH 2026", 
-    s1_t: "1. Information We Collect", s1_d: "We collect information that you provide directly to us when you use our services. This includes your email address (specifically your Microsoft account email) when you sign up for a trial or subscription. We use Stripe for payment processing and do not store your credit card information on our servers.", 
-    s2_t: "2. How We Use Your Information", s2_d: "We use the information we collect to provide, maintain, and improve our services, including adding your account to our Premium Family Group, processing your transactions, sending you technical notices, and providing customer support.", 
-    s3_t: "3. Microsoft Account Security", s3_d: "We do not require or ask for your Microsoft account password. You authenticate directly with Microsoft. We only need your email address to send the Family Group invitation. Your OneDrive data remains strictly private to you; administrators cannot access your personal files.", 
-    s4_t: "4. Third-Party Services", s4_d: "We use Stripe to process payments securely. When you make a purchase, you are subject to Stripe's Privacy Policy and Terms of Service. We do not share your personal information with other third parties for marketing purposes.", 
-    s5_t: "5. Contact Us", s5_d: "If you have any questions about this Privacy Policy, please contact us at support@365sharehub.com." 
-  },
-
+  privacy: { title: "Privacy Policy", last_updated: "LAST UPDATED: MARCH 2026", s1_t: "1. Information We Collect", s1_d: "We collect information that you provide directly to us when you use our services. This includes your email address (specifically your Microsoft account email) when you sign up for a trial or subscription. We use Stripe for payment processing and do not store your credit card information on our servers.", s2_t: "2. How We Use Your Information", s2_d: "We use the information we collect to provide, maintain, and improve our services, including adding your account to our Premium Family Group, processing your transactions, sending you technical notices, and providing customer support.", s3_t: "3. Microsoft Account Security", s3_d: "We do not require or ask for your Microsoft account password. You authenticate directly with Microsoft. We only need your email address to send the Family Group invitation. Your OneDrive data remains strictly private to you; administrators cannot access your personal files.", s4_t: "4. Third-Party Services", s4_d: "We use Stripe to process payments securely. When you make a purchase, you are subject to Stripe's Privacy Policy and Terms of Service. We do not share your personal information with other third parties for marketing purposes.", s5_t: "5. Contact Us", s5_d: "If you have any questions about this Privacy Policy, please contact us at support@365sharehub.com." },
+  terms: { title: "Terms of Service", last_updated: "LAST UPDATED: MARCH 2026", s1_t: "1. Acceptance of Terms", s1_d: "By accessing our service, you agree to be bound by these Terms of Service.", s2_t: "2. Description of Service", s2_d: "We provide an automated sharing service for Microsoft 365. We are not affiliated with Microsoft.", s3_t: "3. User Responsibilities", s3_d: "You must provide a valid email and agree not to misuse the service.", s4_t: "4. Billing and Cancellation", s4_d: "Subscriptions are billed in advance. You can cancel anytime from your dashboard." },
+  sitemap_page: { title: "Sitemap", desc: "Navigate through 365ShareHub.", home: "Home", pricing: "Pricing", faq: "FAQ", sign_in: "Sign In", sign_up: "Sign Up", dashboard: "Dashboard", privacy: "Privacy Policy", terms: "Terms of Service" },
   app_list: [
     { name: "Copilot", desc: "Your everyday AI companion." }, { name: "OneDrive", desc: "Save and share safely." },
     { name: "Word", desc: "Elevate your writing." }, { name: "Excel", desc: "Turn data into insights." },
@@ -55,20 +38,23 @@ const enBase = {
 };
 
 // ==========================================
-// 2. 德语 (de)
+// 2. German (de)
 // ==========================================
 const deBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "Microsoft 365 freischalten", hero_title_2: "Copilot Produktivität.", hero_desc: "Steigern Sie Ihre Produktivität mit Copilot an Ihrer Seite. Erhalten Sie führende Apps, erweiterte Sicherheit und 1 TB Cloud-Speicher.", cta_start: "Jetzt starten", hero_badge_1: "7 Tage kostenlos testen", hero_badge_2: "Erst nutzen, später zahlen", section_apps_title: "Alles in einem Plan", section_apps_desc: "Holen Sie sich Premium-Apps und Cloud-Speicher.", pricing_promo: "Alle Microsoft 365-Funktionen zum günstigen Preis", pricing_title: "Einfache Preise", email_placeholder: "Ihre Microsoft-Konto-E-Mail", feature_no_cc: "Keine Kreditkarte nötig", feature_no_reg: "Keine Registrierung", feature_instant: "Sofortiger Zugriff", questions_btn: "Fragen?" },
   auth: { ...enBase.auth, email: "E-Mail-Adresse", password: "Passwort", full_name: "Vollständiger Name", sign_in: "Anmelden", sign_in_desc: "Auf Ihr Konto zugreifen", sign_up: "Registrieren", create_account: "Konto erstellen", create_desc: "Starten Sie Ihre Copilot-Reise", remember_me: "Angemeldet bleiben", forgot_password: "Passwort vergessen?", no_account: "Noch kein Konto?", have_account: "Bereits ein Konto?", or_continue: "ODER WEITER MIT", back_home: "Zurück zur Startseite", invalid_credentials: "❌ Ungültige Anmeldedaten. Bitte versuchen Sie es erneut." },
-  common: { ...enBase.common, loading: "Laden...", logout: "Abmelden", my_account: "Mein Konto", dashboard: "Übersicht", welcome: "Willkommen zurück,", install_apps: "Apps installieren", manage_billing: "Abo verwalten / Kündigen", learn_more: "Mehr erfahren", sign_in: "Anmelden", join_community: "Community beitreten" },
-  status: { ...enBase.status, subscription_status: "Abonnement-Status", trial_active: "Testphase Aktiv", active: "Aktiv", enjoy_trial: "7 Tage kostenlos. Jederzeit kündbar." },
+  common: { ...enBase.common, loading: "Laden...", logout: "Abmelden", my_account: "Mein Konto", dashboard: "Übersicht", welcome: "Willkommen zurück,", member_since: "Mitglied seit:", joined: "Beigetreten:", days_ago: "Tage her", install_apps: "Apps installieren", install_desc: "Laden Sie Ihre Apps sofort herunter.", locked: "Gesperrt", manage_billing: "Abo verwalten / Kündigen", learn_more: "Mehr erfahren", sign_in: "Anmelden", join_community: "Community beitreten", account_details: "Kontodetails", plan_type: "Plantyp", email: "E-Mail" },
+  status: { ...enBase.status, subscription_status: "Abonnement-Status", trial_active: "Testphase Aktiv", active: "Aktiv", trial_started: "TESTPHASE GESTARTET", next_renewal: "NÄCHSTE VERLÄNGERUNG", sub_active: "Abonnement Aktiv", enjoy_trial: "7 Tage kostenlos. Jederzeit kündbar.", status_label: "Status", paid: "Aktiv / Bezahlt", you_are_on: "Sie nutzen den" },
   plans: { ...enBase.plans, flexible: "FLEXIBEL", most_popular: "BELIEBT", best_value: "BESTER WERT", monthly: "Monatsplan", semi: "Halbjahresplan", yearly: "Jahresplan Pro", trial_7d: "7 Tage kostenlos", save_25: "14% Sparen", save_37: "33% Sparen", start_trial: "Kostenlos testen", choose_semi: "6 Monate wählen", sub_yearly: "Jährlich abonnieren", pay_after: "Später zahlen, jederzeit kündbar" },
   features: { copilot: "Inklusive Copilot & alle Apps", storage: "1 TB OneDrive-Speicher", devices: "PC, Mac, iOS & Android", connect: "5 Geräte verbinden" },
+  apps: { ai_companion: "Ihr KI-Begleiter", cloud_storage: "Cloud-Speicher", office_portal: "Office-Portal", email_calendar: "E-Mail & Kalender" },
   faq: { title: "Häufig gestellte Fragen", desc: "Alles, was Sie über das Produkt und die Abrechnung wissen müssen." },
   support: { ...enBase.support, title: "Support kontaktieren", btn: "Support kontaktieren", desc: "Wie können wir Ihnen helfen?", subject_placeholder: "Wie können wir helfen?", message_placeholder: "Weitere Details...", submit: "Nachricht senden", success: "Nachricht gesendet!" },
   footer: { secure_payment: "Sichere Zahlung", privacy: "Datenschutz", terms: "Nutzungsbedingungen", sitemap: "Sitemap", rights: "Alle Rechte vorbehalten." },
   privacy: { title: "Datenschutzrichtlinie", last_updated: "ZULETZT AKTUALISIERT: MÄRZ 2026", s1_t: "1. Informationen, die wir sammeln", s1_d: "Wir sammeln Ihre Microsoft-E-Mail-Adresse. Wir speichern keine Kreditkartendaten.", s2_t: "2. Verwendung Ihrer Informationen", s2_d: "Wir verwenden die Informationen zur Bereitstellung unserer Dienste und Support.", s3_t: "3. Kontosicherheit", s3_d: "Wir fragen nicht nach Ihrem Passwort. Ihre OneDrive-Daten bleiben absolut privat.", s4_t: "4. Drittanbieter", s4_d: "Wir verwenden Stripe für sichere Zahlungen.", s5_t: "5. Kontakt", s5_d: "Bei Fragen kontaktieren Sie uns unter support@365sharehub.com." },
+  terms: { title: "Nutzungsbedingungen", last_updated: "ZULETZT AKTUALISIERT: MÄRZ 2026", s1_t: "1. Annahme der Bedingungen", s1_d: "Durch die Nutzung stimmen Sie diesen Bedingungen zu.", s2_t: "2. Leistungsbeschreibung", s2_d: "Wir bieten einen automatisierten Freigabeservice. Wir sind nicht mit Microsoft verbunden.", s3_t: "3. Benutzerpflichten", s3_d: "Sie müssen eine gültige E-Mail angeben.", s4_t: "4. Abrechnung und Kündigung", s4_d: "Jederzeit im Dashboard kündbar." },
+  sitemap_page: { title: "Sitemap", desc: "Navigieren Sie durch 365ShareHub.", home: "Startseite", pricing: "Preise", faq: "FAQ", sign_in: "Anmelden", sign_up: "Registrieren", dashboard: "Übersicht", privacy: "Datenschutz", terms: "Nutzungsbedingungen" },
   app_list: [
     { name: "Copilot", desc: "Ihr täglicher KI-Begleiter." }, { name: "OneDrive", desc: "Sicher speichern und teilen." },
     { name: "Word", desc: "Verbessern Sie Ihr Schreiben." }, { name: "Excel", desc: "Machen Sie Daten zu Erkenntnissen." },
@@ -88,20 +74,23 @@ const deBase: typeof enBase = {
 };
 
 // ==========================================
-// 3. 简体中文 (zh-CN)
+// 3. Simplified Chinese (zh-CN)
 // ==========================================
 const zhBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "解锁 Microsoft 365", hero_title_2: "Copilot 生产力。", hero_desc: "有 Copilot 在您身边，大幅提升生产力。一次获取内置 AI 的领先应用、高级安全性和 1 TB 云存储空间。", cta_start: "开始试用", hero_badge_1: "7天免费试用", hero_badge_2: "先使用，后付费", section_apps_title: "一个计划，满足所有需求", section_apps_desc: "获取您需要的高级应用、云存储和安全性。", pricing_promo: "以优惠价格享受完整功能", pricing_title: "简单透明的定价", email_placeholder: "您的微软账户邮箱", feature_no_cc: "无需信用卡", feature_no_reg: "免注册", feature_instant: "即刻访问", questions_btn: "有疑问？" },
   auth: { ...enBase.auth, email: "电子邮箱", password: "密码", full_name: "全名", sign_in: "登录", sign_in_desc: "访问您的账户", sign_up: "注册", create_account: "创建账号", create_desc: "开启您的 Copilot 之旅", remember_me: "记住我", forgot_password: "忘记密码？", no_account: "还没有账号？", have_account: "已有账号？", or_continue: "或使用以下方式", back_home: "返回首页", invalid_credentials: "❌ 账号或密码错误，请重试。" },
-  common: { ...enBase.common, loading: "加载中...", logout: "退出登录", my_account: "我的账户", dashboard: "仪表盘", welcome: "欢迎回来，", install_apps: "安装应用", manage_billing: "管理订阅 / 取消", learn_more: "了解更多", sign_in: "登录", join_community: "加入社区" },
-  status: { ...enBase.status, subscription_status: "订阅状态", trial_active: "免费试用中", active: "订阅生效中", enjoy_trial: "享受7天免费试用。随时可取消。" },
+  common: { ...enBase.common, loading: "加载中...", logout: "退出登录", my_account: "我的账户", dashboard: "仪表盘", welcome: "欢迎回来，", member_since: "注册时间:", joined: "已加入:", days_ago: "天", install_apps: "安装应用", install_desc: "立即下载您的应用。仅限活跃订阅者使用。", locked: "已锁定", manage_billing: "管理订阅 / 取消", learn_more: "了解更多", sign_in: "登录", join_community: "加入社区", account_details: "账户详情", plan_type: "套餐类型", email: "电子邮箱" },
+  status: { ...enBase.status, subscription_status: "订阅状态", trial_active: "免费试用中", active: "订阅生效中", trial_started: "试用开始", next_renewal: "下次续费", sub_active: "订阅生效中", enjoy_trial: "享受7天免费试用。随时可取消。", status_label: "状态", paid: "生效中 / 已付费", you_are_on: "您当前使用的是" },
   plans: { ...enBase.plans, flexible: "灵活", most_popular: "最受欢迎", best_value: "超值", monthly: "月付计划", semi: "半年计划", yearly: "年付专业版", trial_7d: "7天免费试用", save_25: "省 14%", save_37: "省 33%", start_trial: "开始试用", choose_semi: "选择半年付", sub_yearly: "订阅年付", pay_after: "试用后付款，随时取消" },
   features: { copilot: "包含 Copilot 及所有应用", storage: "1TB OneDrive 云存储", devices: "PC、Mac、iOS 和 Android", connect: "可连接 5 台设备" },
+  apps: { ai_companion: "您的 AI 伴侣", cloud_storage: "云存储", office_portal: "Office 门户", email_calendar: "邮件与日历" },
   faq: { title: "常见问题解答", desc: "关于产品与订阅，您需要了解的一切。" },
   support: { ...enBase.support, title: "联系客服", btn: "联系客服", desc: "今天需要什么帮助？", subject_placeholder: "您遇到了什么问题？", message_placeholder: "提供更多细节...", submit: "发送消息", success: "消息已发送！" },
   footer: { secure_payment: "安全支付", privacy: "隐私政策", terms: "服务条款", sitemap: "网站地图", rights: "保留所有权利。" },
   privacy: { title: "隐私政策", last_updated: "最后更新：2026年3月", s1_t: "1. 我们收集的信息", s1_d: "当您使用我们的服务时，我们会收集您的电子邮件地址。我们不存储信用卡信息。", s2_t: "2. 我们如何使用您的信息", s2_d: "我们将收集的信息用于提供、维护和改进我们的服务，以及处理家庭组邀请。", s3_t: "3. 微软账户安全", s3_d: "我们绝不要求您提供微软密码。您的 OneDrive 数据绝对私密，管理员无法访问您的个人文件。", s4_t: "4. 第三方服务", s4_d: "我们使用 Stripe 安全地处理付款。我们不与营销机构共享数据。", s5_t: "5. 联系我们", s5_d: "如有疑问，请联系 support@365sharehub.com。" },
+  terms: { title: "服务条款", last_updated: "最后更新：2026年3月", s1_t: "1. 接受条款", s1_d: "访问或使用我们的服务即表示您同意本条款。", s2_t: "2. 服务说明", s2_d: "我们提供自动化的 Microsoft 365 拼车服务，与微软官方无附属关系。", s3_t: "3. 用户责任", s3_d: "您必须提供有效的邮箱，且不得滥用服务。", s4_t: "4. 账单与取消", s4_d: "预付费订阅，您可随时在后台取消。" },
+  sitemap_page: { title: "网站地图", desc: "导航至 365ShareHub 的各个页面。", home: "首页", pricing: "定价", faq: "常见问题", sign_in: "登录", sign_up: "注册", dashboard: "仪表盘", privacy: "隐私政策", terms: "服务条款" },
   app_list: [
     { name: "Copilot", desc: "您的日常 AI 伴侣。" }, { name: "OneDrive", desc: "安全地保存和分享文件。" },
     { name: "Word", desc: "提升您的写作水平。" }, { name: "Excel", desc: "将数据转化为深刻洞察。" },
@@ -121,36 +110,58 @@ const zhBase: typeof enBase = {
 };
 
 // ==========================================
-// 4. 繁体中文 (zh-TW)
+// 4. Traditional Chinese (zh-TW)
 // ==========================================
 const twBase: typeof enBase = {
   ...zhBase,
   home: { ...zhBase.home, hero_title_1: "解鎖 Microsoft 365", hero_title_2: "Copilot 生產力。", hero_desc: "有 Copilot 在您身邊，大幅提升生產力。一次獲取內置 AI 的領先應用、高級安全性和 1 TB 雲端存儲空間。", cta_start: "開始試用", section_apps_title: "一個計劃，滿足所有需求", section_apps_desc: "獲取您需要的高級應用程式、雲端存儲和安全性。", email_placeholder: "您的微軟帳戶信箱", feature_no_cc: "無需信用卡", feature_no_reg: "免註冊", feature_instant: "即刻訪問", questions_btn: "有疑問？" },
   auth: { ...zhBase.auth, invalid_credentials: "❌ 帳號或密碼錯誤，請重試。" },
-  common: { ...zhBase.common, join_community: "加入社群", learn_more: "了解更多" },
+  common: { ...zhBase.common, member_since: "註冊時間:", joined: "已加入:", days_ago: "天", install_desc: "立即下載您的應用程式。", locked: "已鎖定", account_details: "帳戶詳情", plan_type: "套餐類型", email: "電子郵件", join_community: "加入社群", learn_more: "了解更多" },
+  status: { ...zhBase.status, trial_started: "試用開始", next_renewal: "下次續費", sub_active: "訂閱生效中", status_label: "狀態", paid: "生效中 / 已付費", you_are_on: "您當前使用的是" },
   plans: { ...zhBase.plans, flexible: "靈活", most_popular: "最受歡迎", best_value: "超值", save_25: "省 14%", save_37: "省 33%", choose_semi: "選擇半年付", sub_yearly: "訂閱年付" },
+  apps: { ai_companion: "您的 AI 伴侶", cloud_storage: "雲端存儲", office_portal: "Office 門戶", email_calendar: "郵件與日曆" },
   faq: { title: "常見問題解答", desc: "關於產品與訂閱，您需要了解的一切。" },
   support: { ...zhBase.support, title: "聯繫客服", btn: "聯繫客服", desc: "今天需要什麼協助？", subject_placeholder: "您遇到了什麼問題？", submit: "發送訊息", success: "訊息已發送！" },
   footer: { secure_payment: "安全支付", privacy: "隱私政策", terms: "服務條款", sitemap: "網站地圖", rights: "保留所有權利。" },
-  privacy: { title: "隱私政策", last_updated: "最後更新：2026年3月", s1_t: "1. 我們收集的信息", s1_d: "當您使用我們的服務時，我們會收集您的電子郵件地址。我們不儲存信用卡信息。", s2_t: "2. 我們如何使用您的信息", s2_d: "我們將收集的信息用於提供、維護和改進我們的服務，以及處理家庭組邀請。", s3_t: "3. 微軟帳戶安全", s3_d: "我們絕不要求您提供微軟密碼。您的 OneDrive 數據絕對私密，管理員無法訪問您的個人文件。", s4_t: "4. 第三方服務", s4_d: "我們使用 Stripe 安全地處理付款。我們不與行銷機構共享數據。", s5_t: "5. 聯繫我們", s5_d: "如有疑問，請聯繫 support@365sharehub.com。" },
-  faq_list: zhBase.faq_list // 繁体问答可以直接复用
+  privacy: { title: "隱私政策", last_updated: "最後更新：2026年3月", s1_t: "1. 我們收集的信息", s1_d: "我們不儲存信用卡信息。", s2_t: "2. 我們如何使用信息", s2_d: "用於提供、維護和改進服務。", s3_t: "3. 帳戶安全", s3_d: "不要求密碼，OneDrive 數據絕對私密。", s4_t: "4. 第三方服務", s4_d: "使用 Stripe 處理付款。", s5_t: "5. 聯繫我們", s5_d: "聯繫 support@365sharehub.com。" },
+  terms: { title: "服務條款", last_updated: "最後更新：2026年3月", s1_t: "1. 接受條款", s1_d: "訪問或使用我們的服務即表示您同意本條款。", s2_t: "2. 服務說明", s2_d: "我們提供自動化共享服務，與微軟官方無附屬關係。", s3_t: "3. 用戶責任", s3_d: "您必須提供有效的信箱，且不得濫用服務。", s4_t: "4. 帳單與取消", s4_d: "您可隨時在後台取消。" },
+  sitemap_page: { title: "網站地圖", desc: "導覽至各個頁面。", home: "首頁", pricing: "定價", faq: "常見問題", sign_in: "登入", sign_up: "註冊", dashboard: "儀表板", privacy: "隱私政策", terms: "服務條款" },
+  app_list: [
+    { name: "Copilot", desc: "您的日常 AI 伴侶。" }, { name: "OneDrive", desc: "安全地儲存和分享文件。" },
+    { name: "Word", desc: "提升您的寫作水準。" }, { name: "Excel", desc: "將數據轉化為深刻洞察。" },
+    { name: "PowerPoint", desc: "製作極具影響力的簡報。" }, { name: "Access", desc: "輕鬆建立資料庫應用程式。" },
+    { name: "Outlook", desc: "管理您的電子郵件和行事曆。" }, { name: "Teams", desc: "開會、聊天、通話和協作。" },
+    { name: "OneNote", desc: "您的專屬數位筆記本。" }, { name: "Clipchamp", desc: "內建 AI 的影片編輯器。" },
+    { name: "Designer", desc: "創作令人驚豔的圖形。" }, { name: "Defender", desc: "保護您的數據和裝置安全。" }
+  ],
+  faq_list: [
+    { question: "7 天免費試用和付款規則是怎樣的？", answer: "您可享受 7 天免費試用期，您 100% 滿意後才需要付款。如果不滿意，可以隨時取消，我們不會向您收取任何費用。" },
+    { question: "購買/試用後，我該如何獲取使用權限？", answer: "首先，請務必使用您的微軟帳戶信箱進行快速註冊。您將在24小時內收到一封「微軟家庭組邀請郵件」（請注意檢查垃圾郵件）。點擊確認即可加入。加入後，您可以立即使用 MS Office 和 1TB 雲端存儲空間。" },
+    { question: "可以在哪些設備上使用？支援我的語言嗎？", answer: "當然！您可以選擇自己熟悉的語言版本進行安裝。支援在 Mac 和 Windows 系統、智慧手機、平板電腦上便捷使用，並且最多可在 5 台設備上切換使用。" },
+    { question: "我的 1TB 雲端存儲文件是私密的嗎？", answer: "絕對私密。雖然您是透過家庭組邀請加入，但您的 1TB OneDrive 存儲空間完全獨立，任何人都無法訪問您的私人文件。" },
+    { question: "服務穩定嗎？可以長期訂閱嗎？", answer: "我們承諾長期穩定運行並提供高品質服務。非常歡迎您在體驗後加入我們的長期訂閱計劃，享受最優惠的折扣。" },
+    { question: "我的支付安全嗎？支援哪些支付方式？", answer: "絕對安全。所有交易均透過 Stripe 進行銀行級加密處理，我們絕不會在伺服器上儲存您的信用卡資料。支援信用卡、PayPal、Apple Pay 等多種方式。" }
+  ]
 };
 
 // ==========================================
-// 5. 日语 (ja)
+// 5. Japanese (ja)
 // ==========================================
 const jaBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "Microsoft 365 を", hero_title_2: "Copilot で解放", hero_desc: "Copilot と共に生産性を向上。AI 搭載アプリと 1 TB のクラウドストレージを 1 つのプランで。", cta_start: "始める", hero_badge_1: "7日間無料体験", hero_badge_2: "体験後のお支払い", section_apps_title: "必要なすべてを1つのプランで", section_apps_desc: "プレミアムアプリとセキュリティをすべて入手。", pricing_promo: "お得な価格で全機能をお楽しみください", pricing_title: "シンプルで透明な価格設定", email_placeholder: "Microsoft アカウントのメール", feature_no_cc: "クレジットカード不要", feature_no_reg: "登録不要", feature_instant: "すぐにアクセス", questions_btn: "質問がありますか？" },
-  auth: { ...enBase.auth, email: "メールアドレス", password: "パスワード", full_name: "氏名", sign_in: "サインイン", sign_in_desc: "アカウントにアクセス", sign_up: "登録", invalid_credentials: "❌ 認証情報が無効です。もう一度お試しください。" },
-  common: { ...enBase.common, my_account: "マイアカウント", dashboard: "ダッシュボード", loading: "読み込み中...", logout: "ログアウト", welcome: "お帰りなさい、", install_apps: "アプリをインストール", manage_billing: "請求管理 / キャンセル", learn_more: "詳細を見る", sign_in: "サインイン", join_community: "コミュニティに参加" },
-  status: { ...enBase.status, subscription_status: "サブスクリプション状況", trial_active: "無料トライアル中", active: "有効", enjoy_trial: "7日間の無料アクセス。いつでもキャンセル可。" },
+  auth: { ...enBase.auth, email: "メールアドレス", password: "パスワード", full_name: "氏名", sign_in: "サインイン", sign_in_desc: "アカウントにアクセス", sign_up: "登録", create_account: "アカウント作成", create_desc: "Copilot の旅を始めましょう", remember_me: "ログイン状態を保持", forgot_password: "パスワードをお忘れですか？", no_account: "アカウントをお持ちでないですか？", have_account: "すでにアカウントをお持ちですか？", or_continue: "または次で続行", back_home: "ホームに戻る", invalid_credentials: "❌ 認証情報が無効です。もう一度お試しください。" },
+  common: { ...enBase.common, my_account: "マイアカウント", dashboard: "ダッシュボード", loading: "読み込み中...", logout: "ログアウト", welcome: "お帰りなさい、", member_since: "登録日:", joined: "加入して:", days_ago: "日", install_apps: "アプリをインストール", install_desc: "アプリをすぐにダウンロードできます。", locked: "ロック中", manage_billing: "請求管理 / キャンセル", learn_more: "詳細を見る", sign_in: "サインイン", join_community: "コミュニティに参加", account_details: "アカウント詳細", plan_type: "プランタイプ", email: "メール" },
+  status: { ...enBase.status, subscription_status: "サブスクリプション状況", trial_active: "無料トライアル中", active: "有効", trial_started: "開始日", next_renewal: "次回更新日", sub_active: "サブスクリプション有効", enjoy_trial: "7日間の無料アクセス。いつでもキャンセル可。", status_label: "ステータス", paid: "有効 / 支払い済み", you_are_on: "現在のプラン:" },
   plans: { ...enBase.plans, flexible: "フレキシブル", most_popular: "一番人気", best_value: "ベストバリュー", monthly: "月額プラン", semi: "半年プラン", yearly: "年間プロ", trial_7d: "7日間無料", save_25: "14% お得", save_37: "33% お得", start_trial: "無料体験", choose_semi: "6ヶ月プラン", sub_yearly: "年間購読する", pay_after: "後払い、キャンセル可" },
   features: { copilot: "Copilot & 全アプリ含む", storage: "1TB OneDrive ストレージ", devices: "PC、Mac、iOS、Android", connect: "5台のデバイスを接続" },
+  apps: { ai_companion: "あなたのAIコンパニオン", cloud_storage: "クラウドストレージ", office_portal: "Officeポータル", email_calendar: "メールとカレンダー" },
   faq: { title: "よくある質問", desc: "製品と請求について知っておくべきこと。" },
   support: { ...enBase.support, title: "サポートに連絡", btn: "サポートに連絡", desc: "どのようなご用件でしょうか？", subject_placeholder: "どのようにお手伝いできますか？", message_placeholder: "詳細を入力してください...", submit: "送信する", success: "送信されました！" },
   footer: { secure_payment: "安全な決済", privacy: "プライバシーポリシー", terms: "利用規約", sitemap: "サイトマップ", rights: "無断複写・転載を禁じます。" },
-  privacy: { title: "プライバシーポリシー", last_updated: "最終更新日: 2026年3月", s1_t: "1. 収集する情報", s1_d: "Microsoftアカウントのメールアドレスを収集します。クレジットカード情報は保存しません。", s2_t: "2. 情報の利用", s2_d: "収集した情報は、サービスの提供やサポートのために利用されます。", s3_t: "3. アカウントのセキュリティ", s3_d: "パスワードは要求しません。OneDriveのデータは完全にプライベートです。", s4_t: "4. サードパーティ", s4_d: "安全な決済のためにStripeを使用しています。", s5_t: "5. お問い合わせ", s5_d: "ご質問は support@365sharehub.com までご連絡ください。" },
+  privacy: { title: "プライバシーポリシー", last_updated: "最終更新日: 2026年3月", s1_t: "1. 収集する情報", s1_d: "クレジットカード情報は保存しません。", s2_t: "2. 情報の利用", s2_d: "サービスの提供のために利用されます。", s3_t: "3. セキュリティ", s3_d: "OneDriveのデータは完全にプライベートです。", s4_t: "4. サードパーティ", s4_d: "Stripeを使用しています。", s5_t: "5. お問い合わせ", s5_d: "support@365sharehub.com まで。" },
+  terms: { title: "利用規約", last_updated: "最終更新日: 2026年3月", s1_t: "1. 規約の同意", s1_d: "サービスを利用することで本規約に同意したことになります。", s2_t: "2. サービスの内容", s2_d: "Microsoft社とは提携していません。", s3_t: "3. ユーザーの責任", s3_d: "有効なメールアドレスを提供する必要があります。", s4_t: "4. 請求とキャンセル", s4_d: "いつでもキャンセル可能です。" },
+  sitemap_page: { title: "サイトマップ", desc: "ナビゲート", home: "ホーム", pricing: "料金", faq: "よくある質問", sign_in: "サインイン", sign_up: "登録", dashboard: "ダッシュボード", privacy: "プライバシーポリシー", terms: "利用規約" },
   app_list: [
     { name: "Copilot", desc: "毎日の AI コンパニオン。" }, { name: "OneDrive", desc: "安全に保存して共有。" },
     { name: "Word", desc: "ライティングを向上。" }, { name: "Excel", desc: "データをインサイトに変換。" },
@@ -170,20 +181,23 @@ const jaBase: typeof enBase = {
 };
 
 // ==========================================
-// 6. 韩语 (ko)
+// 6. Korean (ko)
 // ==========================================
 const koBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "Microsoft 365 잠금 해제", hero_title_2: "Copilot 생산성", hero_desc: "Copilot과 함께 생산성을 높이세요. AI가 내장된 앱, 고급 보안, 1TB 클라우드 스토리지를 하나의 요금제로 이용하세요.", cta_start: "시작하기", hero_badge_1: "7일 무료 체험", hero_badge_2: "먼저 사용, 나중에 결제", section_apps_title: "모든 것을 하나의 플랜으로", section_apps_desc: "프리미엄 앱, 클라우드 스토리지 및 보안을 모두 받으세요.", pricing_promo: "합리적인 가격으로 모든 기능을 즐기세요", pricing_title: "간단하고 투명한 가격", email_placeholder: "Microsoft 계정 이메일", feature_no_cc: "신용카드 불필요", feature_no_reg: "가입 불필요", feature_instant: "즉시 액세스", questions_btn: "질문이 있으신가요?" },
-  auth: { ...enBase.auth, email: "이메일", password: "비밀번호", full_name: "이름", sign_in: "로그인", sign_in_desc: "계정에 액세스하세요", sign_up: "가입하기", invalid_credentials: "❌ 자격 증명이 유효하지 않습니다. 다시 시도해 주세요." },
-  common: { ...enBase.common, my_account: "내 계정", dashboard: "대시보드", loading: "로딩 중...", logout: "로그아웃", welcome: "환영합니다,", install_apps: "앱 설치", manage_billing: "결제 관리 / 취소", learn_more: "자세히 알아보기", sign_in: "로그인", join_community: "커뮤니티 가입" },
-  status: { ...enBase.status, subscription_status: "구독 상태", trial_active: "무료 체험 중", active: "활성", enjoy_trial: "7일 무료 체험을 즐기세요. 언제든 취소 가능합니다." },
+  auth: { ...enBase.auth, email: "이메일", password: "비밀번호", full_name: "이름", sign_in: "로그인", sign_in_desc: "계정에 액세스하세요", sign_up: "가입하기", create_account: "계정 만들기", create_desc: "Copilot 여정을 시작하세요", remember_me: "로그인 유지", forgot_password: "비밀번호 찾기", no_account: "계정이 없으신가요?", have_account: "이미 계정이 있으신가요?", or_continue: "또는 다음으로 계속", back_home: "홈으로 돌아가기", invalid_credentials: "❌ 자격 증명이 유효하지 않습니다. 다시 시도해 주세요." },
+  common: { ...enBase.common, my_account: "내 계정", dashboard: "대시보드", loading: "로딩 중...", logout: "로그아웃", welcome: "환영합니다,", member_since: "가입일:", joined: "가입 후:", days_ago: "일", install_apps: "앱 설치", install_desc: "앱을 즉시 다운로드하세요.", locked: "잠김", manage_billing: "결제 관리 / 취소", learn_more: "자세히 알아보기", sign_in: "로그인", join_community: "커뮤니티 가입", account_details: "계정 세부정보", plan_type: "플랜 유형", email: "이메일" },
+  status: { ...enBase.status, subscription_status: "구독 상태", trial_active: "무료 체험 중", active: "활성", trial_started: "체험 시작", next_renewal: "다음 갱신", sub_active: "구독 활성화됨", enjoy_trial: "7일 무료 체험을 즐기세요. 언제든 취소 가능합니다.", status_label: "상태", paid: "활성 / 결제됨", you_are_on: "현재 사용 중인 플랜:" },
   plans: { ...enBase.plans, flexible: "유연한", most_popular: "가장 인기 있는", best_value: "최고의 가치", monthly: "월간 플랜", semi: "반기 플랜", yearly: "연간 프로", trial_7d: "7일 무료 체험", save_25: "14% 절약", save_37: "33% 절약", start_trial: "무료 체험 시작", choose_semi: "6개월 선택", sub_yearly: "연간 구독", pay_after: "후불, 언제든 취소" },
   features: { copilot: "Copilot 및 모든 앱 포함", storage: "1TB OneDrive 스토리지", devices: "PC, Mac, iOS 및 Android", connect: "5대 기기 연결" },
+  apps: { ai_companion: "당신의 AI 도우미", cloud_storage: "클라우드 스토리지", office_portal: "Office 포털", email_calendar: "이메일 및 일정" },
   faq: { title: "자주 묻는 질문", desc: "제품 및 결제에 대해 알아야 할 모든 것." },
   support: { ...enBase.support, title: "고객 지원", btn: "지원팀에 문의", desc: "무엇을 도와드릴까요?", subject_placeholder: "어떤 도움이 필요하신가요?", message_placeholder: "자세한 내용을 입력해주세요...", submit: "메시지 전송", success: "전송 완료!" },
   footer: { secure_payment: "안전한 결제", privacy: "개인정보 처리방침", terms: "서비스 약관", sitemap: "사이트맵", rights: "모든 권리 보유." },
-  privacy: { title: "개인정보 처리방침", last_updated: "최종 수정일: 2026년 3월", s1_t: "1. 수집하는 정보", s1_d: "Microsoft 이메일을 수집합니다. 신용카드 정보는 저장하지 않습니다.", s2_t: "2. 정보 사용 방법", s2_d: "수집된 정보는 서비스 제공 및 지원을 위해 사용됩니다.", s3_t: "3. 계정 보안", s3_d: "비밀번호를 요구하지 않습니다. OneDrive 데이터는 완전히 비공개입니다.", s4_t: "4. 타사 서비스", s4_d: "결제 처리를 위해 Stripe를 사용합니다.", s5_t: "5. 문의하기", s5_d: "질문이 있으시면 support@365sharehub.com으로 문의하세요." },
+  privacy: { title: "개인정보 처리방침", last_updated: "최종 수정일: 2026년 3월", s1_t: "1. 수집하는 정보", s1_d: "신용카드 정보는 저장하지 않습니다.", s2_t: "2. 정보 사용 방법", s2_d: "서비스 제공 및 지원을 위해 사용됩니다.", s3_t: "3. 계정 보안", s3_d: "OneDrive 데이터는 완전히 비공개입니다.", s4_t: "4. 타사 서비스", s4_d: "결제 처리를 위해 Stripe를 사용합니다.", s5_t: "5. 문의하기", s5_d: "support@365sharehub.com으로 문의하세요." },
+  terms: { title: "서비스 약관", last_updated: "최종 수정일: 2026년 3월", s1_t: "1. 약관 동의", s1_d: "서비스를 이용함으로써 본 약관에 동의하게 됩니다.", s2_t: "2. 서비스 설명", s2_d: "Microsoft와는 제휴 관계가 없습니다.", s3_t: "3. 사용자 책임", s3_d: "유효한 이메일을 제공해야 합니다.", s4_t: "4. 청구 및 취소", s4_d: "언제든지 취소할 수 있습니다." },
+  sitemap_page: { title: "사이트맵", desc: "탐색", home: "홈", pricing: "가격", faq: "FAQ", sign_in: "로그인", sign_up: "가입하기", dashboard: "대시보드", privacy: "개인정보 처리방침", terms: "서비스 약관" },
   app_list: [
     { name: "Copilot", desc: "일상적인 AI 도우미." }, { name: "OneDrive", desc: "안전하게 저장하고 공유하세요." },
     { name: "Word", desc: "글쓰기 수준을 높이세요." }, { name: "Excel", desc: "데이터를 인사이트로 전환하세요." },
@@ -203,20 +217,23 @@ const koBase: typeof enBase = {
 };
 
 // ==========================================
-// 7. 西班牙语 (es)
+// 7. Spanish (es)
 // ==========================================
 const esBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "Desbloquea Microsoft 365", hero_title_2: "Productividad Copilot.", hero_desc: "Aumenta la productividad con Copilot. Obtén apps con IA integrada y 1 TB de almacenamiento.", cta_start: "Empezar", hero_badge_1: "Prueba gratis de 7 días", hero_badge_2: "Usa primero, paga después", section_apps_title: "Todo en un solo plan", section_apps_desc: "Obtén las apps premium que necesitas.", pricing_promo: "Disfruta de todas las funciones a un excelente precio", pricing_title: "Precios simples y transparentes", email_placeholder: "Tu correo de cuenta Microsoft", feature_no_cc: "Sin tarjeta de crédito", feature_no_reg: "Sin registro", feature_instant: "Acceso instantáneo", questions_btn: "¿Preguntas?" },
-  auth: { ...enBase.auth, email: "Correo electrónico", password: "Contraseña", full_name: "Nombre completo", sign_in: "Iniciar sesión", sign_in_desc: "Accede a tu cuenta", sign_up: "Registrarse", create_account: "Crear cuenta", invalid_credentials: "❌ Credenciales no válidas. Por favor, inténtalo de nuevo." },
-  common: { ...enBase.common, my_account: "Mi Cuenta", dashboard: "Panel", loading: "Cargando...", logout: "Cerrar sesión", welcome: "Bienvenido,", install_apps: "Instalar apps", manage_billing: "Gestionar facturación", learn_more: "Saber más", sign_in: "Iniciar sesión", join_community: "Únete a la comunidad" },
-  status: { ...enBase.status, subscription_status: "Estado de suscripción", trial_active: "Prueba Activa", active: "Activo", enjoy_trial: "Disfruta 7 días gratis. Cancela cuando quieras." },
+  auth: { ...enBase.auth, email: "Correo electrónico", password: "Contraseña", full_name: "Nombre completo", sign_in: "Iniciar sesión", sign_in_desc: "Accede a tu cuenta", sign_up: "Registrarse", create_account: "Crear cuenta", create_desc: "Inicia tu viaje con Copilot", remember_me: "Recuérdame", forgot_password: "¿Olvidaste tu contraseña?", no_account: "¿No tienes cuenta?", have_account: "¿Ya tienes cuenta?", or_continue: "O CONTINUAR CON", back_home: "Volver al inicio", invalid_credentials: "❌ Credenciales no válidas. Por favor, inténtalo de nuevo." },
+  common: { ...enBase.common, my_account: "Mi Cuenta", dashboard: "Panel", loading: "Cargando...", logout: "Cerrar sesión", welcome: "Bienvenido,", member_since: "Miembro desde:", joined: "Unido hace:", days_ago: "días", install_apps: "Instalar apps", install_desc: "Descarga tus aplicaciones de inmediato.", locked: "Bloqueado", manage_billing: "Gestionar facturación", learn_more: "Saber más", sign_in: "Iniciar sesión", join_community: "Únete a la comunidad", account_details: "Detalles de la cuenta", plan_type: "Tipo de plan", email: "Correo" },
+  status: { ...enBase.status, subscription_status: "Estado de suscripción", trial_active: "Prueba Activa", active: "Activo", trial_started: "PRUEBA INICIADA", next_renewal: "PRÓXIMA RENOVACIÓN", sub_active: "Suscripción Activa", enjoy_trial: "Disfruta 7 días gratis. Cancela cuando quieras.", status_label: "Estado", paid: "Activo / Pagado", you_are_on: "Estás en el" },
   plans: { ...enBase.plans, flexible: "FLEXIBLE", most_popular: "MÁS POPULAR", best_value: "MEJOR VALOR", monthly: "Plan Mensual", semi: "Plan Semestral", yearly: "Pro Anual", trial_7d: "Prueba 7 días", save_25: "Ahorra 14%", save_37: "Ahorra 33%", start_trial: "Prueba gratis", choose_semi: "Elegir 6 Meses", sub_yearly: "Suscribirse Anual", pay_after: "Cancela cuando quieras" },
   features: { copilot: "Incluye Copilot y Apps", storage: "1 TB de OneDrive", devices: "PC, Mac, iOS y Android", connect: "Conecta 5 dispositivos" },
+  apps: { ai_companion: "Tu compañero de IA", cloud_storage: "Almacenamiento en la nube", office_portal: "Portal de Office", email_calendar: "Correo y calendario" },
   faq: { title: "Preguntas frecuentes", desc: "Todo lo que necesitas saber sobre el producto y la facturación." },
   support: { ...enBase.support, title: "Contactar Soporte", btn: "Contactar Soporte", desc: "¿En qué podemos ayudarte hoy?", subject_placeholder: "¿Cómo podemos ayudar?", message_placeholder: "Más detalles...", submit: "Enviar mensaje", success: "¡Mensaje enviado!" },
   footer: { secure_payment: "Pago Seguro", privacy: "Privacidad", terms: "Términos", sitemap: "Mapa del sitio", rights: "Todos los derechos reservados." },
-  privacy: { title: "Política de Privacidad", last_updated: "ÚLTIMA ACTUALIZACIÓN: MARZO 2026", s1_t: "1. Información que recopilamos", s1_d: "Recopilamos su correo de Microsoft. No almacenamos datos de tarjetas.", s2_t: "2. Uso de la información", s2_d: "Usamos la información para brindar servicios y soporte.", s3_t: "3. Seguridad de la cuenta", s3_d: "No pedimos contraseñas. Sus archivos de OneDrive son privados.", s4_t: "4. Servicios de terceros", s4_d: "Usamos Stripe para procesar pagos de forma segura.", s5_t: "5. Contáctenos", s5_d: "Para dudas, escriba a support@365sharehub.com." },
+  privacy: { title: "Política de Privacidad", last_updated: "ÚLTIMA ACTUALIZACIÓN: MARZO 2026", s1_t: "1. Información que recopilamos", s1_d: "No almacenamos datos de tarjetas.", s2_t: "2. Uso de la información", s2_d: "Usamos la información para brindar servicios y soporte.", s3_t: "3. Seguridad de la cuenta", s3_d: "Sus archivos de OneDrive son privados.", s4_t: "4. Servicios de terceros", s4_d: "Usamos Stripe para procesar pagos de forma segura.", s5_t: "5. Contáctenos", s5_d: "Escriba a support@365sharehub.com." },
+  terms: { title: "Términos de Servicio", last_updated: "ÚLTIMA ACTUALIZACIÓN: MARZO 2026", s1_t: "1. Aceptación", s1_d: "Al usar el servicio, acepta estos términos.", s2_t: "2. Descripción", s2_d: "No estamos afiliados a Microsoft.", s3_t: "3. Responsabilidades", s3_d: "Debe proporcionar un correo válido.", s4_t: "4. Cancelación", s4_d: "Puede cancelar en cualquier momento." },
+  sitemap_page: { title: "Mapa del sitio", desc: "Navegar.", home: "Inicio", pricing: "Precios", faq: "Preguntas", sign_in: "Iniciar sesión", sign_up: "Registrarse", dashboard: "Panel", privacy: "Privacidad", terms: "Términos" },
   app_list: [
     { name: "Copilot", desc: "Tu compañero de IA diario." }, { name: "OneDrive", desc: "Guarda y comparte de forma segura." },
     { name: "Word", desc: "Eleva tu escritura." }, { name: "Excel", desc: "Convierte datos en información." },
@@ -236,20 +253,23 @@ const esBase: typeof enBase = {
 };
 
 // ==========================================
-// 8. 法语 (fr)
+// 8. French (fr)
 // ==========================================
 const frBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "Débloquez Microsoft 365", hero_title_2: "Productivité Copilot.", hero_desc: "Boostez votre productivité avec Copilot. Obtenez des apps avec IA intégrée et 1 To de stockage cloud.", cta_start: "Commencer", hero_badge_1: "Essai gratuit 7 jours", hero_badge_2: "Utilisez d'abord, payez ensuite", section_apps_title: "Tout dans un seul plan", section_apps_desc: "Obtenez les applications premium et le stockage dont vous avez besoin.", pricing_promo: "Profitez de toutes les fonctionnalités à un prix avantageux", pricing_title: "Tarification simple et transparente", email_placeholder: "Votre e-mail Microsoft", feature_no_cc: "Carte de crédit non requise", feature_no_reg: "Aucune inscription", feature_instant: "Accès instantané", questions_btn: "Des questions ?" },
-  auth: { ...enBase.auth, email: "Adresse e-mail", password: "Mot de passe", full_name: "Nom complet", sign_in: "Se connecter", sign_in_desc: "Accédez à votre compte", sign_up: "S'inscrire", create_account: "Créer un compte", invalid_credentials: "❌ Identifiants invalides. Veuillez réessayer." },
-  common: { ...enBase.common, my_account: "Mon Compte", dashboard: "Tableau de bord", loading: "Chargement...", logout: "Déconnexion", welcome: "Bienvenue,", install_apps: "Installer les apps", manage_billing: "Gérer la facturation", learn_more: "En savoir plus", sign_in: "Se connecter", join_community: "Rejoindre la communauté" },
-  status: { ...enBase.status, subscription_status: "Statut de l'abonnement", trial_active: "Essai Actif", active: "Actif", enjoy_trial: "Profitez de 7 jours gratuits. Annulez à tout moment." },
+  auth: { ...enBase.auth, email: "Adresse e-mail", password: "Mot de passe", full_name: "Nom complet", sign_in: "Se connecter", sign_in_desc: "Accédez à votre compte", sign_up: "S'inscrire", create_account: "Créer un compte", create_desc: "Commencez votre voyage Copilot", remember_me: "Se souvenir de moi", forgot_password: "Mot de passe oublié ?", no_account: "Pas de compte ?", have_account: "Déjà un compte ?", or_continue: "OU CONTINUER AVEC", back_home: "Retour à l'accueil", invalid_credentials: "❌ Identifiants invalides. Veuillez réessayer." },
+  common: { ...enBase.common, my_account: "Mon Compte", dashboard: "Tableau de bord", loading: "Chargement...", logout: "Déconnexion", welcome: "Bienvenue,", member_since: "Membre depuis :", joined: "Inscrit il y a :", days_ago: "jours", install_apps: "Installer les apps", install_desc: "Téléchargez vos applications immédiatement.", locked: "Verrouillé", manage_billing: "Gérer la facturation", learn_more: "En savoir plus", sign_in: "Se connecter", join_community: "Rejoindre la communauté", account_details: "Détails du compte", plan_type: "Type de plan", email: "E-mail" },
+  status: { ...enBase.status, subscription_status: "Statut de l'abonnement", trial_active: "Essai Actif", active: "Actif", trial_started: "ESSAI DÉBUTÉ", next_renewal: "PROCHAIN RENOUVELLEMENT", sub_active: "Abonnement Actif", enjoy_trial: "Profitez de 7 jours gratuits. Annulez à tout moment.", status_label: "Statut", paid: "Activo / Payé", you_are_on: "Vous êtes sur le" },
   plans: { ...enBase.plans, flexible: "FLEXIBLE", most_popular: "LE PLUS POPULAIRE", best_value: "MEILLEURE OFFRE", monthly: "Plan Mensuel", semi: "Plan Semestriel", yearly: "Pro Annuel", trial_7d: "Essai gratuit 7j", save_25: "Économisez 14%", save_37: "Économisez 33%", start_trial: "Essai gratuit", choose_semi: "Choisir 6 Mois", sub_yearly: "S'abonner Annuellement", pay_after: "Payez après l'essai" },
   features: { copilot: "Copilot & Apps inclus", storage: "1 To de stockage OneDrive", devices: "PC, Mac, iOS et Android", connect: "Connectez 5 appareils" },
+  apps: { ai_companion: "Votre compagnon IA", cloud_storage: "Stockage Cloud", office_portal: "Portail Office", email_calendar: "E-mail & Calendrier" },
   faq: { title: "Questions fréquemment posées", desc: "Tout ce que vous devez savoir sur le produit et la facturation." },
   support: { ...enBase.support, title: "Contacter le support", btn: "Contacter le support", desc: "Comment pouvons-nous vous aider ?", subject_placeholder: "Comment pouvons-nous aider ?", message_placeholder: "Plus de détails...", submit: "Envoyer le message", success: "Message envoyé !" },
   footer: { secure_payment: "Paiement Sécurisé", privacy: "Confidentialité", terms: "Conditions", sitemap: "Plan du site", rights: "Tous droits réservés." },
-  privacy: { title: "Politique de Confidentialité", last_updated: "DERNIÈRE MISE À JOUR : MARS 2026", s1_t: "1. Informations collectées", s1_d: "Nous collectons votre e-mail Microsoft. Aucune donnée de carte n'est stockée.", s2_t: "2. Utilisation des informations", s2_d: "Nous utilisons ces informations pour fournir nos services.", s3_t: "3. Sécurité du compte", s3_d: "Nous ne demandons pas de mot de passe. Vos fichiers OneDrive restent privés.", s4_t: "4. Services tiers", s4_d: "Nous utilisons Stripe pour les paiements sécurisés.", s5_t: "5. Nous contacter", s5_d: "Pour toute question, contactez support@365sharehub.com." },
+  privacy: { title: "Politique de Confidentialité", last_updated: "DERNIÈRE MISE À JOUR : MARS 2026", s1_t: "1. Informations collectées", s1_d: "Aucune donnée de carte n'est stockée.", s2_t: "2. Utilisation", s2_d: "Nous utilisons ces informations pour fournir nos services.", s3_t: "3. Sécurité", s3_d: "Vos fichiers OneDrive restent privés.", s4_t: "4. Services tiers", s4_d: "Nous utilisons Stripe pour les paiements.", s5_t: "5. Nous contacter", s5_d: "Contactez support@365sharehub.com." },
+  terms: { title: "Conditions d'utilisation", last_updated: "DERNIÈRE MISE À JOUR : MARS 2026", s1_t: "1. Acceptation", s1_d: "En utilisant le service, vous acceptez ces conditions.", s2_t: "2. Description", s2_d: "Nous ne sommes pas affiliés à Microsoft.", s3_t: "3. Responsabilités", s3_d: "Vous devez fournir un e-mail valide.", s4_t: "4. Annulation", s4_d: "Vous pouvez annuler à tout moment." },
+  sitemap_page: { title: "Plan du site", desc: "Naviguer", home: "Accueil", pricing: "Tarifs", faq: "FAQ", sign_in: "Se connecter", sign_up: "S'inscrire", dashboard: "Tableau de bord", privacy: "Confidentialité", terms: "Conditions" },
   app_list: [
     { name: "Copilot", desc: "Votre compagnon IA quotidien." }, { name: "OneDrive", desc: "Enregistrez et partagez en toute sécurité." },
     { name: "Word", desc: "Améliorez votre écriture." }, { name: "Excel", desc: "Transformez les données en informations." },
@@ -269,20 +289,23 @@ const frBase: typeof enBase = {
 };
 
 // ==========================================
-// 9. 葡萄牙语 (pt) 
+// 9. Portuguese (pt) 
 // ==========================================
 const ptBase: typeof enBase = {
   ...enBase,
   home: { ...enBase.home, hero_title_1: "Desbloqueie o Microsoft 365", hero_title_2: "Produtividade Copilot.", hero_desc: "Aumente sua produtividade com o Copilot. Obtenha aplicativos com IA, segurança avançada e 1 TB de armazenamento.", cta_start: "Começar agora", hero_badge_1: "Teste grátis de 7 dias", hero_badge_2: "Use primeiro, pague depois", section_apps_title: "Tudo em um único plano", section_apps_desc: "Obtenha os aplicativos premium e o armazenamento que você precisa.", pricing_promo: "Aproveite todos os recursos por um ótimo preço", pricing_title: "Preços simples e transparentes", email_placeholder: "Seu e-mail da conta Microsoft", feature_no_cc: "Sem cartão de crédito", feature_no_reg: "Sem registro", feature_instant: "Acesso instantâneo", questions_btn: "Perguntas?" },
-  auth: { ...enBase.auth, email: "E-mail", password: "Senha", full_name: "Nome Completo", sign_in: "Entrar", sign_in_desc: "Acesse sua conta", sign_up: "Cadastrar", create_account: "Criar Conta", invalid_credentials: "❌ Credenciais inválidas. Por favor, tente novamente." },
-  common: { ...enBase.common, my_account: "Minha Conta", dashboard: "Painel", loading: "Carregando...", logout: "Sair", welcome: "Bem-vindo,", install_apps: "Instalar Apps", manage_billing: "Gerenciar Assinatura", learn_more: "Saiba mais", sign_in: "Entrar", join_community: "Junte-se à comunidade" },
-  status: { ...enBase.status, subscription_status: "Status da Assinatura", trial_active: "Teste Ativo", active: "Ativo", enjoy_trial: "Aproveite 7 dias grátis. Cancele a qualquer momento." },
+  auth: { ...enBase.auth, email: "E-mail", password: "Senha", full_name: "Nome Completo", sign_in: "Entrar", sign_in_desc: "Acesse sua conta", sign_up: "Cadastrar", create_account: "Criar Conta", create_desc: "Comece sua jornada com o Copilot", remember_me: "Lembrar de mim", forgot_password: "Esqueceu a senha?", no_account: "Não tem uma conta?", have_account: "Já tem uma conta?", or_continue: "OU CONTINUAR COM", back_home: "Voltar ao Início", invalid_credentials: "❌ Credenciais inválidas. Por favor, tente novamente." },
+  common: { ...enBase.common, my_account: "Minha Conta", dashboard: "Painel", loading: "Carregando...", logout: "Sair", welcome: "Bem-vindo,", member_since: "Membro desde:", joined: "Entrou há:", days_ago: "dias", install_apps: "Instalar Apps", install_desc: "Baixe seus aplicativos imediatamente.", locked: "Bloqueado", manage_billing: "Gerenciar Assinatura", learn_more: "Saiba mais", sign_in: "Entrar", join_community: "Junte-se à comunidade", account_details: "Detalhes da Conta", plan_type: "Tipo de Plano", email: "E-mail" },
+  status: { ...enBase.status, subscription_status: "Status da Assinatura", trial_active: "Teste Ativo", active: "Ativo", trial_started: "TESTE INICIADO", next_renewal: "PRÓXIMA RENOVAÇÃO", sub_active: "Assinatura Ativa", enjoy_trial: "Aproveite 7 dias grátis. Cancele a qualquer momento.", status_label: "Status", paid: "Ativo / Pago", you_are_on: "Você está no" },
   plans: { ...enBase.plans, flexible: "FLEXÍVEL", most_popular: "MAIS POPULAR", best_value: "MELHOR VALOR", monthly: "Plano Mensal", semi: "Plano Semestral", yearly: "Anual Pro", trial_7d: "Teste 7 dias", save_25: "Economize 14%", save_37: "Economize 33%", start_trial: "Teste Grátis", choose_semi: "Escolher 6 Meses", sub_yearly: "Assinar Anualmente", pay_after: "Pague depois, cancele a qualquer momento" },
   features: { copilot: "Inclui Copilot e Apps", storage: "1 TB no OneDrive", devices: "PC, Mac, iOS e Android", connect: "Conecte 5 Dispositivos" },
+  apps: { ai_companion: "Seu companheiro de IA", cloud_storage: "Armazenamento em Nuvem", office_portal: "Portal do Office", email_calendar: "E-mail e Calendário" },
   faq: { title: "Perguntas Frequentes", desc: "Tudo o que você precisa saber sobre o produto e o faturamento." },
   support: { ...enBase.support, title: "Contatar Suporte", btn: "Contatar Suporte", desc: "Como podemos ajudar hoje?", subject_placeholder: "Como podemos ajudar?", message_placeholder: "Mais detalhes...", submit: "Enviar Mensagem", success: "Mensagem enviada!" },
   footer: { secure_payment: "Pagamento Seguro", privacy: "Privacidade", terms: "Termos", sitemap: "Mapa do Site", rights: "Todos os direitos reservados." },
   privacy: { title: "Política de Privacidade", last_updated: "ÚLTIMA ATUALIZAÇÃO: MARÇO 2026", s1_t: "1. Informações que coletamos", s1_d: "Coletamos seu e-mail da Microsoft. Não armazenamos dados de cartão.", s2_t: "2. Uso das informações", s2_d: "Usamos as informações para fornecer serviços e suporte.", s3_t: "3. Segurança da conta", s3_d: "Não pedimos senhas. Seus arquivos do OneDrive são totalmente privados.", s4_t: "4. Serviços de terceiros", s4_d: "Usamos a Stripe para processar pagamentos.", s5_t: "5. Contate-nos", s5_d: "Para dúvidas, escreva para support@365sharehub.com." },
+  terms: { title: "Termos de Serviço", last_updated: "ÚLTIMA ATUALIZAÇÃO: MARÇO 2026", s1_t: "1. Aceitação", s1_d: "Ao usar o serviço, você concorda com estes termos.", s2_t: "2. Descrição", s2_d: "Não somos afiliados à Microsoft.", s3_t: "3. Responsabilidades", s3_d: "Você deve fornecer um e-mail válido.", s4_t: "4. Cancelamento", s4_d: "Você pode cancelar a qualquer momento." },
+  sitemap_page: { title: "Mapa do Site", desc: "Navegar", home: "Início", pricing: "Preços", faq: "FAQ", sign_in: "Entrar", sign_up: "Cadastrar", dashboard: "Painel", privacy: "Privacidade", terms: "Termos" },
   app_list: [
     { name: "Copilot", desc: "Seu companheiro diário de IA." }, { name: "OneDrive", desc: "Salve e compartilhe com segurança." },
     { name: "Word", desc: "Eleve sua escrita." }, { name: "Excel", desc: "Transforme dados em insights." },
@@ -301,12 +324,12 @@ const ptBase: typeof enBase = {
   ]
 };
 
-// --- 导出映射表 ---
+// --- Export Map ---
 export const translations: Record<Language, typeof enBase> = {
   'en': enBase, 'zh-CN': zhBase, 'zh-TW': twBase, 'de': deBase, 'fr': frBase, 'es': esBase, 'ja': jaBase, 'ko': koBase, 'pt': ptBase,
 };
 
-// 🔥 精简后的国家/语言列表
+// 🔥 Trimmed Language Options
 export const languageOptions: { code: Language; label: string; flag: string }[] = [
   { code: 'en', label: 'English', flag: '🌐' },
   { code: 'de', label: 'Deutsch', flag: '🇩🇪' },

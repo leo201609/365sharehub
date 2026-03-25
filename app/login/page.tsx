@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ArrowLeft, Mail, Lock, Loader2, CheckCircle2 } from "lucide-react";
 import { login } from "@/app/auth/actions";
-import { LanguageProvider, useLanguage } from "@/app/components/LanguageProvider";
+// 🔥 注意：去掉了 LanguageProvider 的引入，只保留 useLanguage
+import { useLanguage } from "@/app/components/LanguageProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -80,7 +81,6 @@ function LoginContent() {
           </div>
         )}
 
-        {/* 🔥 这里的硬编码提示已经被替换为了 t.auth.invalid_credentials */}
         {error && (
           <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3">
             <p className="text-sm text-red-800 font-medium">
@@ -182,6 +182,7 @@ function LoginContent() {
   );
 }
 
+// 🔥 注意看这里：只保留了 Suspense，去掉了局部的 LanguageProvider！
 export default function LoginPage() {
   return (
     <Suspense fallback={
@@ -189,9 +190,7 @@ export default function LoginPage() {
         <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
       </div>
     }>
-      <LanguageProvider>
-        <LoginContent />
-      </LanguageProvider>
+      <LoginContent />
     </Suspense>
   );
 }
