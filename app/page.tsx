@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel, 
   DropdownMenuSeparator 
 } from "@/components/ui/dropdown-menu";
-import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles, Plus, Minus, Mail, Loader2, Send, MessageSquare, X, ShieldCheck } from "lucide-react";
+import { Check, ArrowRight, User, LogOut, LayoutDashboard, Sparkles, Plus, Minus, Mail, Loader2, Send, MessageSquare, X, ShieldCheck, Globe } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 
 // 引入多语言组件和 Hook
@@ -38,7 +38,6 @@ const ModernLogo = () => (
 const AppCard = ({ item }: { item: any }) => {
   const { t } = useLanguage();
   
-  // 🔥 修复图标名称映射（因为本地图标叫 ppt.png，而字典里叫 PowerPoint）
   let iconName = item.name.toLowerCase();
   if (iconName === 'powerpoint') iconName = 'ppt';
   
@@ -69,7 +68,6 @@ const AppCard = ({ item }: { item: any }) => {
         <h3 className="font-bold text-lg text-slate-900 mb-2">{item.name}</h3>
         <p className="text-sm text-slate-500 leading-relaxed flex-grow">{item.desc}</p>
         <div className="mt-4 flex items-center text-[#0067b8] text-xs font-semibold group-hover:underline underline-offset-4">
-          {/* 🔥 动态读取 "Learn more" */}
           {t.common?.learn_more || "Learn more"} <ArrowRight className="w-3 h-3 ml-1 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
@@ -97,6 +95,29 @@ function HomeContent() {
   const router = useRouter(); 
   const supabase = createClient();
   const emailInputRef = useRef<HTMLInputElement>(null);
+
+  // 🔥 汇率相关逻辑 (已新增英镑 GBP 和瑞郎 CHF)
+  const EXCHANGE_RATES = [
+    { code: 'EUR', symbol: '€', rate: 1, label: 'EUR' },
+    { code: 'USD', symbol: '$', rate: 1.09, label: 'USD' },
+    { code: 'GBP', symbol: '£', rate: 0.85, label: 'GBP' },
+    { code: 'CHF', symbol: 'CHF', rate: 0.98, label: 'CHF' },
+    { code: 'CNY', symbol: '¥', rate: 7.82, label: 'CNY' },
+    { code: 'TWD', symbol: 'NT$', rate: 34.6, label: 'TWD' },
+    { code: 'JPY', symbol: '¥', rate: 163.5, label: 'JPY' },
+    { code: 'KRW', symbol: '₩', rate: 1455, label: 'KRW' }
+  ];
+  const [currency, setCurrency] = useState(EXCHANGE_RATES[0]);
+
+  // 根据当前选择的货币计算价格并格式化
+  const getPrice = (eurPrice: number) => {
+    const val = eurPrice * currency.rate;
+    // 日元和韩元不显示小数，其他货币保留两位小数
+    if (['JPY', 'KRW'].includes(currency.code)) {
+      return Math.round(val).toLocaleString('en-US');
+    }
+    return val.toFixed(2);
+  };
 
   useEffect(() => {
     const checkUser = async () => {
@@ -371,6 +392,7 @@ function HomeContent() {
                    <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_no_reg || "No registration"}</span>
                    <span className="flex items-center"><Check className="w-4 h-4 mr-1.5 text-green-500"/> {t.home.feature_instant || "Instant access"}</span>
                    <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-[#0078D4]"/> {t.home.hero_badge_2 || "Try first, pay later"}</span>
+                   <span className="flex items-center"><ShieldCheck className="w-4 h-4 mr-1.5 text-[#0078D4]"/> {t.home.hero_badge_3 || "100% refund guarantee"}</span>
                 </div>
               </div>
             )}
@@ -398,60 +420,103 @@ function HomeContent() {
       {/* Pricing 区域 */}
       <section id="pricing" className="py-24 relative bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h3 className="text-xl md:text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-[#0078D4] via-[#7048E8] to-[#D13438] animate-gradient bg-[length:200%_auto]">
               {t.home.pricing_promo}
             </h3>
-            <h2 className="text-xl font-semibold text-slate-600 mb-4">{t.home.pricing_title}</h2>
+            <h2 className="text-xl font-semibold text-slate-600 mb-6">{t.home.pricing_title}</h2>
+            
+            {/* 货币切换器 */}
+            <div className="inline-flex items-center bg-white border border-slate-200 rounded-full p-1.5 shadow-sm overflow-x-auto max-w-full">
+              {EXCHANGE_RATES.map(c => (
+                <button 
+                  key={c.code}
+                  onClick={() => setCurrency(c)} 
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 ${currency.code === c.code ? 'bg-slate-800 text-white shadow-md' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'}`}
+                >
+                  {c.code === 'EUR' && <Globe className="w-3 h-3"/>}
+                  {c.symbol} {c.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-            {/* 1. Monthly */}
-            <div className="group relative bg-white rounded-3xl border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
-              <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible}</div>
-              <div className="p-8 pt-12 flex flex-col h-full"> 
-                <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
-                <div className="flex items-baseline mb-6"><span className="text-4xl font-bold text-slate-900">€2.50</span><span className="text-slate-400 ml-2 font-medium">{t.plans.mo}</span></div>
-                <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.plans.trial_7d}</div>
-                <ul className="space-y-4 mb-8 text-sm flex-grow">
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                  <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
-                  <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
-                </ul>
-                <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login?plan=monthly")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.plans.start_trial}</Button>
-              </div>
-            </div>
-
-            {/* 2. Semi-Annual */}
-            <div className="group relative bg-white rounded-3xl border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden">
-               <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular}</div>
-              <div className="p-8 pt-12 flex flex-col h-full">
-                <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
-                <div className="flex items-baseline mb-1"><span className="text-4xl font-bold text-slate-900">€12.90</span><span className="text-slate-400 ml-2 font-medium">/ 6 months</span></div>
-                <p className="text-sm font-medium text-green-600 mb-6">≈ €2.15 {t.plans.mo}</p>
-                <div className="flex gap-2 mb-8 flex-wrap">
-                   <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
-                   <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">{t.plans.save_25 || "Save 14%"}</div>
+            {/* 1. Monthly (🔥 优化：应用蓝色流光光晕) */}
+            <div className="relative group h-full">
+              {/* 核心光晕层：蓝色主题， starts at 25% opacity, becomes 60% and scales up on hover */}
+              <div className="absolute -inset-0.5 bg-gradient-to-b from-[#0078D4] to-[#2b88d8] rounded-[24px] blur opacity-25 group-hover:opacity-60 transition duration-500 pointer-events-none group-hover:scale-105"></div>
+              
+              {/* 卡片主体：removed older hover states, standard 2px prominent lift on group-hover */}
+              <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-blue-100 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-[#0078D4] to-[#2b88d8] text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.flexible}</div>
+                <div className="p-8 pt-12 flex flex-col h-full"> 
+                  <h3 className="text-lg font-medium text-slate-500 mb-4">{t.plans.monthly}</h3>
+                  
+                  <div className="flex items-baseline mb-6">
+                    <span className="text-4xl font-bold text-slate-900">{currency.symbol}{getPrice(2.50)}</span>
+                    <span className="text-slate-400 ml-1 font-medium">{t.plans.mo}</span>
+                  </div>
+                  
+                  <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg mb-8 border border-green-100 w-fit">{t.plans.trial_7d}</div>
+                  <ul className="space-y-4 mb-8 text-sm flex-grow">
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
+                    <li className="flex gap-3 text-slate-600 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
+                    <li className="flex gap-3 text-[#0078D4] font-extrabold items-center"><Check className="w-4 h-4 shrink-0 stroke-[3]"/> {t.plans.pay_after}</li>
+                  </ul>
+                  <Button onClick={() => handleNav(user ? "/dashboard?plan=monthly" : "/login?plan=monthly")} className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white font-bold text-base shadow-md transition-all mt-auto">{t.plans.start_trial}</Button>
                 </div>
-                <ul className="space-y-4 mb-8 text-sm flex-grow">
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
-                  <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
-                </ul>
-                <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.plans.choose_semi}</Button>
               </div>
             </div>
 
-            {/* 3. Yearly (BEST VALUE) */}
+            {/* 2. Semi-Annual (🔥 优化：应用岩石灰流光光晕) */}
+            <div className="relative group h-full">
+               {/* 核心光晕层：岩石灰主题， starts at 25% opacity, becomes 60% and scales up on hover */}
+               <div className="absolute -inset-0.5 bg-gradient-to-b from-slate-900 to-slate-700 rounded-[24px] blur opacity-25 group-hover:opacity-60 transition duration-500 pointer-events-none group-hover:scale-105"></div>
+               
+               {/* 卡片主体：removed older hover states, standard 2px prominent lift on group-hover */}
+               <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-slate-200 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                 <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular}</div>
+                <div className="p-8 pt-12 flex flex-col h-full">
+                  <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
+                  
+                  <div className="flex items-baseline mb-1">
+                    <span className="text-4xl font-bold text-slate-900">{currency.symbol}{getPrice(12.90)}</span>
+                    <span className="text-slate-400 ml-2 font-medium">{t.plans.per_6mo || "/ 6 months"}</span>
+                  </div>
+                  <p className="text-sm font-medium text-green-600 mb-6">≈ {currency.symbol}{getPrice(2.15)} {t.plans.mo}</p>
+                  
+                  <div className="flex gap-2 mb-8 flex-wrap">
+                     <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
+                     <div className="inline-block bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-200 w-fit">{t.plans.save_25 || "Save 14%"}</div>
+                  </div>
+                  <ul className="space-y-4 mb-8 text-sm flex-grow">
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.copilot}</li>
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.storage}</li>
+                    <li className="flex gap-3 text-slate-700 items-center"><Check className="w-4 h-4 text-blue-500 shrink-0"/> {t.features.devices}</li>
+                  </ul>
+                  <Button onClick={() => handleNav(user ? "/dashboard?plan=semi" : "/login?plan=semi")} className="w-full bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-bold rounded-xl h-12 shadow-lg hover:shadow-xl transition-all text-base mt-auto">{t.plans.choose_semi}</Button>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Yearly (🔥 保持现状但确保 visual parity) */}
             <div className="relative group md:-translate-y-4 h-full">
+              {/* 核心光晕层：现有紫色-粉色主题， kept existing 30% -> 60% logic as design preference */}
               <div className="absolute -inset-0.5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-[24px] blur opacity-30 group-hover:opacity-60 transition duration-500 pointer-events-none group-hover:scale-105"></div>
+              
+              {/* 卡片主体：现有的 unique design with unique purple border, kept existing translate lift logic */}
               <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-purple-100 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 text-center text-xs font-bold uppercase tracking-widest">{t.plans.best_value}</div>
                 <div className="p-8 pt-12 flex flex-col h-full">
                   <h3 className="text-xl font-bold text-purple-700 mb-4">{t.plans.yearly}</h3>
-                  <div className="flex items-baseline mb-1"><span className="text-5xl font-extrabold text-slate-900">€19.90</span><span className="text-slate-400 ml-2 font-medium">{t.plans.yr}</span></div>
-                  <p className="text-sm font-bold text-pink-600 mb-6">≈ €1.65 {t.plans.mo}</p>
+                  
+                  <div className="flex items-baseline mb-1">
+                    <span className="text-5xl font-extrabold text-slate-900">{currency.symbol}{getPrice(19.90)}</span>
+                    <span className="text-slate-400 ml-2 font-medium">{t.plans.yr}</span>
+                  </div>
+                  <p className="text-sm font-bold text-pink-600 mb-6">≈ {currency.symbol}{getPrice(1.65)} {t.plans.mo}</p>
                   
                   <div className="flex gap-2 mb-8 flex-wrap items-center">
                      <div className="inline-block bg-green-50 text-green-700 text-xs font-bold px-3 py-1.5 rounded-lg border border-green-100 w-fit">{t.plans.trial_7d}</div>
@@ -471,6 +536,16 @@ function HomeContent() {
               </div>
             </div>
           </div>
+          
+          {/* 法律与体验免责声明 */}
+          {currency.code !== 'EUR' && (
+            <div className="text-center mt-10 animate-in fade-in duration-500">
+               <p className="text-xs text-slate-400 font-medium inline-block bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
+                 * All plans are securely billed in <b>EUR (€)</b>. The {currency.code} prices shown are estimates based on current exchange rates.
+               </p>
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -479,14 +554,11 @@ function HomeContent() {
         <section id="faq" className="py-24 relative bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-6"> 
             <div className="text-center mb-16">
-              {/* 🔥 动态读取标题 */}
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t.faq?.title || "Frequently Asked Questions"}</h2>
               <p className="text-lg text-slate-500">{t.faq?.desc || "Everything you need to know about the product and billing."}</p>
             </div>
 
-            {/* 双列网格布局 */}
             <div className="grid md:grid-cols-2 gap-6 items-start max-w-5xl mx-auto">
-              
               {/* 左列 */}
               <div className="space-y-4">
                 {faqList.slice(0, Math.ceil(faqList.length / 2)).map((faq: any, index: number) => {
@@ -558,10 +630,9 @@ function HomeContent() {
                   );
                 })}
               </div>
-
             </div>
 
-            {/* 底部 Contact Support (🔥 动态读取标题和按钮) */}
+            {/* 底部 Contact Support */}
             <div className="mt-16 text-center p-10 bg-slate-50 rounded-3xl border border-slate-100 max-w-4xl mx-auto shadow-inner">
                <h3 className="text-2xl font-bold text-slate-900 mb-3">{t.support?.title || "Contact Support"}</h3>
                <p className="text-slate-500 mb-8 text-base">{t.support?.desc || "Our support team is ready to help you 24/7."}</p>
