@@ -208,7 +208,6 @@ function DashboardContent() {
                  onClick={() => handlePlanClick("monthly")} disabled={!!loading || isCurrentPlan("monthly")} 
                  className={`w-full h-12 rounded-xl font-bold text-base shadow-md transition-all mt-auto ${isCurrentPlan('monthly') ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-[#0078D4] to-[#0060aa] hover:from-[#0060aa] hover:to-[#005090] text-white'}`}
                >
-                 {/* 🔥 使用多语言翻译 */}
                  {loading === "monthly" ? <Loader2 className="animate-spin w-4 h-4" /> : isCurrentPlan('monthly') ? (t.plans.current_plan || "Current Plan") : isPro ? (t.plans.switch_plan || "Switch Plan") : t.plans.start_trial}
                </Button>
              </div>
@@ -217,7 +216,7 @@ function DashboardContent() {
 
          <div className="relative group h-full">
             <div className="absolute -inset-0.5 bg-gradient-to-b from-slate-900 to-slate-700 rounded-[24px] blur opacity-25 group-hover:opacity-60 transition duration-500 pointer-events-none group-hover:scale-105"></div>
-            <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-slate-200 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+            <div className="relative bg-white rounded-[22px] shadow-2xl h-full flex flex-col border border-blue-100 transform transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
               <div className="absolute top-0 left-0 w-full bg-gradient-to-r from-slate-900 to-slate-700 text-white py-1.5 text-center text-xs font-bold uppercase tracking-widest">{t.plans.most_popular}</div>
              <div className="p-8 pt-12 flex flex-col h-full">
                <h3 className="text-lg font-bold text-slate-700 mb-4">{t.plans.semi}</h3>
@@ -239,7 +238,6 @@ function DashboardContent() {
                  onClick={() => handlePlanClick("semi")} disabled={!!loading || isCurrentPlan("semi")} 
                  className={`w-full font-bold rounded-xl h-12 transition-all text-base mt-auto ${isCurrentPlan('semi') ? 'bg-slate-100 text-slate-400 cursor-not-allowed shadow-none' : 'bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white shadow-lg hover:shadow-xl'}`}
                >
-                 {/* 🔥 使用多语言翻译 */}
                  {loading === "semi" ? <Loader2 className="animate-spin w-4 h-4" /> : isCurrentPlan('semi') ? (t.plans.current_plan || "Current Plan") : isPro ? (t.plans.switch_plan || "Switch Plan") : t.plans.choose_semi}
                </Button>
              </div>
@@ -272,7 +270,6 @@ function DashboardContent() {
                    onClick={() => handlePlanClick("yearly")} disabled={!!loading || isCurrentPlan("yearly")} 
                    className={`w-full font-bold rounded-xl h-14 text-lg transition-transform ${isCurrentPlan('yearly') ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white shadow-lg shadow-purple-200 active:scale-95'}`}
                  >
-                   {/* 🔥 使用多语言翻译 */}
                    {loading === "yearly" ? <Loader2 className="animate-spin w-5 h-5" /> : isCurrentPlan('yearly') ? (t.plans.current_plan || "Current Plan") : isPro ? (t.plans.switch_yearly || "Switch to Yearly") : t.plans.sub_yearly}
                  </Button>
                </div>
@@ -301,15 +298,23 @@ function DashboardContent() {
              <div className="w-8 h-8 bg-gradient-to-br from-[#0078D4] to-[#26A4F5] rounded-md flex items-center justify-center text-white">
                <LayoutDashboard className="w-4 h-4" />
              </div>
-             <span className="hidden sm:block">{t.common.my_account}</span>
+             <span className="hidden xs:block">{t.common.my_account}</span>
           </Link>
-          <div className="flex items-center gap-4 text-sm text-slate-500">
-             <div className="hidden sm:block border-r border-slate-200 pr-4 mr-1">
+          
+          {/* 🔥 优化后的右侧导航栏 */}
+          <div className="flex items-center gap-2 sm:gap-4 text-sm text-slate-500">
+             {/* 手机端也显示的语言切换器 */}
+             <div className="border-r border-slate-200 pr-2 sm:pr-4 mr-1">
                 <LanguageSwitcher />
              </div>
+             
+             {/* 手机端隐藏邮箱以节省空间 */}
              <span className="hidden md:inline text-slate-700 font-medium">{user.email}</span>
-             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50 focus:ring-0">
-               <LogOut className="w-4 h-4 mr-1" /> {t.common.logout}
+             
+             {/* 手机端隐藏文字，只留图标 */}
+             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50 focus:ring-0 px-2 sm:px-3">
+               <LogOut className="w-4 h-4 sm:mr-1" /> 
+               <span className="hidden sm:inline">{t.common.logout}</span>
              </Button>
           </div>
         </div>
@@ -419,7 +424,6 @@ function DashboardContent() {
               <div className="mb-10 bg-slate-100/50 border border-slate-200 rounded-[2.5rem] p-8 md:p-12 animate-in fade-in slide-in-from-top-4 duration-500 relative">
                 <Button variant="ghost" onClick={() => setShowUpgrade(false)} className="absolute top-6 right-6 rounded-full w-10 h-10 p-0 text-slate-400 hover:bg-slate-200"><X className="w-5 h-5"/></Button>
                 <div className="text-center mb-8">
-                  {/* 🔥 调用多语言标题和描述 */}
                   <h2 className="text-2xl font-bold text-slate-900 mb-2">{t.plans?.upgrade_title || "Upgrade Your Experience"}</h2>
                   <p className="text-slate-500">{t.plans?.upgrade_desc || "Switching to a yearly plan saves you 33% instantly."}</p>
                 </div>
