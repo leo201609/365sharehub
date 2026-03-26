@@ -3,6 +3,7 @@ import stripe from '@/utils/stripe/server';
 import { createClient } from '@supabase/supabase-js';
 import { headers } from 'next/headers';
 import { sendTelegramMessage } from '@/utils/telegram'; // 🔥 引入我们刚刚创建的 Telegram 全局推送工具
+import Stripe from 'stripe'; // 🔥 引入 Stripe 类型用于智能提示
 
 export const dynamic = 'force-dynamic';
 
@@ -86,7 +87,38 @@ export async function POST(req: Request) {
         break;
       }
 
-      case 'customer.subscription.updated':
+      // 🔥 单独抽离并强化的更新逻辑 (处理升级/降级/续费)
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object as Stripe.Subscription;
+        
+        // 1. 获取最新的套餐名称 (应对用户在 Customer Portal 升级/更改套餐)
+        const priceId = subscription.items.data[0].price.id;
+        const price = await stripe.prices.retrieve(priceId, { expand: ['product'] });
+        const productName = (price.product as Stripe.Product).name;
+
+        // 2. 更新数据库，包含最新的套餐名和日期
+        const { error } = await supabaseAdmin
+          .from('subscriptions')
+          .update({
+            plan_name: productName, // 🔥 这里会把 Monthly 覆盖成 6 Months
+            status: subscription.status,
+            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          })
+          .eq('stripe_subscription_id', subscription.id);
+
+        if (error) {
+          console.error('❌ Supabase Update Error:', error);
+        } else {
+          // ==========================================
+          // 🔄 发送 Telegram 升级/变更提醒！
+          // ==========================================
+          await sendTelegramMessage(`🔄 <b>客户更新了套餐 (Subscription Updated)</b>\n\n📦 <b>当前套餐:</b> ${productName}\n📈 <b>状态:</b> ${subscription.status}`);
+        }
+        break;
+      }
+
+      // 单独处理取消订阅
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as any;
         
@@ -103,9 +135,7 @@ export async function POST(req: Request) {
         // ==========================================
         // ⚠️ 客户流失/取消订阅提醒
         // ==========================================
-        if (event.type === 'customer.subscription.deleted') {
-           await sendTelegramMessage(`⚠️ <b>客户取消了订阅 (Subscription Canceled)</b>\n\n🆔 <b>Stripe ID:</b> ${subscription.id}`);
-        }
+        await sendTelegramMessage(`⚠️ <b>客户取消了订阅 (Subscription Canceled)</b>\n\n🆔 <b>Stripe ID:</b> ${subscription.customer}`);
         // ==========================================
 
         break;
