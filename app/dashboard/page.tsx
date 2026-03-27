@@ -108,6 +108,7 @@ function DashboardContent() {
     return false;
   };
 
+  // 🔥 核心修改：信使逻辑，读取引流来源并传递给后端
   const handlePlanClick = async (planType: string) => {
     if (isPro) {
       alert("You will be securely redirected to the billing portal to update your subscription. Please choose your new plan there.");
@@ -115,9 +116,21 @@ function DashboardContent() {
     } else {
       setLoading(planType);
       try {
+        // 🚀 1. 从磁铁 (localStorage) 中取出我们存下的引流标签
+        const utmSource = typeof window !== 'undefined' 
+          ? localStorage.getItem('utm_source') || 'direct' 
+          : 'direct';
+
+        // 🚀 2. 在发起请求时将 utmSource 发送给 API
         const res = await fetch("/api/checkout", { 
-          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plan: planType })
+          method: "POST", 
+          headers: { "Content-Type": "application/json" }, 
+          body: JSON.stringify({ 
+            plan: planType,
+            utmSource: utmSource // 传递标签
+          })
         });
+
         const data = await res.json();
         if (data.url) window.location.href = data.url;
         else alert(t.common.connection_failed || "Connection failed.");
@@ -295,23 +308,19 @@ function DashboardContent() {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-semibold text-slate-800 hover:opacity-80 transition">
-             <div className="w-8 h-8 bg-gradient-to-br from-[#0078D4] to-[#26A4F5] rounded-md flex items-center justify-center text-white">
-               <LayoutDashboard className="w-4 h-4" />
-             </div>
-             <span className="hidden xs:block">{t.common.my_account}</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-[#0078D4] to-[#26A4F5] rounded-md flex items-center justify-center text-white">
+                <LayoutDashboard className="w-4 h-4" />
+              </div>
+              <span className="hidden xs:block">{t.common.my_account}</span>
           </Link>
           
-          {/* 🔥 优化后的右侧导航栏 */}
           <div className="flex items-center gap-2 sm:gap-4 text-sm text-slate-500">
-             {/* 手机端也显示的语言切换器 */}
              <div className="border-r border-slate-200 pr-2 sm:pr-4 mr-1">
                 <LanguageSwitcher />
              </div>
              
-             {/* 手机端隐藏邮箱以节省空间 */}
              <span className="hidden md:inline text-slate-700 font-medium">{user.email}</span>
              
-             {/* 手机端隐藏文字，只留图标 */}
              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-500 hover:text-red-600 hover:bg-red-50 focus:ring-0 px-2 sm:px-3">
                <LogOut className="w-4 h-4 sm:mr-1" /> 
                <span className="hidden sm:inline">{t.common.logout}</span>

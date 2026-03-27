@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-// 🔥 引入带有路径判断能力的条件渲染 Footer
+// 引入必要的组件
 import ConditionalFooter from "@/app/components/ConditionalFooter"; 
 import { LanguageProvider } from "@/app/components/LanguageProvider";
+import UtmMagnet from "@/app/components/UtmMagnet"; // 🔥 引入新创建的引流吸附器
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,16 +58,20 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Umami Analytics */}
         <script defer src="https://analytics.365sharehub.com/script.js" data-website-id="6d589af2-82e2-4f03-9cbb-39b0198ca809"></script>
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-[#fafafa]`}>
         
+        {/* 🔥 核心功能：在页面加载时自动捕捉 URL 参数 */}
+        <UtmMagnet />
+
         <LanguageProvider>
           <main className="flex-1">
             {children}
           </main>
 
-          {/* 🔥 替换为：在普通页面显示，在 /admin 页面自动隐藏 */}
+          {/* 条件渲染 Footer */}
           <ConditionalFooter />
         </LanguageProvider>
         
