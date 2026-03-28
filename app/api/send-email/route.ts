@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const data = await resend.emails.send({
       from: '365ShareHub Support <support@365sharehub.com>',
       to: [to],
-      reply_to: 'support@365sharehub.com', // 🔥 核心优化 3：用户点“回复”时，直接指向客服邮箱，不再迷路
+      replyTo: 'support@365sharehub.com', // 🔥 核心优化 3：用户点“回复”时，直接指向客服邮箱，不再迷路
       subject: subject,
       text: text, // 依然保留纯文本作为备用 (Fallback)，防极个别老旧设备
       html: finalHtml, // 🔥 发送富文本格式
