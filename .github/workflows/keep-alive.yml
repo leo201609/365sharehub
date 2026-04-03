@@ -25,8 +25,11 @@ jobs:
             exit 1
           fi
 
-          # 发送极轻量的 API 请求（拉取 1 条数据的 ID）来激活数据库
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X GET "${SUPABASE_URL}/rest/v1/tickets?select=id&limit=1" \
+          # 🌟 新增：生成一个随机时间戳，防止请求被 Supabase 的 CDN 拦截缓存
+          TIMESTAMP=$(date +%s)
+
+          # 发送极轻量的 API 请求，并追加随机参数（bust_cache）来强制激活底层数据库
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X GET "${SUPABASE_URL}/rest/v1/tickets?select=id&limit=1&bust_cache=${TIMESTAMP}" \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
             -H "Content-Type: application/json")
@@ -34,5 +37,7 @@ jobs:
           if [ "$RESPONSE" -eq 200 ]; then
             echo "✅ Ping successful! Database is alive. HTTP Status: $RESPONSE"
           else
-            echo "⚠️ Ping completed but returned HTTP Status: $RESPONSE"
+            # 🌟 新增：如果状态码不是 200，立刻报错并中断任务，让 GitHub 显示红叉 ❌
+            echo "❌ Ping failed! Returned HTTP Status: $RESPONSE"
+            exit 1
           fi
