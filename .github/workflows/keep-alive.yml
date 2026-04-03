@@ -25,19 +25,17 @@ jobs:
             exit 1
           fi
 
-          # 🌟 新增：生成一个随机时间戳，防止请求被 Supabase 的 CDN 拦截缓存
-          TIMESTAMP=$(date +%s)
-
-          # 发送极轻量的 API 请求，并追加随机参数（bust_cache）来强制激活底层数据库
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X GET "${SUPABASE_URL}/rest/v1/tickets?select=id&limit=1&bust_cache=${TIMESTAMP}" \
+          # 发送 API 请求（使用 Cache-Control 标头防缓存，安全唤醒数据库）
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X GET "${SUPABASE_URL}/rest/v1/tickets?select=id&limit=1" \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            -H "Cache-Control: no-cache" \
             -H "Content-Type: application/json")
             
           if [ "$RESPONSE" -eq 200 ]; then
             echo "✅ Ping successful! Database is alive. HTTP Status: $RESPONSE"
           else
-            # 🌟 新增：如果状态码不是 200，立刻报错并中断任务，让 GitHub 显示红叉 ❌
+            # 如果状态码不是 200，立刻报错并中断任务，让 GitHub 显示红叉 ❌
             echo "❌ Ping failed! Returned HTTP Status: $RESPONSE"
             exit 1
           fi
